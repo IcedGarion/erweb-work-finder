@@ -1,0 +1,9 @@
+-premessa molto più dettagliata, spiega per fila e per segno tutto quello che devi fare, cosa tratta, cos'è quello che tratti (bandi, gazzetta, cig...)
+
+-mysql e non oracle sql
+
+-primary key sempre solo integer (references è integer, chiave è sequence)
+
+-descrivi i processi
+
+-descrivi gli stati
