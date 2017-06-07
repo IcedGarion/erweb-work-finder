@@ -100,3 +100,6 @@ ci sono tutti.
 Il thread parser prende tutti i bandi "da parsificare", parsifica riempiendo tutte le altre proprietà della tabella bandi, e mette stato "parsificato"
 Il thread che notifica prenderà in considerazione solo i bandi con stato "parsificato"
 
+
+
+TANTI STATI INTERMEDI?
