@@ -1,0 +1,102 @@
+STRUTTURA HTML PUBBLICAZIONE
+
+<div class = "head">
+...
+</div>
+
+<div class = "main menu">
+...
+</div>
+
+<div class = "main_content">
+	<div class = "container_16">
+		...
+		<span class = "emettitore">	--> MINISTERI - AMMINISTRAZIONI CENTRALI E PERIFERICHE DELLO STATO
+						    REGIONI
+						    PROVINCE
+						    COMUNI, ENTI LOCALI E CONSORZI DI COMUNI
+						    AUTORITÀ INDIPENDENTI, ENTI PUBBLICI NAZIONALI E ALTRI ORGANISMI DI DIRITTO PUBBLICO
+						    ENTI DEL SETTORE SANITARIO
+						    ALTRE FIGURE SOGGETTIVE PUBBLICHE E PRIVATE 
+
+
+		<a href ="link_al_bando"> Bando di gara / Estratto di bando di gara / Bando di gara 37/2017 ( - CIG) (TU17BFC9308) 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+STRUTTURA LOGICA PUBBLICAZIONE
+[
+	COMUNE DI OGGIONA CON SANTO STEFANO
+	Provincia di Varese (scad. 14 luglio 2017)
+	Bando di gara - Affidamento in concessione d'uso del "Campo UEFA" all'interno del centro sportivo di proprieta' comunale sito in via Bonacalza n. 154 (TX17BFF9489) 
+]
+
+nome ente
+(sottotitolo)
+Bando di gara / Estratto di bando di gara / Bando di gara a procedura aperta ( - CIG ... )
+OPPURE
+Bando di gara - Affidamento della manutenzione... tutta la descrizione anche qua
+QUELLI COL TITOLO LUNGO COME QUESTO SONO SPESSO DOCUMENTI RANDOM
+
+
+
+STRUTTURA BANDI DI GARA
+	(TITOLO:) Bando di gara / Estratto di bando di gara / Bando di gara a procedura aperta ( - CIG ... )
+
+
+	SEZIONE II:
+	II.1) Descrizione. 
+	II.1.1) Denominazione
+	II.I.2) Tipo di appalto
+	II.1.5)  Breve   descrizione   dell'appalto   o   degli   acquisti:
+	II.1.4) Breve descrizione / oggetto dell'appalto
+
+	SEZIONE II: OGGETTO DELL'APPALTO:... (CIG 7093944BC5)
+	
+	SEZIONE II: Oggetto
+
+	SEZIONE II:
+	
+
+
+	SEZIONE VI: altre informazioni
+	VI.3) Informazioni complementari: Codice identificativo della  gara (CIG):
+	
+
+	
+	DOCUMENTO RANDOM: Oggetto: ... e poi tutto un unico
+	DOCUMENTO RANDOM SENZA NEANCHE L'OGGETTO
+
+
+
+CIG STA NEL TITOLO (Bando di gara 37/2017 - CIG 70934460D2) (IN PUBBLICAZIONE O NEL BANDO) O IN SEZIONE VI(.3) O IN GIRO A CASO
+	
+
+
+
+
+
+
+
+
+
+COSE
+processo:
+-MODULO: ti accorgi quando c'è una nuova pubblicazione (1 volta al giorno): guarda nel db e confronta i codici dell'ultima (E MAGARI SI SALVA L'URL NEL DB PUBBLICAZIONE)
+-MODULO: scarica la pubblicazione (CONOSCE URL) e riempie tutti i bandi: stato pubblicazione "in corso", quando li scarica mette stato "chiusa" e i bandi "da parsificare"
+	riempie i bandi mettendo nella tabella del bando tutto il testo, E BASTA.
+-MODULO: controlla che la pubblicazione sia stata scaricata tutta (se aveva 100 bandi ma nel db ce ne sono solo 50, li cancella tutti e li ri-riempie)
+-MODULO: parsifica i bandi e riempie la tabella dei bandi. stato bandi "chiuso" uno alla volta
+-MODULO: ogni utente ha n expreg da matchare e m expreg che non devono matchare: notifica gli utenti dei nuovi bandi in base ai loro parametri, con una mail. ("TRIGGER")
+
+serve una tabella per utenti password mail e le loro expreg
+
+servono gli stati:
+-in pubblicazione, per sapere se è stata scaricata tutta o no ("in corso" o "finita" credo)
+-in bando, per sapere se è stato scaricato tutto o no. ("in corso" o "da parsificare" o "parsificato")
+Il thread che controlla il completmento dello scaricamento, prende l'ultima pubblicazione "finita" e la riscarica, e prova a vedere se i suoi bandi corrispondenti 
+ci sono tutti.
+Il thread parser prende tutti i bandi "da parsificare", parsifica riempiendo tutte le altre proprietà della tabella bandi, e mette stato "parsificato"
+Il thread che notifica prenderà in considerazione solo i bandi con stato "parsificato"
+

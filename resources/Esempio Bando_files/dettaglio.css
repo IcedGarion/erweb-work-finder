@@ -1,0 +1,488 @@
+.clear{
+	clear:both;
+}
+	
+body.stampa {
+  font-size: 12px;
+}
+
+
+#corpo_sopra{
+	background: #e1e6e9 url(../img/bg_corpo_sopra.png) top center no-repeat;
+	height:11px;
+	margin:0;
+}
+
+
+.noteSelected{
+    border-bottom: 1px solid #536074;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 80%;
+    font-weight: bold;
+    margin: 0 0 1em 1.6em;
+    padding: 0.2em 2.3em 0.6em 0.3em;
+    text-align: left;
+    text-transform: uppercase;
+    width: 24.2em;
+}
+
+.cbselected{
+	vertical-align:middle;
+}
+
+#wrapper_corpo_dettaglio{
+		background: #e1e6e9 url(../img/bg_corpo.png) top center repeat-y;}
+
+
+#main_testo_dettaglio{
+	width:100%;
+	margin:0;
+	padding:0 0 10em 0;
+	text-align:center;
+/*	background: transparent url(../img/bg_maincorpo.png) top left repeat-y;*/
+	background: transparent url(../img/bg_toolbar_dettaglio.png) top left repeat-x;
+}
+
+#wrapper_dettaglio{
+	width:100%;
+	margin:0 auto;
+	}
+
+#wrapper_dettaglio #comandi{
+	width:100%;
+}
+
+#testo_atto{
+	width:63%;
+	float:left;
+	text-align:left;
+	padding:2em 0;
+	line-height:1.8em;
+	font-size:90%;
+	background-color:transparent;
+}
+
+#testa_atto p.grassetto, #testa_atto_b p.grassetto {
+    color: #536074;
+    display: block;
+    font-size: 1.4em;
+    margin: 1em 1em 0;
+    padding: 0;
+    text-align: left;
+	font-weight:bold;
+}
+
+
+#testa_atto h1.consultazione, #testa_atto_b h1.consultazione{
+ 	background: url("../img/bg_colonna.png") repeat-y scroll left bottom transparent;
+    border-bottom: 1px solid #DDDDDD;
+    clear: both;
+    color: #444444;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    padding: 1em 0 0 1em;
+    text-transform: capitalize !important;
+    width: 99%;
+	}
+
+
+#colonna {
+    float: left;
+    padding: 3em 0;
+    text-align: center;
+    width: 310px;
+}
+
+#titolo_atto{
+	border-bottom: 1px solid #ddd;
+    float: left;
+    font-weight: normal;
+    padding: 0;
+    text-align: left;
+    width: 95%;
+	}
+
+/* #testo_atto h1.consultazione{
+	margin:0;
+	padding:0;
+	font-size:150%;
+	color:#7e8db4;
+	float:left;
+	width:98%;
+}*/
+
+
+#testo_atto h2, #testo_atto_b h2{
+	line-height:1.4em;
+	font-weight:bold;
+	text-align:justify;	
+	}
+	
+span.consultazione{
+	color:#4A970B;
+	}
+
+
+#testa_atto h2.consultazione{
+	display: inline-block;
+    font-size: 1.4em;
+    margin: 1em 1em 0;
+    padding: 0;
+    text-align: left;
+	color: #536074;
+	min-width: 10em;
+}
+
+#testa_atto_b h2.consultazione{
+	color: #536074;
+    font-size: 1.4em;
+    margin: 1em auto;
+    padding: 0;
+    width: 50%;
+}
+
+
+#testa_atto h3.consultazione{
+	border-bottom: 1px solid #CCCCCC;
+    display: inline-block;
+    float: left;
+    font-size: 130%;
+    font-weight: normal;
+    max-height: 375px !important;
+    line-height: 1.3em;
+    margin: 0 0 0.2em;
+    overflow: auto;
+    padding: 0.6em 0 0.6em 1em;
+    text-align: left;
+    width: 90%;
+	}
+
+#testa_atto_b h3.consultazione{
+	font-size: 130%;
+    font-weight: normal;
+    line-height: 1.3em;
+    margin: 0 auto;
+    padding: 0.6em 0;
+    width: 50%;
+	}
+
+
+#stampa_seleziona_articoli {
+    float: left;
+    margin: 1em 0;
+    width: 90%;
+}
+
+#note {
+   background-color: #ffc;
+    border: 1px solid #900;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 95% !important;
+    margin: 0.3em;
+    padding: 1.2em;
+    width: 20em;
+}
+
+.linksMenu {
+    float: left;
+    text-decoration: none;
+    width: 100%;
+}
+
+.linkMenu {
+    float: left;
+    height: 1.4em;
+    margin-top: 0.3em;
+    padding-left: 0.4em;
+}
+
+#corpo_export fieldset {
+   border: 1px solid #536074;
+    margin: 0 auto;
+    padding: 1em 1em 1.5em 1em;
+    width: 85%;
+}
+
+#corpo_export legend {
+	 background-color: #E1EFF4;
+    border: 1px solid #536074;
+    color: #333333;
+    font-size: 90%;
+    padding: 0.5em;
+}
+
+#corpo_export {
+   display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 60%;
+}
+
+#stampa_seleziona_articoli .elemento {
+    color: #000000;
+    font-size: 75%;
+    padding: 1em;
+}
+
+#corpo_ricerca .elemento, #stampa_seleziona_articoli .elemento {
+    float: left;
+    font-size: 100%;
+    padding: 0.4em 0.4em 0.4em 0;
+    text-align: left;
+}
+
+#stampa_seleziona_articoli .medium {
+    width: 10em;
+}
+
+#stampa_seleziona_articoli .riga {
+    float: left;
+    padding: 1em;
+    width: 100%;
+}
+
+#corpo_export .wrap_bottoni_export {
+    float: left;
+    margin: 2em 0;
+    text-align: center;
+    width: 100%;
+}
+
+.linkMenu a.deselect_all {
+    background: url("../img/bg_deselect.png") no-repeat scroll left center transparent;
+}
+
+.linkMenu a.select_all {
+    background: url("../img/bg_select.png") no-repeat scroll left center transparent;
+}
+.linkMenu a {
+    font-size: 80%;
+    font-weight: bold;
+     padding: 1.5em 2em 1em 2.5em;
+    text-transform: uppercase;
+}
+
+
+h4.note{
+	float: left;
+    font-size: 130%;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin-bottom: 0.5em;
+    padding: 0 1em;
+    text-align: left;
+    width: 96%;
+}
+
+
+h4.note span{
+	font-weight:normal;
+}
+
+h4.note span.rosso {
+		color:#ff0000;
+		font-weight:normal;
+	}
+
+
+.dettaglio_atto_testo{
+	padding:3em 0;
+	text-align:left;
+	float:left;
+	font-size:110%;
+}
+
+
+.nopadding{
+	padding:0 !important;
+}
+
+#testa_atto{
+	overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+
+
+#testa_atto_b{
+	padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+iframe#leftFrame{
+	height:35em;
+	width:300px;
+	overflow-x: hidden;
+}
+
+iframe#mainFrame{
+	 height: 38.9em;
+    width: 100%;
+}
+
+  #wrap_albero {
+	float: left;
+    padding: 1.8em 0;
+    width: 100%;
+	}
+	
+	
+#comandi_atto{
+	float:left;
+	padding:0.2em 0;
+	margin-left:1em;
+}
+
+
+#pulsanti_atto a:link{
+	color:#1191B0;
+	font-size:12px;
+	height:32px;
+	padding:0;
+	margin-right:0.4em;
+	border:1px solid #1191B0;
+	background:#fff url(../img/bg_entra.png) bottom repeat-x;
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	-moz-border-radius:2px;
+	border-radius:2px;
+	width:110px;
+	text-align:center;
+	line-height:14px;
+}
+
+
+.ghost{
+	color:#bbb;
+	font-size:12px;
+	height:32px;
+	padding:0;
+	margin-right:0.4em;
+	border:1px solid #e7e7e7;
+	background:#fff url(../img/bg_entra_g.png) bottom left repeat-x;
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	-moz-border-radius:2px;
+	border-radius:2px;
+	position:relative;
+	width:110px;
+	text-align:center;
+	line-height:14px;
+}
+
+#pulsanti_atto a:hover{
+	color:#444;
+	text-decoration:none !important;
+}
+
+
+#pulsanti_atto a.circolari:link{
+	color:#1191B0;
+	font-size:12px;
+	height:32px;
+	padding:0;
+	margin-right:0.4em;
+	border:1px solid #e7e7e7;
+	background:#fff url(../img/bg_entra.png) bottom left repeat-x;
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	-moz-border-radius:2px;
+	border-radius:2px;
+	position:relative;
+	width:85px;
+	text-align:center;
+	line-height:1em;
+	line-height: 24px;
+}
+
+
+#corpaccio_atto{
+	width:99%;
+	min-height:99%;
+	margin:0 auto;
+	padding-bottom:10em;
+/*	background:#fff url(../img/stellone.jpg) bottom right no-repeat;*/
+}
+
+#comandi_atto a span, #comandi_atto .ghost span {
+	display: block;
+    margin: 0.1em;
+    width: 95%;
+}
+
+#comandi_atto a:hover span{
+	text-decoration:none !important;
+}
+/*
+a.aggiornamenti{
+	background: transparent url(../img/ico_aggiornamenti.png) center left no-repeat;
+}
+
+a.circolari{
+	background: transparent url(../img/ico_circolare.png) center left no-repeat;
+}
+
+a.preparatori{
+	background: transparent url(../img/ico_preparatori.png) center left no-repeat;
+}
+
+a.agg_struttura{
+	background: transparent url(../img/ico_agg_struttura.png) center left no-repeat;
+}
+
+a.agg_titolo{
+	background: transparent url(../img/ico_agg_titolo.png) center left no-repeat;
+}
+
+*/
+#comandi_atto #pulsanti_atto{
+	float:left;
+}
+
+
+.toolbar_wrapper_dettaglio{
+	width:100%;
+	text-align:center;
+	margin:0 auto;
+	background: #fff url(../img/bg_toolbar.png) top left repeat-x;	
+	}
+
+
+span.emettitor2{
+	
+	}
+	
+span.emettitor2b{
+	font-style:italic;
+	font-weight:normal !important;
+	}
+
+
+.riferimento{
+	color:#4a970b;
+}
+
+.dettaglio_atto_testo_pc {
+    display: block;
+    font-size: 115%;
+    line-height: 1.6;
+    margin: 0 auto;
+    padding: 2em 0 0;
+    text-align: center;
+	min-height: 99%;
+}
+
+.dettaglio_atto_testo_pc pre {
+   	display: inline-block;
+    font-family: Courier;
+    font-size: 120%;
+    margin: 0 auto;
+    padding: 1em 2em 6em;
+	text-align:left;
+}
