@@ -1,3 +1,13 @@
 -mysql e non oracle sql
 
 -primary key sempre solo integer (references è integer, chiave è sequence)
+
+-frasi troppo lunghe: mai il futuro! meno parentesi e incisi
+
+-stati vengono fuori prima: stati sono ENUM
+
+-questione expreg ancora non chiara: una expreg è sia PLUS che MINUS:
+	il controllo per gli utenti è fatto mettendo in OR tutte le sue expreg, e poi
+	se la expreg è PLUS la tieni cos', se è MINUS va in NOT
+
+le expreg sono in OR, PLUS e MINUS sono in AND!
