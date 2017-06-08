@@ -1,6 +1,8 @@
 -mysql e non oracle sql
 
--primary key sempre solo integer (references è integer, chiave è sequence)
+-testo del bando è un BLOB (CLOB mi sembra) o roba simile: cerca
+
+-primary key sempre solo integer (references è integer, chiave è autoincrement)
 
 -frasi troppo lunghe: mai il futuro! meno parentesi e incisi
 
@@ -11,3 +13,5 @@
 	se la expreg è PLUS la tieni cos', se è MINUS va in NOT
 
 le expreg sono in OR, PLUS e MINUS sono in AND!
+
+-controllo ortografico!
