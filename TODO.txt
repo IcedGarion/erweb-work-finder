@@ -1,12 +1,4 @@
--mysql e non oracle sql
-
--testo del bando è un BLOB (CLOB mi sembra) o roba simile: cerca
-
--primary key sempre solo integer (references è integer, chiave è autoincrement)
-
--frasi troppo lunghe: mai il futuro! meno parentesi e incisi
-
--stati vengono fuori prima: stati sono ENUM
+-stati vengono fuori prima (spostarli più in su?)
 
 -questione expreg ancora non chiara: una expreg è sia PLUS che MINUS:
 	il controllo per gli utenti è fatto mettendo in OR tutte le sue expreg, e poi
