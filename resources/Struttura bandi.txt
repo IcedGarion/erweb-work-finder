@@ -71,35 +71,3 @@ STRUTTURA BANDI DI GARA
 
 
 CIG STA NEL TITOLO (Bando di gara 37/2017 - CIG 70934460D2) (IN PUBBLICAZIONE O NEL BANDO) O IN SEZIONE VI(.3) O IN GIRO A CASO
-	
-
-
-
-
-
-
-
-
-
-COSE
-processo:
--MODULO: ti accorgi quando c'è una nuova pubblicazione (1 volta al giorno): guarda nel db e confronta i codici dell'ultima (E MAGARI SI SALVA L'URL NEL DB PUBBLICAZIONE)
--MODULO: scarica la pubblicazione (CONOSCE URL) e riempie tutti i bandi: stato pubblicazione "in corso", quando li scarica mette stato "chiusa" e i bandi "da parsificare"
-	riempie i bandi mettendo nella tabella del bando tutto il testo, E BASTA.
--MODULO: controlla che la pubblicazione sia stata scaricata tutta (se aveva 100 bandi ma nel db ce ne sono solo 50, li cancella tutti e li ri-riempie)
--MODULO: parsifica i bandi e riempie la tabella dei bandi. stato bandi "chiuso" uno alla volta
--MODULO: ogni utente ha n expreg da matchare e m expreg che non devono matchare: notifica gli utenti dei nuovi bandi in base ai loro parametri, con una mail. ("TRIGGER")
-
-serve una tabella per utenti password mail e le loro expreg
-
-servono gli stati:
--in pubblicazione, per sapere se è stata scaricata tutta o no ("in corso" o "finita" credo)
--in bando, per sapere se è stato scaricato tutto o no. ("in corso" o "da parsificare" o "parsificato")
-Il thread che controlla il completmento dello scaricamento, prende l'ultima pubblicazione "finita" e la riscarica, e prova a vedere se i suoi bandi corrispondenti 
-ci sono tutti.
-Il thread parser prende tutti i bandi "da parsificare", parsifica riempiendo tutte le altre proprietà della tabella bandi, e mette stato "parsificato"
-Il thread che notifica prenderà in considerazione solo i bandi con stato "parsificato"
-
-
-
-TANTI STATI INTERMEDI?
