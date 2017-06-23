@@ -3,17 +3,38 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- non serve portarsi dietro parent ogni volta, tanto e' gia' scritto nell'originale 
 	<parent>
 		<groupId>it.erweb</groupId>
 		<artifactId>garepubbliche-web</artifactId>
 		<version>0.0.1</version>
 		<relativePath>../pom.xml</relativePath>
-	</parent>
+	</parent> -->
 
 
-
+	<groupId>it.erweb</groupId>
 	<artifactId>garepubbliche-crawler</artifactId>
 	<packaging>jar</packaging>
 	<name>garepubbliche-crawler</name>
-
+	<version>0.0.1</version>
+	
+	<build>
+	    <plugins>
+     		<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-jar-plugin</artifactId>
+        			<version>3.0.2</version>
+        			
+        			 <configuration>
+       				 	<archive>
+         				   <manifest>
+                				<addClasspath>true</addClasspath>
+               					<mainClass>it.erweb.crawler.main.Main</mainClass>
+           				   </manifest>
+           				</archive>
+           			</configuration>
+      		</plugin>
+      	</plugins>
+     </build>
+     
 </project>
