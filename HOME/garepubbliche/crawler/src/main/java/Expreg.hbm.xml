@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="it.erweb.crawler.model.Expreg" table="EXPREG">
+      <id name="cdExpreg" type="long" column="CD_EXPREG">
+         <generator class="native"/>
+      </id>
+      <property name="Utente" column="CD_UTENTE" type="long"/>
+	  <property name="expplus" column="EXPRPLUS" type="string"/>
+	  <property name="expminus" column="EXPRMINUS" type="string"/>
+   </class>
+</hibernate-mapping>

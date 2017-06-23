@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="Pubblicazione" table="PUBBLICAZIONE">
+      <id name="cdPubblicazione" type="long" column="CD_PUBBLICAZIONE">
+         <generator class="native"/>
+      </id>
+      <property name="dtInserimento" column="DT_INSERIMENTO" type="date"/>
+	  <property name="nmPubblicazione" column="NM_PUBBLICAZIONE" type="int"/>
+	  <property name="stato" column="STATO" type="string"/>
+	  <property name="url" column="URL" type="string"/>
+   </class>
+</hibernate-mapping>
