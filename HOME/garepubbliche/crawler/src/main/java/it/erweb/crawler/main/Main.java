@@ -1,6 +1,11 @@
 package it.erweb.crawler.main;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,46 +18,26 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		SessionFactory factory;
-		Session session = null;
-		Transaction tx = null;
+		//crea entity manager factory jpa usando persistence unit name (persistence.xml)
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("garepubbliche-crawler");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		Utente userProva = new Utente();
+		userProva.setDtNotifica(new Date());
+		userProva.setUsername("JPA prova");
+		userProva.setPassword("1234");
+		userProva.setEmail("jpa@prova.it");
 		
-		 try
-		 {
-	         factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-	     }
-		 catch(Exception ex)
-		 { 
-	         System.err.println("Failed to create sessionFactory object : \n" + ex);
-	         ex.printStackTrace();
-	         return;
-		 }
-
-		try
-		{
-			//session = factory.openSession();
-			//tx = session.beginTransaction();
-
-			//crud
-			List<Utente> utenti = factory.openSession().createQuery("from Utente u").list();
-			for(Utente u : utenti)
-				System.out.println("Nome : " + u.getUsername());
-		   
-			//tx.commit();
-		}
-		catch (Exception e)
-		{
-			/*
-		   if (tx!=null)
-			   tx.rollback();
-		   */
-		   e.printStackTrace(); 
-		}
-		/*
-		finally
-		{
-		   session.close();
-		}
-		*/
+		//insert new Utente
+		//entityManager.getTransaction().begin();
+		//entityManager.persist(userProva);
+		//entityManager.getTransaction().commit();
+		//entityManager.close();
+		
+		entityManager.getTransaction().begin();
+		List<Utente> result = entityManager.createQuery( "from Utente", Utente.class ).getResultList();
+		for ( Utente usr : result )
+		    System.out.println("username : " + usr.getUsername());
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 }
