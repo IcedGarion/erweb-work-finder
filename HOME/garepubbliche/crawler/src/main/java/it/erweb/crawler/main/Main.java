@@ -1,8 +1,10 @@
 package it.erweb.crawler.main;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,39 +15,70 @@ import it.erweb.crawler.dbManager.repository.ExpregRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
+import it.erweb.crawler.parser.HtmlParser;
 
 public class Main
 {
+	private static Logger logger = Logger.getLogger(Main.class.getName());
+	
 	public static void main(String[] args) throws JPAException
 	{
-		Properties prop;
-		UtenteRepository udb = new UtenteRepository();
-		ExpregRepository edb = new ExpregRepository();
-		List<Object> result = null;
-		Utente userProva = new Utente();
-		userProva.setDtNotifica(new Date());
-		userProva.setUsername("a");
-		String html = "", homeURL = "http://www.gazzettaufficiale.it/";
+		String html = "", pubURL = "";
+		ArrayList<String> publicationsURLs = new ArrayList<String>();
 		
-
-		PropertiesManager.setProperty("prova", "123");
-		prop = PropertiesManager.loadProperties();
-		System.out.println(prop.getProperty("prova"));
-
+		//inizializza configurazioni
+		logger.info("Starting Crawler...");
+		init();
+		logger.info("OK\n");
+		//aspetta
+		//logger.info("Waiting for scheduled update...");
 		
-		/*
 		try
 		{
-			html = HttpGetter.get(homeURL);
+			//prende homepage
+			logger.info("Connecting to " + PropertiesManager.GAZZETTA_HOME_URL + "...");
+			html = HttpGetter.get(PropertiesManager.GAZZETTA_HOME_URL);
+			logger.info("OK\n");
+			
+			//ricava url della pagina delle pubblicazioni (5a sezione) dalla home
+			logger.info("Searching for publications page...");
+			pubURL += HtmlParser.getHomePublicationsURL(html);
+			logger.info("OK\n");
+			
+			//si connette alla pagina delle pubblicazioni
+			logger.info("Connecting to publications page: " + pubURL + "...");
+			html = HttpGetter.get(pubURL);
+			logger.info("OK\n");
+			
+			//ricava gli url di tutte le pubblicazioni disponibili
+			logger.info("Searching for publications urls...");
+			publicationsURLs = HtmlParser.getPublicationsURL(html);
+			logger.info("OK\n");
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		
-		System.out.println(html);
+		for(String s : publicationsURLs)
+			System.out.println(s);
 		
-		*/
 		return;
+	}
+	
+	private static void init()
+	{
+		Properties prop = new Properties();
+		
+		try
+		{
+			//legge il file di configurazione e salva le configs in PropertiesManager
+			PropertiesManager.loadProperties();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
