@@ -8,9 +8,17 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+/**
+ *	A simple class for HTTP functions
+ */
 public class HttpGetter
 {
-	//HTTP GET
+	/**
+	 * Performs an HTTP GET with target the specified URL
+	 * 
+	 * @param URL
+	 * @return
+	 */
     public static String get(String URL) 
     {
         CloseableHttpClient httpclient = HttpClients.createDefault();

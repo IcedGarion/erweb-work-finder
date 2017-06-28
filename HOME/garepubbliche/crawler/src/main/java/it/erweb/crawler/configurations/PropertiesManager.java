@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+/**
+ * Contains all configuration properties, stored in crawler.config
+ */
 public class PropertiesManager
 {
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
@@ -11,6 +14,9 @@ public class PropertiesManager
 	public static String HOME_PUBLICATIONS_PATTERN;
 	public static String PUBLICATION_BAN_PATTERN;
 	
+	/**
+	 * Loads all properties of configuration file in variables
+	 */
 	public static void loadProperties()
 	{
 		FileInputStream input = null;

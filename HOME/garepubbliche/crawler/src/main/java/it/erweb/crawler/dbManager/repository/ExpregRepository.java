@@ -6,6 +6,9 @@ import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.model.Utente;
 
+/**
+ *	Contains the methods for manipulating a Expreg object in the database
+ */
 public class ExpregRepository extends JPAManager
 {
 	public List<Object> getAllUsersExpr(Utente usr) throws JPAException

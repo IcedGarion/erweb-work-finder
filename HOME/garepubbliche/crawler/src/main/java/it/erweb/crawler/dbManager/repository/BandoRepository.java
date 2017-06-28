@@ -6,6 +6,9 @@ import java.util.List;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 
+/**
+ *	Contains the methods for manipulating a Bando object in the database
+ */
 public class BandoRepository extends JPAManager
 {	
 	//altre funzioni specifiche molto usate (tipo "trova tutti i bandi con stato x")

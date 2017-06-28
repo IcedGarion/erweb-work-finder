@@ -5,6 +5,9 @@ import java.util.List;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 
+/**
+ *	Contains the methods for manipulating a Pubblicazione object in the database
+ */
 public class PubblicazioneRepository extends JPAManager
 {
 	public List<Object> getAllDaParsificare() throws JPAException

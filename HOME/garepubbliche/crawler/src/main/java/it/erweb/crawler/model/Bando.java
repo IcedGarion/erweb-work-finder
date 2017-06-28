@@ -6,7 +6,6 @@ import java.util.Date;
 
 /**
  * The persistent class for the bando database table.
- * 
  */
 @Entity
 @NamedQuery(name = "Bando.findAll", query = "SELECT b FROM Bando b")

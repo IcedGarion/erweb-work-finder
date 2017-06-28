@@ -25,6 +25,7 @@ public class Main
 	{
 		String html = "", pubURL = "";
 		ArrayList<String> publicationsURLs = new ArrayList<String>();
+		ArrayList<String> publicationsHtml = new ArrayList<String>();
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -46,7 +47,7 @@ public class Main
 			logger.info("OK\n");
 			
 			//si connette alla pagina delle pubblicazioni
-			logger.info("Connecting to publications page: " + pubURL + "...");
+			logger.info("Connecting to publications page: " + pubURL + " ...");
 			html = HttpGetter.get(pubURL);
 			logger.info("OK\n");
 			
@@ -55,22 +56,31 @@ public class Main
 			publicationsURLs = HtmlParser.getPublicationsURL(html);
 			logger.info("OK\n");
 			
+			//scarica tutte le pubblicazioni
+			logger.info("Downloading all publications...");
+			for(String pubUrl : publicationsURLs)
+			{
+				logger.info("Connecting to: " + pubUrl + " ...");
+				publicationsHtml.add(HttpGetter.get(pubUrl));
+			}
+			logger.info("OK\n");
+			
+			//ora inizia il vero parsing: si devono già ricavare informazioni sul bando
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		
-		for(String s : publicationsURLs)
+		for(String s : publicationsHtml)
 			System.out.println(s);
 		
 		return;
 	}
 	
 	private static void init()
-	{
-		Properties prop = new Properties();
-		
+	{		
 		try
 		{
 			//legge il file di configurazione e salva le configs in PropertiesManager

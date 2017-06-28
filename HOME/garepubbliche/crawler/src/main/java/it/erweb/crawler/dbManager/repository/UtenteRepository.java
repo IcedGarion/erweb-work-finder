@@ -5,6 +5,9 @@ import java.util.List;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 
+/**
+ *	Contains the methods for manipulating a Utente object in the database
+ */
 public class UtenteRepository extends JPAManager
 {
 	public List<Object> getAllUsers() throws JPAException
