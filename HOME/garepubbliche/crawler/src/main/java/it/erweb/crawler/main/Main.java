@@ -33,11 +33,12 @@ public class Main
 		//entityManager.getTransaction().commit();
 		//entityManager.close();
 		
-		entityManager.getTransaction().begin();
+		//entityManager.getTransaction().begin();
 		List<Utente> result = entityManager.createQuery( "from Utente", Utente.class ).getResultList();
 		for ( Utente usr : result )
-		    System.out.println("username : " + usr.getUsername());
-		entityManager.getTransaction().commit();
+		    System.out.println(usr.getCdUtente() + ", " + usr.getUsername() + ", " + usr.getPassword() + ", "
+		    		 + usr.getEmail() + ", " + usr.getDtNotifica());
+		//entityManager.getTransaction().commit();
 		entityManager.close();
 	}
 }

@@ -13,6 +13,6 @@
 	            <property name="hibernate.connection.username" value="erweb" />
 	            <property name="hibernate.connection.password" value="garepubbliche" />
 	            <property name="hibernate.connection.url" value="jdbc:mysql://localhost/erweb" />
-	        </properties>
+	        </properties>	        
 	</persistence-unit>
 </persistence>
