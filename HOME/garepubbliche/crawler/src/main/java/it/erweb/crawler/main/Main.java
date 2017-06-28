@@ -24,8 +24,11 @@ public class Main
 	public static void main(String[] args) throws JPAException
 	{
 		String html = "", pubURL = "";
+		int i = 0;
 		ArrayList<String> publicationsURLs = new ArrayList<String>();
 		ArrayList<String> publicationsHtml = new ArrayList<String>();
+		ArrayList<String> BansURLs = new ArrayList<String>();
+
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -65,7 +68,15 @@ public class Main
 			}
 			logger.info("OK\n");
 			
-			//ora inizia il vero parsing: si devono già ricavare informazioni sul bando
+			//ora inizia il vero parsing: si devono ricavare informazioni sul bando
+			logger.info("Parsing all publications...\n");
+			for(String pub : publicationsHtml)
+			{
+				logger.info("Parsing publication n. " + (i++) + " ...");
+				BansURLs.addAll(HtmlParser.getPublicationBansURL(pub));				
+				BansURLs.add(null);		//provvisorio: scrive tutti i bandi di una pubblicazione + null. Poi comincia una nuova pub
+			}
+			logger.info("OK\n");
 			
 		}
 		catch(Exception e)
@@ -73,7 +84,7 @@ public class Main
 			e.printStackTrace();
 		}
 		
-		for(String s : publicationsHtml)
+		for(String s : BansURLs)
 			System.out.println(s);
 		
 		return;

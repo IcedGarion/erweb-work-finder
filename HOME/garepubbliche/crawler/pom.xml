@@ -29,28 +29,18 @@
     		<version>4.5.3</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+    		<groupId>org.jsoup</groupId>
+    		<artifactId>jsoup</artifactId>
+    		<version>1.8.3</version>
+		</dependency>
+		
+		
 	</dependencies>
 	
 	<build>
 	    <plugins>
-	    
-	    <!-- 
-     		<plugin>
-        		<groupId>org.apache.maven.plugins</groupId>
-        			<artifactId>maven-jar-plugin</artifactId>
-        			<version>3.0.2</version>
-        			
-        			 <configuration>
-       				 	<archive>
-         				   <manifest>
-                				<addClasspath>true</addClasspath>
-               					<mainClass>it.erweb.crawler.main.Main</mainClass>
-           				   </manifest>
-           				</archive>
-           			</configuration>
-      		</plugin>
-      	-->
-      	
       		 <plugin>
     			<artifactId>maven-assembly-plugin</artifactId>
     			<groupId>org.apache.maven.plugins</groupId>
@@ -75,8 +65,7 @@
             			</configuration>
         			</execution>
     			</executions>
-			</plugin>
-      		      		
+			</plugin>	      		
       	</plugins>
       	
       	<resources>
