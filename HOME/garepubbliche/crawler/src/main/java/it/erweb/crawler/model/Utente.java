@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Utente.findAll", query = "SELECT u FROM Utente u")
-public class Utente implements Serializable
+public class Utente extends AbstractModel implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -111,6 +111,12 @@ public class Utente implements Serializable
 		expreg.setUtente(null);
 
 		return expreg;
+	}
+
+	@Override
+	public String toString()
+	{
+		return cdUtente + ", " + username + ", " + password + ", " + email;
 	}
 
 }

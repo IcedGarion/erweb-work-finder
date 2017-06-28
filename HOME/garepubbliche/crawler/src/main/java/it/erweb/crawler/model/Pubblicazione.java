@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Pubblicazione.findAll", query = "SELECT p FROM Pubblicazione p")
-public class Pubblicazione implements Serializable
+public class Pubblicazione extends AbstractModel implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -112,6 +112,12 @@ public class Pubblicazione implements Serializable
 		bando.setPubblicazione(null);
 
 		return bando;
+	}
+
+	@Override
+	public String toString()
+	{
+		return cdPubblicazione + ", " + dtInserimento + ", " + nmPubblicazione + ", " + stato + ", " + url;
 	}
 
 }

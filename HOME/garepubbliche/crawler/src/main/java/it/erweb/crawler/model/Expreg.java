@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name = "Expreg.findAll", query = "SELECT e FROM Expreg e")
-public class Expreg implements Serializable
+public class Expreg extends AbstractModel implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +68,12 @@ public class Expreg implements Serializable
 	public void setUtente(Utente utente)
 	{
 		this.utente = utente;
+	}
+
+	@Override
+	public String toString()
+	{
+		return cdExpreg + ", " + utente + ", " + expplus + ", " + expminus;
 	}
 
 }

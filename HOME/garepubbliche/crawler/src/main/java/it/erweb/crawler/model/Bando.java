@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name = "Bando.findAll", query = "SELECT b FROM Bando b")
-public class Bando implements Serializable
+public class Bando extends AbstractModel implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -183,6 +183,13 @@ public class Bando implements Serializable
 	public void setPubblicazione(Pubblicazione pubblicazione)
 	{
 		this.pubblicazione = pubblicazione;
+	}
+
+	@Override
+	public String toString()
+	{
+		return cdBando + ", " + cdEsterno + ", " + pubblicazione + ", " + cig + ", " + tipo + ", " + tiporichiedente
+				 + ", " + nmRichiedente + ", " + scadenza + ", " + oggetto + ", " + url + ", " + stato;
 	}
 
 }
