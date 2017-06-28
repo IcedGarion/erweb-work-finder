@@ -2,9 +2,12 @@ package it.erweb.crawler.main;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.repository.ExpregRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
@@ -15,6 +18,7 @@ public class Main
 {
 	public static void main(String[] args) throws JPAException
 	{
+		Properties prop;
 		UtenteRepository udb = new UtenteRepository();
 		ExpregRepository edb = new ExpregRepository();
 		List<Object> result = null;
@@ -23,6 +27,13 @@ public class Main
 		userProva.setUsername("a");
 		String html = "", homeURL = "http://www.gazzettaufficiale.it/";
 		
+
+		PropertiesManager.setProperty("prova", "123");
+		prop = PropertiesManager.loadProperties();
+		System.out.println(prop.getProperty("prova"));
+
+		
+		/*
 		try
 		{
 			html = HttpGetter.get(homeURL);
@@ -34,6 +45,7 @@ public class Main
 		
 		System.out.println(html);
 		
+		*/
 		return;
 	}
 }

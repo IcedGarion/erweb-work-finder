@@ -87,6 +87,14 @@
             	    <include>persistence.xml</include>
             	</includes>
         	</resource>
+        	
+        	<resource>
+	            <directory>src/main/java/resources</directory>
+            	<targetPath>resources</targetPath>
+            	<includes>
+            	    <include>crawler.config</include>
+            	</includes>
+        	</resource>
         </resources>
       	
      </build>
