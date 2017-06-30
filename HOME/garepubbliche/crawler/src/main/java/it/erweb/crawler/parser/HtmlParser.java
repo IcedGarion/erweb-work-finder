@@ -73,18 +73,14 @@ public class HtmlParser
 	}
 
 	/**
-	 * Parses the publication in order to extract all its Bans' URLs
+	 * Parses the publication in order to extract all its Bans' available informations
 	 * 
 	 * @param pub	html of a publication page
 	 * @return		a list of Bans' URLs contained in pub
 	 */
-	/**
-	 * @param pub
-	 * @return
-	 */
-	public static ArrayList<String> getPublicationBansURL(String pub)
+	public static ArrayList<Bando> getPublicationBans(String pub)
 	{
-		ArrayList<String> bandiUrls = new ArrayList<String>();
+		ArrayList<Bando> bandi = new ArrayList<Bando>();
 		int i = 4, j=0;
 		Element bando;
 
@@ -93,23 +89,28 @@ public class HtmlParser
 		Element mainContent = doc.body().child(20);			//<div class="main_content">
 		Element container = mainContent.child(0);			//<div class="container_16"> 
 		Element elencoBandi = container.child(0);			//<div id="elenco_hp"> 
+		String tipoBando = elencoBandi.child(2).ownText();				//avvisi e bandi di gara
 		Element emettitore = elencoBandi.child(3);			//<span class="emettitore"> MINISTERI..
 		String tipoRichiedente = emettitore.ownText();		//emettitore senza <span...
 
 		//parte dalla riga dopo emettitore, i=4 (un bando)
-		while(true)
+		while(i< elencoBandi.children().size())
 		{
-			bando = elencoBandi.child(i++);					//prende la riga di un bando (sporca)
-			//primi 24 chars: <span class="risultato"> | <span class="emettitore">
+			bando = elencoBandi.child(i++);					//prende la riga di un "bando" (sporca)
 			
-			
-			
-			//SE EMETTITORE, BISOGNA AGGIORNARE TIPORICHIEDENTE!
-			
-			
-			
-			if(bando.toString().substring(0, 25).contains("emettitore"))
-				break;
+			//primi 24 chars: <span class="risultato"> | <span class="emettitore"> | <span class="rubrica">
+			String spanType = bando.toString().substring(0, 25).toLowerCase();
+			//se trova una riga con nuovo emettitore, aggiorna tipoRichiedente e salta subito alla riga dopo
+			if(spanType.contains("emettitore"))
+			{
+				tipoRichiedente = bando.ownText();
+				continue;
+			}
+			else if(spanType.contains("rubrica"))
+			{
+				tipoBando = bando.ownText();
+				continue;
+			}
 			
 			Element bandoSenzaSpan = bando.child(0);
 			//prende tutta la riga ancora sporca del bando e splitta dove trova '"': nella seconda cella c'e' l'URL
@@ -118,16 +119,28 @@ public class HtmlParser
 			//toglie anche <a href... e rimane il nome richiedente e scadenza
 			Element data = bandoSenzaSpan.child(0);	
 			
-			//prende l'ultimo elemento in riga (fra span, a href, font e altro) e ne estrae solo il testo (scadenza)
-			String tmp = data.child(data.children().size() - 1).ownText();	
-			String scadenza = tmp.substring(8, tmp.length() - 1);			//toglie le parentesi e "scad."
-			
+			//prende l'ultimo elemento in riga (fra span, a href, font e altro) e ne estrae solo il testo (scadenza)		
+			//ma non in tutti i bandi è presente
+			int dataLength = data.children().size();
+			if(dataLength > 1)
+			{			
+				String tmp = data.child(data.children().size() - 1).ownText();	
+				try
+				{
+					String scadenza = tmp.substring(8, tmp.length() - 1);			//toglie le parentesi e "scad."
+				}
+				catch(StringIndexOutOfBoundsException e)
+				{
+					//non c'e' scadenza
+				}
+			}
 			//toglie tutti i tag da data: rimane nome richiedente
 			String nmRichiedente = data.ownText();
 			
 			//a questo punto si conoscono: tipoRichedente (cambia più volte nel bando), nomeRichiedente, url, scadenza.
 			Bando b = new Bando();
-			b.setStato("Da_PARSIFICARE");
+			b.setStato("DA_PARSIFICARE");
+			b.setTipo(tipoBando);
 			b.setTiporichiedente(tipoRichiedente);
 			b.setNmRichiedente(nmRichiedente);
 			b.setUrl(url);
@@ -136,10 +149,10 @@ public class HtmlParser
 			
 			//da continuare per altri tipoRichiedenti, e da continuare per altri tipi di bando (avvisi gara, gare scadute...)
 			
-			bandiUrls.add(url);
+			bandi.add(b);
 		}
 		
 		
-		return bandiUrls;
+		return bandi;
 	}
 }

@@ -27,7 +27,7 @@ public class Main
 		int i = 0;
 		ArrayList<String> publicationsURLs = new ArrayList<String>();
 		ArrayList<String> publicationsHtml = new ArrayList<String>();
-		ArrayList<String> BansURLs = new ArrayList<String>();
+		ArrayList<Bando> Bans = new ArrayList<Bando>();
 
 		
 		//inizializza configurazioni
@@ -73,8 +73,7 @@ public class Main
 			for(String pub : publicationsHtml)
 			{
 				logger.info("Parsing publication n. " + (i++) + " ...");
-				BansURLs.addAll(HtmlParser.getPublicationBansURL(pub));				
-				BansURLs.add(null);		//provvisorio: scrive tutti i bandi di una pubblicazione + null. Poi comincia una nuova pub
+				Bans.addAll(HtmlParser.getPublicationBans(pub));				
 			}
 			logger.info("OK\n");
 			
@@ -84,8 +83,8 @@ public class Main
 			e.printStackTrace();
 		}
 		
-		for(String s : BansURLs)
-			System.out.println(s);
+		for(Bando b : Bans)
+			System.out.println(b.toString());
 		
 		return;
 	}
