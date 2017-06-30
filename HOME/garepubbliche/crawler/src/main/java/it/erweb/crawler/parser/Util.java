@@ -58,7 +58,7 @@ public class Util
 	public static String tryGetCode(String optionalInfo)
 	{
 		String cod = "";
-		int index = 0, offset = 0, i = 1;
+		int index = 0, offset = 0, i;
 		char ch;
 		String codPattern = PropertiesManager.BAN_CD_ESTERNO_PATTERN;
 		
@@ -66,6 +66,7 @@ public class Util
 		{
 			while(index != -1)
 			{
+				i = 1;
 				//si posiziona sulle occorrenze di '('
 				index = optionalInfo.indexOf('(', offset);
 				offset = index;

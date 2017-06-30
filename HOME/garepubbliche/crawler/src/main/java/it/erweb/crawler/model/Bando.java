@@ -188,7 +188,7 @@ public class Bando extends AbstractModel implements Serializable
 	public String toString()
 	{
 		return cdBando + ", " + cdEsterno + ", " + pubblicazione + ", " + cig + ", " + tipo + ", " + tiporichiedente
-				 + ", " + nmRichiedente + ", " + scadenza + ", " + oggetto + ", " + url + ", " + stato;
+				 + ", " + nmRichiedente + ", " + scadenza + ", " + oggetto + ", " + testo + ", " + url + ", " + stato;
 	}
 
 }
