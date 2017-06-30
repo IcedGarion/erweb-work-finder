@@ -25,7 +25,7 @@ public class Main
 	{
 		String html = "", pubURL = "";
 		int i = 0;
-		ArrayList<String> publicationsURLs = new ArrayList<String>();
+		ArrayList<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		ArrayList<String> publicationsHtml = new ArrayList<String>();
 		ArrayList<Bando> Bans = new ArrayList<Bando>();
 
@@ -34,8 +34,6 @@ public class Main
 		logger.info("Starting Crawler...");
 		init();
 		logger.info("OK\n");
-		//aspetta
-		//logger.info("Waiting for scheduled update...");
 		
 		try
 		{
@@ -56,15 +54,15 @@ public class Main
 			
 			//ricava gli url di tutte le pubblicazioni disponibili
 			logger.info("Searching for publications urls...");
-			publicationsURLs = HtmlParser.getPublicationsURL(html);
+			publications = HtmlParser.getPublications(html);
 			logger.info("OK\n");
 			
 			//scarica tutte le pubblicazioni
 			logger.info("Downloading all publications...");
-			for(String pubUrl : publicationsURLs)
+			for(Pubblicazione pub : publications)
 			{
-				logger.info("Connecting to: " + pubUrl + " ...");
-				publicationsHtml.add(HttpGetter.get(pubUrl));
+				logger.info("Connecting to: " + pub.getUrl() + " ...");
+				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
 			}
 			logger.info("OK\n");
 			
@@ -72,8 +70,18 @@ public class Main
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
-				logger.info("Parsing publication n. " + (i++) + " ...");
+				logger.info("Parsing publication n. " + (++i) + " ...");
+				//deve in qualche modo passre pub CD_PUBBLICAZIONE, per sapere di chi sono i bandi
 				Bans.addAll(HtmlParser.getPublicationBans(pub));				
+			}
+			logger.info("OK\n");
+			
+			logger.info("Parsing all bans...\n");
+			i = 0;
+			for(Bando ban : Bans)
+			{
+				logger.info("Parsing ban n. " + (++i) + "...\n");
+				HtmlParser.parseBan(ban);
 			}
 			logger.info("OK\n");
 			
@@ -82,9 +90,6 @@ public class Main
 		{
 			e.printStackTrace();
 		}
-		
-		for(Bando b : Bans)
-			System.out.println(b.toString());
 		
 		return;
 	}

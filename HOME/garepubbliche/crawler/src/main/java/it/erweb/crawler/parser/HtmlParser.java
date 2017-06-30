@@ -1,5 +1,6 @@
 package it.erweb.crawler.parser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import org.jsoup.select.Elements;
 
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.model.Bando;
+import it.erweb.crawler.model.Pubblicazione;
 
 /**
  * Searches html for URLs or specific info 
@@ -29,7 +31,7 @@ public class HtmlParser
 		int startIndex;
 		char current;
 		
-		startIndex = html.indexOf(PropertiesManager.HOME_PUBLICATIONS_PATTERN);
+		startIndex = html.indexOf(PropertiesManager.PUBLICATIONS_HOME_PATTERN);
 		current = html.charAt(startIndex);
 		while(current != '\"')
 		{
@@ -41,21 +43,24 @@ public class HtmlParser
 	}
 	
 	/**
-	 * Gets all the publications URLs, given the publications home page
+	 * Gets all the publications infos, given the publications home page
 	 * 
 	 * @param html	publications page
 	 * @return		A list of publications URLs
 	 */
-	public static ArrayList<String> getPublicationsURL(String html)
+	public static ArrayList<Pubblicazione> getPublications(String html)
 	{
-		ArrayList<String> ret = new ArrayList<String>();
-		int startIndex = 0, offset = 0;
+		ArrayList<Pubblicazione> ret = new ArrayList<Pubblicazione>();
+		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
-		String url = "";
+		String url = "", strNumPub;
+		Pubblicazione pub;
 		
-		startIndex = html.indexOf(PropertiesManager.PUBLICATION_BAN_PATTERN, offset);
+		//va alla prima occorrenza dell'url pattern
+		startIndex = html.indexOf(PropertiesManager.PUBLICATION_BAN_PATTERN);
 		while(startIndex != -1)
 		{
+			//aggiunge URL dall'inizio di "" fino alla fine di ""
 			current = html.charAt(startIndex);
 			while(current != '\"')
 			{
@@ -63,7 +68,46 @@ public class HtmlParser
 				current = html.charAt(++startIndex);
 			}
 			
-			ret.add(PropertiesManager.GAZZETTA_HOME_URL + url);
+			//scorre ancora un po' avanti per trovare relativo numero di pubblicazione (che è sempre presente)
+			nmIndex = html.indexOf(PropertiesManager.PUBLICATION_NUMBER_PATTERN, startIndex)
+					 + PropertiesManager.PUBLICATION_NUMBER_PATTERN.length();
+			current = html.charAt(nmIndex);
+			strNumPub = "";
+			while(true)
+			{
+				try
+				{
+					//prova a leggere carttere per carattere, controlla se è INT e lo aggiunge al totale numPub
+					Integer.parseInt("" + current);
+					strNumPub += current;
+					current = html.charAt(++nmIndex);
+				}
+				catch(Exception e)
+				{
+					break;
+				}
+			}
+			//prova a trasformare il numero letto
+			try
+			{
+				numPub = Integer.parseInt(strNumPub);
+			}
+			catch(Exception e)
+			{
+				numPub = -1;
+			}
+				
+			
+			//INSERISCE NUOVA PUBBLICAZIONE NEL DB
+			pub = new Pubblicazione();
+			pub.setDtInserimento(new Date());
+			if(numPub != -1)
+				pub.setNmPubblicazione(numPub);
+			pub.setStato("DA_SCARICARE");
+			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);
+			ret.add(pub);
+			
+			//ricomincia per trovare altre pubblicazioni
 			offset = startIndex;
 			startIndex = html.indexOf(PropertiesManager.PUBLICATION_BAN_PATTERN, offset);
 			url = "";
@@ -81,8 +125,10 @@ public class HtmlParser
 	public static ArrayList<Bando> getPublicationBans(String pub)
 	{
 		ArrayList<Bando> bandi = new ArrayList<Bando>();
-		int i = 4, j=0;
-		Element bando;
+		Bando b;
+		int i = 4, dataLength;
+		Element bando, bandoSenzaSpan, data;
+		String codEsterno = "", cig = "", url, scadenza = "", tmp, spanType, optionalInfo, nmRichiedente;
 
 		//primo parsing per arrivare a elenco bandi
 		Document doc = Jsoup.parseBodyFragment(pub);		//tutto l'html
@@ -94,65 +140,89 @@ public class HtmlParser
 		String tipoRichiedente = emettitore.ownText();		//emettitore senza <span...
 
 		//parte dalla riga dopo emettitore, i=4 (un bando)
-		while(i< elencoBandi.children().size())
+		while(i < elencoBandi.children().size())
 		{
 			bando = elencoBandi.child(i++);					//prende la riga di un "bando" (sporca)
 			
 			//primi 24 chars: <span class="risultato"> | <span class="emettitore"> | <span class="rubrica">
-			String spanType = bando.toString().substring(0, 25).toLowerCase();
+			spanType = bando.toString().substring(0, 25).toLowerCase();
+			
 			//se trova una riga con nuovo emettitore, aggiorna tipoRichiedente e salta subito alla riga dopo
 			if(spanType.contains("emettitore"))
 			{
 				tipoRichiedente = bando.ownText();
 				continue;
 			}
+			//se trova nuovo tipo di bando, aggiorna e salta la riga
 			else if(spanType.contains("rubrica"))
 			{
 				tipoBando = bando.ownText();
 				continue;
 			}
 			
-			Element bandoSenzaSpan = bando.child(0);
+			bandoSenzaSpan = bando.child(0);
+			
+			//prova a estrarre cig e codice bando
+			optionalInfo = bando.child(1).ownText();
+			codEsterno = Util.tryGetCode(optionalInfo);
+			cig = Util.tryGetCig(optionalInfo);
+			
+			
 			//prende tutta la riga ancora sporca del bando e splitta dove trova '"': nella seconda cella c'e' l'URL
-			String url = PropertiesManager.GAZZETTA_HOME_URL + bandoSenzaSpan.toString().split("\"")[1];
+			url = PropertiesManager.GAZZETTA_HOME_URL + bandoSenzaSpan.toString().split("\"")[1];
 			
 			//toglie anche <a href... e rimane il nome richiedente e scadenza
-			Element data = bandoSenzaSpan.child(0);	
+			data = bandoSenzaSpan.child(0);	
+			
+			//toglie tutti i tag da data: rimane nome richiedente
+			nmRichiedente = data.ownText();
 			
 			//prende l'ultimo elemento in riga (fra span, a href, font e altro) e ne estrae solo il testo (scadenza)		
 			//ma non in tutti i bandi è presente
-			int dataLength = data.children().size();
+			dataLength = data.children().size();
 			if(dataLength > 1)
 			{			
-				String tmp = data.child(data.children().size() - 1).ownText();	
+				tmp = data.child(data.children().size() - 1).ownText();	
 				try
 				{
-					String scadenza = tmp.substring(8, tmp.length() - 1);			//toglie le parentesi e "scad."
+					scadenza = tmp.substring(7, tmp.length() - 1);			//toglie le parentesi e "scad."
 				}
 				catch(StringIndexOutOfBoundsException e)
 				{
 					//non c'e' scadenza
+					scadenza = "";
 				}
 			}
-			//toglie tutti i tag da data: rimane nome richiedente
-			String nmRichiedente = data.ownText();
+			else
+				scadenza = "";
+
 			
-			//a questo punto si conoscono: tipoRichedente (cambia più volte nel bando), nomeRichiedente, url, scadenza.
-			Bando b = new Bando();
+			//a questo punto si conoscono: tipoRichedente (cambia più volte nel bando), tipoBando (cambia),
+			//nomeRichiedente, url, scadenza, STATO (, codEsterno e cig)
+			b = new Bando();
 			b.setStato("DA_PARSIFICARE");
 			b.setTipo(tipoBando);
 			b.setTiporichiedente(tipoRichiedente);
 			b.setNmRichiedente(nmRichiedente);
 			b.setUrl(url);
-			//da parsificare data testuale e trasformarla in Date
-			//b.setScadenza();
-			
-			//da continuare per altri tipoRichiedenti, e da continuare per altri tipi di bando (avvisi gara, gare scadute...)
+			b.setDtInserimento(new Date());
+			if(codEsterno != "")
+				b.setCdEsterno(codEsterno);
+			if(cig != "")
+				b.setCig(cig);
+			if(scadenza != "")
+				b.setScadenza(Util.stringToDate(scadenza));
 			
 			bandi.add(b);
-		}
-		
+		}	
 		
 		return bandi;
+	}
+
+	public static void parseBan(Bando ban)
+	{
+		
+		
+		return;
 	}
 }
