@@ -1,13 +1,11 @@
 package it.erweb.crawler.parser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.model.Bando;
@@ -23,7 +21,7 @@ public class HtmlParser
 	 * Gets the publications home page, given the gazzetta home page
 	 * 
 	 * @param html	gazzetta home page html
-	 * @return		a String representing the publications URL
+	 * @return		a String representing the publications page URL
 	 */
 	public static String getHomePublicationsURL(String html)
 	{
@@ -46,7 +44,7 @@ public class HtmlParser
 	 * Gets all the publications infos, given the publications home page
 	 * 
 	 * @param html	publications page
-	 * @return		A list of publications URLs
+	 * @return		A list of publications
 	 */
 	public static ArrayList<Pubblicazione> getPublications(String html)
 	{
@@ -120,7 +118,7 @@ public class HtmlParser
 	 * Parses the publication in order to extract all its Bans' available informations
 	 * 
 	 * @param pub	html of a publication page
-	 * @return		a list of Bans' URLs contained in pub
+	 * @return		a list of Bans contained in pub
 	 */
 	public static ArrayList<Bando> getPublicationBans(String pub)
 	{

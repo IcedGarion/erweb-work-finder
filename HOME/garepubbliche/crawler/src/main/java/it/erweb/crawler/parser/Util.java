@@ -90,6 +90,7 @@ public class Util
 		}
 		catch(Exception e)
 		{
+			System.err.println(optionalInfo + "index: " + index + ", offset: " + offset);
 			e.printStackTrace();
 			cod = "";
 		}
