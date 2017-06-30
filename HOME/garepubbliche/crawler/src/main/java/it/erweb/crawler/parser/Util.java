@@ -49,6 +49,7 @@ public class Util
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			cig = "";
 		}
 		
@@ -91,7 +92,6 @@ public class Util
 		}
 		catch(Exception e)
 		{
-			System.err.println(optionalInfo + "index: " + index + ", offset: " + offset);
 			e.printStackTrace();
 			cod = "";
 		}
@@ -111,6 +111,7 @@ public class Util
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			date = null;
 		}
 		

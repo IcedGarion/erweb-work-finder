@@ -52,8 +52,8 @@ public class Main
 			html = HttpGetter.get(pubURL);
 			logger.info("OK\n");
 			
-			//ricava gli url di tutte le pubblicazioni disponibili
-			logger.info("Searching for publications urls...");
+			//ricava le prime informazioni sulle pubblicazioni disponibili e le salva nel DB
+			logger.info("Searching for publications...");
 			publications = HtmlParser.getPublications(html);
 			logger.info("OK\n");
 			
@@ -66,21 +66,23 @@ public class Main
 			}
 			logger.info("OK\n");
 			
-			//ora inizia il vero parsing: si devono ricavare informazioni sul bando
+			//scorre le pubblicazionie ricava i bandi, e li inserisce nel DB
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
-				logger.info("Parsing publication n. " + (++i) + " ...");
-				//deve in qualche modo passre pub CD_PUBBLICAZIONE, per sapere di chi sono i bandi
-				Bans.addAll(HtmlParser.getPublicationBans(pub));				
+				logger.info("Parsing publication n. " + i + " ...");
+				//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
+				Bans.addAll(HtmlParser.getPublicationBans(pub, publications.get(i)));	
+				i++;
 			}
 			logger.info("OK\n");
 			
-			logger.info("Parsing all bans...\n");
+			
 			i = 0;
+			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
 			{
-				logger.info("Parsing ban n. " + (++i) + "...\n");
+				logger.info("Parsing ban n. " + (i++) + "...\n");
 				HtmlParser.parseBan(ban);
 			}
 			logger.info("OK\n");

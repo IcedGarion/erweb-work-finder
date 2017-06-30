@@ -8,6 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import it.erweb.crawler.configurations.PropertiesManager;
+import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
 
@@ -48,7 +50,8 @@ public class HtmlParser
 	 */
 	public static ArrayList<Pubblicazione> getPublications(String html)
 	{
-		ArrayList<Pubblicazione> ret = new ArrayList<Pubblicazione>();
+		PubblicazioneRepository repository = new PubblicazioneRepository();
+		ArrayList<Pubblicazione> pubblicazioni = new ArrayList<Pubblicazione>();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
 		String url = "", strNumPub;
@@ -96,14 +99,18 @@ public class HtmlParser
 			}
 				
 			
-			//INSERISCE NUOVA PUBBLICAZIONE NEL DB
+			//crea nuova pubblicazione con tutti i dati raccolti
 			pub = new Pubblicazione();
 			pub.setDtInserimento(new Date());
 			if(numPub != -1)
 				pub.setNmPubblicazione(numPub);
 			pub.setStato("DA_SCARICARE");
 			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);
-			ret.add(pub);
+			pubblicazioni.add(pub);
+			
+			//SALVA NEL DB
+			//repository.create(pub);
+			
 			
 			//ricomincia per trovare altre pubblicazioni
 			offset = startIndex;
@@ -111,17 +118,19 @@ public class HtmlParser
 			url = "";
 		}
 		
-		return ret;
+		return pubblicazioni;
 	}
 
 	/**
 	 * Parses the publication in order to extract all its Bans' available informations
 	 * 
-	 * @param pub	html of a publication page
-	 * @return		a list of Bans contained in pub
+	 * @param publicationHtml	html of a publication page
+	 * @param pubblicazione 	the referenced Pubblicazione containing the Bans
+	 * @return					a list of Bans contained in pub
 	 */
-	public static ArrayList<Bando> getPublicationBans(String pub)
+	public static ArrayList<Bando> getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
 	{
+		BandoRepository repository = new BandoRepository();
 		ArrayList<Bando> bandi = new ArrayList<Bando>();
 		Bando b;
 		int i = 4, dataLength;
@@ -129,7 +138,7 @@ public class HtmlParser
 		String codEsterno = "", cig = "", url, scadenza = "", tmp, spanType, optionalInfo, nmRichiedente;
 
 		//primo parsing per arrivare a elenco bandi
-		Document doc = Jsoup.parseBodyFragment(pub);		//tutto l'html
+		Document doc = Jsoup.parseBodyFragment(publicationHtml);		//tutto l'html
 		Element mainContent = doc.body().child(20);			//<div class="main_content">
 		Element container = mainContent.child(0);			//<div class="container_16"> 
 		Element elencoBandi = container.child(0);			//<div id="elenco_hp"> 
@@ -195,8 +204,7 @@ public class HtmlParser
 				scadenza = "";
 
 			
-			//a questo punto si conoscono: tipoRichedente (cambia più volte nel bando), tipoBando (cambia),
-			//nomeRichiedente, url, scadenza, STATO (, codEsterno e cig)
+			//crea un nuovo bando con tutte le info raccolte
 			b = new Bando();
 			b.setStato("DA_PARSIFICARE");
 			b.setTipo(tipoBando);
@@ -210,8 +218,12 @@ public class HtmlParser
 				b.setCig(cig);
 			if(scadenza != "")
 				b.setScadenza(Util.stringToDate(scadenza));
+			b.setPubblicazione(pubblicazione);
 			
 			bandi.add(b);
+			
+			//SALVA NEL DB
+			//repository.create(b);
 		}	
 		
 		return bandi;
