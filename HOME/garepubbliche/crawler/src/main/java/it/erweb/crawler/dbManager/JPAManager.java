@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import it.erweb.crawler.model.AbstractModel;
-import it.erweb.crawler.model.Utente;
 
 /**
  * Contains general CRUD methods for JPA and db intraction

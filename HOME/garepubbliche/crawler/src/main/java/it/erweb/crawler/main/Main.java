@@ -1,18 +1,10 @@
 package it.erweb.crawler.main;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 import java.util.logging.Logger;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.repository.ExpregRepository;
-import it.erweb.crawler.dbManager.repository.UtenteRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
@@ -70,19 +62,45 @@ public class Main
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
-				logger.info("Parsing publication n. " + i + " ...");
+				logger.info("Parsing publication n. " + (i + 1) + " ...");
 				//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
 				Bans.addAll(HtmlParser.getPublicationBans(pub, publications.get(i)));	
 				i++;
 			}
 			logger.info("OK\n");
 			
+			//scarica tutti i bandi salvati
+			logger.info("Downloading all bans...\n");
+			for(Bando ban : Bans)
+			{
+				logger.info("Connecting to: " + ban.getUrl() + " ...");
+				html = HttpGetter.get(ban.getUrl());
+
+				
+				
+				
+				
+				
+				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
+				//?? oppure come per le pubblicazioni, una lista di string html ??
+				ban.setTesto(html);
+				
+				
+				
+				
+				
+				
+				
+				//sono troppi, si ferma al primo per debug
+				break;
+			}
+			logger.info("OK\n");
 			
 			i = 0;
 			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
 			{
-				logger.info("Parsing ban n. " + (i++) + "...\n");
+				logger.info("Parsing ban n. " + (++i) + "...\n");
 				HtmlParser.parseBan(ban);
 			}
 			logger.info("OK\n");

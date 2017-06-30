@@ -1,11 +1,10 @@
 package it.erweb.crawler.parser;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
-
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.model.Bando;
 
 public class Util
 {

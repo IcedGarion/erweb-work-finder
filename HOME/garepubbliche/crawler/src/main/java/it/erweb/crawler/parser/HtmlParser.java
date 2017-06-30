@@ -14,13 +14,13 @@ import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
 
 /**
- * Searches html for URLs or specific info 
+ * Searches htmls for specific infos 
  */
 public class HtmlParser
 {
 	
 	/**
-	 * Gets the publications home page, given the gazzetta home page
+	 * Gets the publications home page, given the Gazzetta home page
 	 * 
 	 * @param html	gazzetta home page html
 	 * @return		a String representing the publications page URL
@@ -50,7 +50,7 @@ public class HtmlParser
 	 */
 	public static ArrayList<Pubblicazione> getPublications(String html)
 	{
-		PubblicazioneRepository repository = new PubblicazioneRepository();
+		//PubblicazioneRepository repository = new PubblicazioneRepository();
 		ArrayList<Pubblicazione> pubblicazioni = new ArrayList<Pubblicazione>();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
@@ -130,7 +130,7 @@ public class HtmlParser
 	 */
 	public static ArrayList<Bando> getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
 	{
-		BandoRepository repository = new BandoRepository();
+		//BandoRepository repository = new BandoRepository();
 		ArrayList<Bando> bandi = new ArrayList<Bando>();
 		Bando b;
 		int i = 4, dataLength;
@@ -177,6 +177,7 @@ public class HtmlParser
 			
 			//prende tutta la riga ancora sporca del bando e splitta dove trova '"': nella seconda cella c'e' l'URL
 			url = PropertiesManager.GAZZETTA_HOME_URL + bandoSenzaSpan.toString().split("\"")[1];
+			url = url.replace("&amp;", "&");	//rimuove caratteri che poi spariscono (?)
 			
 			//toglie anche <a href... e rimane il nome richiedente e scadenza
 			data = bandoSenzaSpan.child(0);	
@@ -231,7 +232,13 @@ public class HtmlParser
 
 	public static void parseBan(Bando ban)
 	{
-		
+		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
+		Element mainContent = doc.body();
+		Element divBando = mainContent.child(12);
+		String testoBando = divBando.text();
+
+		//aggiorna il testo del bando con quello vero
+		ban.setTesto(testoBando);
 		
 		return;
 	}
