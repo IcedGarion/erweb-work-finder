@@ -8,7 +8,7 @@ import it.erweb.crawler.configurations.PropertiesManager;
 
 public class Util
 {
-	public static String tryGetCig(String optionalInfo)
+	public static String tryGetCig(String strToSearch)
 	{
 		String cig = "", cigPattern = PropertiesManager.BAN_CIG_PATTERN;
 		int index = 0, offset = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i = 4;
@@ -16,31 +16,34 @@ public class Util
 		
 		try
 		{
-			if(optionalInfo.contains("CIG"))
+			if(strToSearch.contains("CIG"))
 			{
 				while(index != -1)
 				{
 					// si posiziona sulle occorrenze di "CIG"
-					index = optionalInfo.indexOf("CIG", offset);
+					index = strToSearch.indexOf("CIG", offset);
 					offset = index;
 
 					//parte dal carattere dopo "CIG " e salva il cig
-					ch = optionalInfo.charAt(index + i);
+					ch = strToSearch.charAt(index + i);
 					while(i < cigLength + 4)
 					{
 						cig += ch;
-						ch = optionalInfo.charAt(index + (++i));
+						ch = strToSearch.charAt(index + (++i));
 					}
 
 					// controlla se l'ipotetico CIG appena ottenuto rispetta
 					// il pattern
 					if(!cig.matches(cigPattern))
+					{
 						cig = "";
-
-					// prova con altre occorrenze di "CIG"
-					offset = index + i;
-					index = optionalInfo.indexOf("CIG", offset);
-					offset = index;
+						// prova con altre occorrenze di "CIG", se quello trovato non va bene
+						offset = index + i;
+						index = strToSearch.indexOf("CIG", offset);
+						offset = index;
+					}
+					else
+						break;
 				}
 			}
 			else

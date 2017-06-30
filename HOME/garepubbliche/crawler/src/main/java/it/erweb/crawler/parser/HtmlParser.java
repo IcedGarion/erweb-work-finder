@@ -106,6 +106,7 @@ public class HtmlParser
 				pub.setNmPubblicazione(numPub);
 			pub.setStato("DA_SCARICARE");
 			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);
+			
 			pubblicazioni.add(pub);
 			
 			//SALVA NEL DB
@@ -207,20 +208,20 @@ public class HtmlParser
 			
 			//crea un nuovo bando con tutte le info raccolte
 			b = new Bando();
-			b.setStato("DA_PARSIFICARE");
-			b.setTipo(tipoBando);
-			b.setTiporichiedente(tipoRichiedente);
-			b.setNmRichiedente(nmRichiedente);
-			b.setUrl(url);
-			b.setDtInserimento(new Date());
 			if(codEsterno != "")
-				b.setCdEsterno(codEsterno);
+				b.setCdEsterno(codEsterno);					//CD_ESTERNO
+			b.setPubblicazione(pubblicazione);				//CD_PUBBLICAZIONE
 			if(cig != "")
-				b.setCig(cig);
+				b.setCig(cig);								//CIG
+			b.setTipo(tipoBando);							//TIPO
+			b.setTiporichiedente(tipoRichiedente);			//TIPORICHIEDENTE
+			b.setNmRichiedente(nmRichiedente);				//NM_RICHIEDENTE
 			if(scadenza != "")
-				b.setScadenza(Util.stringToDate(scadenza));
-			b.setPubblicazione(pubblicazione);
-			
+				b.setScadenza(Util.stringToDate(scadenza));	//SCADENZA
+			b.setUrl(url);									//URL
+			b.setStato("DA_PARSIFICARE");					//STATO
+			b.setDtInserimento(new Date());					//DT_INSERIMENTO
+	
 			bandi.add(b);
 			
 			//SALVA NEL DB
@@ -232,13 +233,131 @@ public class HtmlParser
 
 	public static void parseBan(Bando ban)
 	{
+		String cig = "", oggetto = "", end = "";
+		int index = 0, offset = 0;
+		boolean strutturato = false;
+		char current;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
 		Element mainContent = doc.body();
 		Element divBando = mainContent.child(12);
-		String testoBando = divBando.text();
+		String testoBandoOriginale = divBando.text();
+		String testoBandoToLow = testoBandoOriginale.toLowerCase();
 
-		//aggiorna il testo del bando con quello vero
-		ban.setTesto(testoBando);
+		//aggiorna il testo del bando con quello vero (prima era tutto html)
+		ban.setTesto(testoBandoOriginale);
+		
+		//estrae CIG, se non e' gia' presente
+		if(ban.getCig() == null)
+		{
+			cig = Util.tryGetCig(testoBandoOriginale);
+			if(!cig.equals(""))
+				ban.setCig(cig);
+		}
+		
+		//estrae OGGETTO
+		try
+		{
+			//prova a cercare la sezione 2, con diverse formattazioni
+			index = testoBandoToLow.indexOf("sezione ii");
+			if(index == -1)
+			{
+				index = testoBandoToLow.indexOf("sezione 2");
+				if(index == -1)
+					strutturato = false;
+				else
+				{
+					strutturato = true;
+					offset = 9;
+				}
+			}
+			else
+			{
+				strutturato = true;
+				offset = 10;
+			}
+			
+			if(strutturato)
+			{
+				//cerca sezione II.1.2) Oggetto (partendo da sezione 2 precedentemente trovata)
+				index = testoBandoToLow.indexOf("ii.1.2)", index);
+				if(index == -1)
+				{
+					//se non trova la sotto-sezione, cerca "oggetto" in tutta la sezione 2, e si ferma a Sezione 3
+					index += offset;
+					current = testoBandoOriginale.charAt(index++);
+					end = oggetto.trim();
+					while((! end.contains("Sezione3")) && (! end.contains("SezioneIII:")))
+					{
+						oggetto += current;
+						current = testoBandoOriginale.charAt(index++);
+						end = oggetto.trim();
+					}
+					//poi analizza l'oggetto per togliere SEZIONE, DESCRIZIONE / OGGETTO...
+					oggetto.replace("Sezione III", "");
+					oggetto.replace("Sezione  III", "");
+					oggetto.replace("Sezione 3", "");
+					oggetto.replace("Sezione  3", "");
+	
+				}
+				else
+				{
+					//se la trova, salta "II.1.2)" e salva tutta la sotto-sezione
+					index += 7;
+					current = testoBandoOriginale.charAt(index++);
+					end = oggetto.trim();
+					//si ferma quando trova la prossima sotto-sezione
+					while((! end.contains("II.")) && (! end.contains("SezioneIII")) && (! end.contains("Sezione3")))
+					{
+						oggetto += current;
+						current = testoBandoOriginale.charAt(index++);
+						end = oggetto.trim();
+					}
+					//poi analizza l'oggetto per togliere SEZIONE, DESCRIZIONE / OGGETTO...
+					oggetto.replace("Sezione III", "");
+					oggetto.replace("II.", "");
+				}
+			}
+			else
+			{
+				//se non riesce a trovare la sezione allora il bando non e' strutturato:
+				//prova con indexOf oggetto: impreciso (oggetto ha piu' occorrenze; e poi quando si ferma??)
+				index = testoBandoToLow.indexOf("oggetto dell'appalto");
+				if(index == -1)
+				{
+					index = testoBandoToLow.indexOf("oggetto");
+					if(index != -1)
+						offset = 7;
+				}
+				else
+					offset = 20;
+				
+				//se ha trovato almeno una occorrenza di "oggetto", prova a leggere fino all'accapo
+				if(offset != 0)
+				{
+					index += offset;
+					current = testoBandoOriginale.charAt(index++);
+					while(current != '\n')
+					{
+						oggetto += current;
+						current = testoBandoOriginale.charAt(index++);
+					}
+				}
+				//se non ha trovato neanche una volta la parola "oggetto", non puo' fare niente
+				else
+					return;
+			}
+			
+			if(oggetto != "")
+				ban.setOggetto(oggetto);
+		}
+		catch(Exception e)
+		{
+			//lascia oggetto a null, ma ha comunque provato a parsificare il bando			
+		}
+		finally
+		{
+			ban.setStato("PARSIFICATO");
+		}
 		
 		return;
 	}

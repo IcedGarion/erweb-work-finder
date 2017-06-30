@@ -69,6 +69,7 @@ public class Main
 			}
 			logger.info("OK\n");
 			
+			i=0;
 			//scarica tutti i bandi salvati
 			logger.info("Downloading all bans...\n");
 			for(Bando ban : Bans)
@@ -90,9 +91,9 @@ public class Main
 				
 				
 				
-				
-				//sono troppi, si ferma al primo per debug
-				break;
+				if(i++ == 2)
+				//sono troppi, si ferma a un certo tot per debug
+					break;
 			}
 			logger.info("OK\n");
 			
