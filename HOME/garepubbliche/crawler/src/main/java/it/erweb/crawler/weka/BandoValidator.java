@@ -1,9 +1,10 @@
-package it.erweb.crawler.wekaPrediction;
+package it.erweb.crawler.weka;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import it.erweb.crawler.configurations.PropertiesManager;
 import weka.classifiers.bayes.NaiveBayesMultinomialText;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -11,7 +12,7 @@ import weka.core.Instances;
 import weka.core.Utils;
 import weka.core.converters.ConverterUtils;
 
-public class Test
+public class BandoValidator
 {
 	private static Instances train;
 	
@@ -19,18 +20,16 @@ public class Test
 	 * Agent Training: learns to classify based on a train.arff file
 	 */
 	public static void train()
-	{
+	{ 
 		try
 		{
 			// import file di training
-			ConverterUtils.DataSource source1 = new ConverterUtils.DataSource("src/main/java/resources/BandoTrain.arff");
+			ConverterUtils.DataSource source1 = new ConverterUtils.DataSource(PropertiesManager.VALIDATOR_TRAIN_PATH);
 			// converte in oggetto weka
 			train = source1.getDataSet();
 
-			// se non legge l'attributo su cui classificare (class:
-			// 'oggetto'/'nonOggetto'), allora
-			// lo imposta prendendo l'ultimo tra gli attributi dichiarati
-			// nell'arff (convention)
+			// se non legge l'attributo su cui classificare (class:'oggetto'/'nonOggetto'), allora
+			// lo imposta prendendo l'ultimo tra gli attributi dichiarati nell'arff (convention)
 			if(train.classIndex() == -1)
 				train.setClassIndex(train.numAttributes() - 1);
 		}
@@ -45,24 +44,24 @@ public class Test
 	 * 
 	 * @return	true if the test case is classified as valid; else otherwise
 	 */
-	public static boolean classify(String oggettoBando)
+	public static boolean validate(String oggettoBando)
 	{
 		boolean ret = false;
 		
 		try
 		{
 			//converte oggettoBando togliendo tutti i "'" e "\n"
-			
+			oggettoBando = removeIllegalChars(oggettoBando);
 			
 			
 			//scrive sul file di test l'oggettoBando (da testare)
-			PrintWriter writer = new PrintWriter(new File("src/main/java/resources/BandoTest.arff"));
+			PrintWriter writer = new PrintWriter(new File(PropertiesManager.VALIDATOR_TEST_PATH));
 			writer.write("@relation weka_mymodel_model\n@attribute text string\n@attribute class {t,f}\n@data\n"
 					+ "'" + oggettoBando + "',?\n");
 			writer.close();
 			
 			// import file di test appena scritto
-			ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("src/main/java/resources/BandoTest.arff");
+			ConverterUtils.DataSource source2 = new ConverterUtils.DataSource(PropertiesManager.VALIDATOR_TEST_PATH);
 			Instances test = source2.getDataSet();
 			if(test.classIndex() == -1)
 				test.setClassIndex(train.numAttributes() - 1);
@@ -128,4 +127,13 @@ public class Test
 		return ret;
 	}
 	*/
+	
+	public static String removeIllegalChars(String oggettoBando)
+	{
+		String ret = "";
+		
+		//rimpiazza "'" e "<new line>" con "<blank>"
+		ret = oggettoBando.replaceAll("'|\n\n\n", " ").replace("\n", " ");
+		return ret;
+	}
 }

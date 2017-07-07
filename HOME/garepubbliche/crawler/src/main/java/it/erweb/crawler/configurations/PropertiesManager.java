@@ -21,6 +21,8 @@ public class PropertiesManager
 	public static String BAN_CIG_PATTERN;
 	public static int BAN_CIG_LENGTH;
 	public static String BAN_DIVCLASS;
+	public static String VALIDATOR_TRAIN_PATH;
+	public static String VALIDATOR_TEST_PATH;
 
 	
 	/**
@@ -68,6 +70,8 @@ public class PropertiesManager
 		BAN_CIG_PATTERN = prop.getProperty("BAN_CIG_PATTERN");
 		BAN_CIG_LENGTH = Integer.parseInt(prop.getProperty("BAN_CIG_LENGTH"));
 		BAN_DIVCLASS = prop.getProperty("BAN_DIVCLASS");
+		VALIDATOR_TRAIN_PATH = prop.getProperty("VALIDATOR_TRAIN_PATH");
+		VALIDATOR_TEST_PATH = prop.getProperty("VALIDATOR_TEST_PATH");
 	}
 	
 	public static void setProperty(String name, String value)

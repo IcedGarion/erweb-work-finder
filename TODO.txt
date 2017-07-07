@@ -1,0 +1,12 @@
+INTEGRAZIONE WEKA IN JAVA
+Nuova funzione parseBan che non tiene conto delle sezioni (prova)
+continua a leggere le occorrenze di "oggetto"; finito con oggetto, se è andata male, riprova con "Breve Descrizione" (forse meglio il contrario)
+
+
+viene lasciato fare tutto a weka, in pratica... Cosi' eviti funzione assurda parseBan con sezioni
+
+Se non va, train piu' a fondo
+
+
+
+TRAIN WEKA ANCHE SENZA "OGGETTO" DAVANTI (perche' infatti nel programma viene saltato!)

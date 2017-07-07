@@ -125,4 +125,9 @@ public class Util
 		
 		return date;
 	}
+	
+	public static String removeUseless(String toProcess)
+	{
+		return toProcess.replaceAll("Sezione[III|3|II|2|I|1]|Sezione [III|3|II|2|I|1]|I[II|I|V].", "");
+	}
 }

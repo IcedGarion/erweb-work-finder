@@ -8,20 +8,14 @@ import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
-import it.erweb.crawler.wekaPrediction.Test;
+import it.erweb.crawler.parser.Util;
+import it.erweb.crawler.weka.BandoValidator;
 
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 	
-	public static void main(String[] arg) throws Exception
-	{
-		//weka test
-		Test.train();
-		System.out.println(Test.classify("Prova"));
-	}
-	
-	public static void ain(String[] args) throws JPAException
+	public static void main(String[] args) throws JPAException
 	{
 		String html = "", pubURL = "";
 		int i = 0;
@@ -86,14 +80,8 @@ public class Main
 			{
 				logger.info("Connecting to: " + ban.getUrl() + " ...");
 				html = HttpGetter.get(ban.getUrl());
-
-				
-				
-				
-				
-				
+	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
-				//?? oppure come per le pubblicazioni, una lista di string html ??
 				ban.setTesto(html);
 				
 				
@@ -104,13 +92,19 @@ public class Main
 				if(i++ == 2)
 				//sono troppi, si ferma a un certo tot per debug
 					break;
+				
+				
+				
+				
+				
+				
 			}
 			logger.info("OK\n");
 			
 			i = 0;
 			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
-			{
+			{				
 				logger.info("Parsing ban n. " + (++i) + "...\n");
 				HtmlParser.parseBan(ban);
 			}
@@ -131,6 +125,9 @@ public class Main
 		{
 			//legge il file di configurazione e salva le configs in PropertiesManager
 			PropertiesManager.loadProperties();
+			
+			//carica il file e fa il train del validatore oggetti
+			BandoValidator.train();
 		}
 		catch(Exception e)
 		{
