@@ -11,13 +11,16 @@ public class PropertiesManager
 {
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
 	public static String GAZZETTA_HOME_URL;
+	public static String PUBLICATIONS_HOME_URL;
 	public static String PUBLICATIONS_HOME_PATTERN;
-	public static String PUBLICATION_BAN_PATTERN;
+	public static String PUBLICATION_DETAIL_PATTERN;
+	public static String PUBLICATION_BAN_DIVID_PATTERN;
 	public static String PUBLICATION_NUMBER_PATTERN;
 	public static String BAN_CD_ESTERNO_PATTERN;
 	public static int BAN_CD_ESTERNO_LENGTH;
 	public static String BAN_CIG_PATTERN;
 	public static int BAN_CIG_LENGTH;
+	public static String BAN_DIVCLASS;
 
 	
 	/**
@@ -56,12 +59,15 @@ public class PropertiesManager
 		//salva le properties lette
 		GAZZETTA_HOME_URL = prop.getProperty("GAZZETTA_HOME_URL");
 		PUBLICATIONS_HOME_PATTERN = prop.getProperty("PUBLICATIONS_HOME_PATTERN");
-		PUBLICATION_BAN_PATTERN = prop.getProperty("PUBLICATION_BAN_PATTERN");
+		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
+		PUBLICATION_BAN_DIVID_PATTERN = prop.getProperty("PUBLICATION_BAN_DIVID_PATTERN");
+		PUBLICATION_DETAIL_PATTERN = prop.getProperty("PUBLICATION_DETAIL_PATTERN");
 		PUBLICATION_NUMBER_PATTERN = prop.getProperty("PUBLICATION_NUMBER_PATTERN");
 		BAN_CD_ESTERNO_PATTERN = prop.getProperty("BAN_CD_ESTERNO_PATTERN");
 		BAN_CD_ESTERNO_LENGTH = Integer.parseInt(prop.getProperty("BAN_CD_ESTERNO_LENGTH"));
 		BAN_CIG_PATTERN = prop.getProperty("BAN_CIG_PATTERN");
 		BAN_CIG_LENGTH = Integer.parseInt(prop.getProperty("BAN_CIG_LENGTH"));
+		BAN_DIVCLASS = prop.getProperty("BAN_DIVCLASS");
 	}
 	
 	public static void setProperty(String name, String value)

@@ -58,7 +58,7 @@ public class HtmlParser
 		Pubblicazione pub;
 		
 		//va alla prima occorrenza dell'url pattern
-		startIndex = html.indexOf(PropertiesManager.PUBLICATION_BAN_PATTERN);
+		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
 		while(startIndex != -1)
 		{
 			//aggiunge URL dall'inizio di "" fino alla fine di ""
@@ -103,7 +103,9 @@ public class HtmlParser
 			pub = new Pubblicazione();
 			pub.setDtInserimento(new Date());
 			if(numPub != -1)
+			{
 				pub.setNmPubblicazione(numPub);
+			}
 			pub.setStato("DA_SCARICARE");
 			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);
 			
@@ -115,7 +117,7 @@ public class HtmlParser
 			
 			//ricomincia per trovare altre pubblicazioni
 			offset = startIndex;
-			startIndex = html.indexOf(PropertiesManager.PUBLICATION_BAN_PATTERN, offset);
+			startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN, offset);
 			url = "";
 		}
 		
@@ -139,10 +141,8 @@ public class HtmlParser
 		String codEsterno = "", cig = "", url, scadenza = "", tmp, spanType, optionalInfo, nmRichiedente;
 
 		//primo parsing per arrivare a elenco bandi
-		Document doc = Jsoup.parseBodyFragment(publicationHtml);		//tutto l'html
-		Element mainContent = doc.body().child(20);			//<div class="main_content">
-		Element container = mainContent.child(0);			//<div class="container_16"> 
-		Element elencoBandi = container.child(0);			//<div id="elenco_hp"> 
+		Element doc = Jsoup.parseBodyFragment(publicationHtml).body();		//tutto l'html
+		Element elencoBandi = doc.getElementById(PropertiesManager.PUBLICATION_BAN_DIVID_PATTERN);			//<div id="elenco_hp"> 
 		String tipoBando = elencoBandi.child(2).ownText();				//avvisi e bandi di gara
 		Element emettitore = elencoBandi.child(3);			//<span class="emettitore"> MINISTERI..
 		String tipoRichiedente = emettitore.ownText();		//emettitore senza <span...
@@ -161,11 +161,10 @@ public class HtmlParser
 				tipoRichiedente = bando.ownText();
 				continue;
 			}
-			//se trova nuovo tipo di bando, aggiorna e salta la riga
+			//se trova nuovo tipo di bando (avvisi esiti, avvisi annullamenti..), si ferma
 			else if(spanType.contains("rubrica"))
 			{
-				tipoBando = bando.ownText();
-				continue;
+				break;
 			}
 			
 			bandoSenzaSpan = bando.child(0);
@@ -203,8 +202,10 @@ public class HtmlParser
 				}
 			}
 			else
+			{
 				scadenza = "";
-
+			}
+			
 			
 			//crea un nuovo bando con tutte le info raccolte
 			b = new Bando();
@@ -239,11 +240,11 @@ public class HtmlParser
 		char current;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
 		Element mainContent = doc.body();
-		Element divBando = mainContent.child(12);
+		Element divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
 		String testoBandoOriginale = divBando.text();
 		String testoBandoToLow = testoBandoOriginale.toLowerCase();
 
-		//aggiorna il testo del bando con quello vero (prima era tutto html)
+		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
 		ban.setTesto(testoBandoOriginale);
 		
 		//estrae CIG, se non e' gia' presente
@@ -251,7 +252,9 @@ public class HtmlParser
 		{
 			cig = Util.tryGetCig(testoBandoOriginale);
 			if(!cig.equals(""))
+			{
 				ban.setCig(cig);
+			}
 		}
 		
 		//estrae OGGETTO
@@ -263,7 +266,9 @@ public class HtmlParser
 			{
 				index = testoBandoToLow.indexOf("sezione 2");
 				if(index == -1)
+				{
 					strutturato = false;
+				}
 				else
 				{
 					strutturato = true;
@@ -327,9 +332,11 @@ public class HtmlParser
 					index = testoBandoToLow.indexOf("oggetto");
 					if(index != -1)
 						offset = 7;
-				}
-				else
+				} 
+				
+				else {
 					offset = 20;
+				}
 				
 				//se ha trovato almeno una occorrenza di "oggetto", prova a leggere fino all'accapo
 				if(offset != 0)
@@ -344,11 +351,15 @@ public class HtmlParser
 				}
 				//se non ha trovato neanche una volta la parola "oggetto", non puo' fare niente
 				else
+				{
 					return;
+				}
 			}
 			
 			if(oggetto != "")
+			{
 				ban.setOggetto(oggetto);
+			}
 		}
 		catch(Exception e)
 		{

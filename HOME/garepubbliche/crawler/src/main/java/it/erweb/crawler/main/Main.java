@@ -8,12 +8,20 @@ import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
+import it.erweb.crawler.wekaPrediction.Test;
 
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 	
-	public static void main(String[] args) throws JPAException
+	public static void main(String[] arg) throws Exception
+	{
+		//weka test
+		Test.train();
+		System.out.println(Test.classify("Prova"));
+	}
+	
+	public static void ain(String[] args) throws JPAException
 	{
 		String html = "", pubURL = "";
 		int i = 0;
@@ -29,6 +37,7 @@ public class Main
 		
 		try
 		{
+			/*
 			//prende homepage
 			logger.info("Connecting to " + PropertiesManager.GAZZETTA_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.GAZZETTA_HOME_URL);
@@ -38,10 +47,11 @@ public class Main
 			logger.info("Searching for publications page...");
 			pubURL += HtmlParser.getHomePublicationsURL(html);
 			logger.info("OK\n");
+			*/
 			
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + pubURL + " ...");
-			html = HttpGetter.get(pubURL);
+			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
 			logger.info("OK\n");
 			
 			//ricava le prime informazioni sulle pubblicazioni disponibili e le salva nel DB

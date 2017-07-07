@@ -43,11 +43,15 @@ public class Util
 						offset = index;
 					}
 					else
+					{
 						break;
+					}
 				}
 			}
 			else
+			{
 				cig = "";
+			}
 		}
 		catch(Exception e)
 		{
@@ -84,7 +88,9 @@ public class Util
 				
 				//controlla se l'ipotetico codice appena ottenuto rispetta il pattern
 				if(! cod.matches(codPattern))
+				{
 					cod = "";
+				}
 					
 				//prova con altre occorrenze di '('
 				offset = index + i;
