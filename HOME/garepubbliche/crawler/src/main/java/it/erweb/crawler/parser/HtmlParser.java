@@ -240,9 +240,23 @@ public class HtmlParser
 		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
 		Element mainContent = doc.body();
-		Element divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
+		Element divBando;
+		
+		//codice soggetto ad errori! basta riprovare
+		while(true)
+		{
+			try
+			{
+				divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
+				break;
+			}
+			catch(IndexOutOfBoundsException e)
+			{
+				continue;
+			}
+		}
+		
 		String testoBando = divBando.text();
-
 		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
 		ban.setTesto(testoBando);		
 		

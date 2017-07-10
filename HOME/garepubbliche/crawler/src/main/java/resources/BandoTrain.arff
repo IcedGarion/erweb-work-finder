@@ -6,7 +6,7 @@
 @data
 'affidamento del servizio di prelievo, trasporto e smaltimento del liquido melmoso disoleato',t
 'procedura aperta per affidamento dei lavori di costruzione della variante di sessa aurunca',t
-'affidamento del servizio di ristorazione scolastica',
+'affidamento del servizio di ristorazione scolastica',t
 'affidamento polizza assicurativa',t
 'lavori di messa in sicurezza, adeguamento alle norme antincendio e completamento dell auditorium comunale sito in via garibaldi',t
 'affidamento della gestione del servizio di parcheggio e delle aree a sosta a pagamento',t
@@ -50,7 +50,7 @@
 'fornitura',f
 'descrizione denominazione conferita all appalto dall amministrazione aggiudicatrice: gara d appalto a mezzo procedura aperta telematica',f
 'bando di gar. 1.c.u.c. per i comuni di castelfranco di sotto, montopoli in val',f
-'bando di gara a procedura aperta - cig ',f
+'bando di gara a procedura aperta - cig 710011504.',f
 'bando di gar. 1.c.u.c. per i comuni di castelfranco di sotto, montopoli in val',f
 'ore 10:00 del 20/07/17',f
 'ore del',f
@@ -60,5 +60,8 @@
 'entita dell appalto. denominazione.',f
 'come meglio dettagliato in',f
 'importo presunto complessivo',f
-'modalita' di apertura',f
+'modalita di apertura',f
 'affidamento dei servizi di',f
+'0.000,00, da versare',f
+'bando di gara - cig 7072482cc. il comune di troia indice gara procedura aperta affidamento in concessione del',f
+'ano meno di 15 dipendenti dovranno dichiarare tale situazione; dovra inoltre essere indicato l ufficio provinciale competente al rilascio della certificazione attestante la predetta dichiarazione (parte iii, sezione d del dgue); c) di essere i',f

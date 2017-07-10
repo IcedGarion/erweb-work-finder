@@ -128,67 +128,6 @@ public class Util
 		return cod;
 	}
 
-	public static Date stringToDate(String scadenza)
-	{
-		Date date;
-		SimpleDateFormat format;
-
-		try
-		{
-			format = new SimpleDateFormat("d MMMM yyyy", Locale.ITALIAN);
-			date = format.parse(scadenza);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			date = null;
-		}
-
-		return date;
-	}
-
-	/**
-	 * removes useless strings in an hypothetical ban object
-	 * 
-	 * @param banObj		the ban object to be filtered
-	 * @return	the ban object without useless words
-	 */
-	public static String removeUseless(String banObj)
-	{
-		int i = 0;
-		
-		//rimuove spazi fra i punto e accapo
-		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n"), truncated = "";
-		int secondToLastLineIndex = lastValid.lastIndexOf(".\n");
-
-		//rimuove . e : iniziali e spazi
-		if(lastValid.startsWith(":") || lastValid.startsWith("."))
-			lastValid = lastValid.substring(1, lastValid.length()).trim();
-		
-		try
-		{
-			truncated = lastValid.substring(0, secondToLastLineIndex);
-
-			//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
-			while(BandoValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
-			{
-				lastValid = truncated;
-				secondToLastLineIndex = lastValid.lastIndexOf('\n');
-				truncated = lastValid.substring(0, secondToLastLineIndex);
-				i++;
-			}
-		}
-		catch(Exception e)
-		{ }
-		//lastValid e' l'ultimo oggetto ancora valido (dopo ipotetici troncamenti):
-		//cancella ulteriori caratteri sporchi
-		return lastValid
-				.replaceAll("sezione+\\s+[iii|3|ii|2|1|i]+\\s"
-						+ "|(i[.])|(ii[.])|(iii[.])|(iv[.])|(v[.])|(vi[.])|(vii[.])|(viii[.])|(ix[.])|(x[.])"
-						+ "|[[.1]|[.2]|[.3]|[.4]|[.5]|[.6]|[.7]|[.8]|[.9]]+[)]", "")
-				.replace("\n", " ").trim();
-	}
-
 	/**
 	 * Tries to find a valid Ban Object (a brief description), given the ban
 	 * body for different patterns
@@ -242,6 +181,7 @@ public class Util
 			if(BandoValidator.validate(ret))
 			{
 				index = -1;
+				ret = tryDeleteLastLines(ret);
 			}
 			// altrimenti azzera e ricomincia con la prossima occorrenza
 			else
@@ -255,6 +195,12 @@ public class Util
 		return ret;
 	}
 	
+	/**
+	 * 	Searches the ban title to find a valid ban object
+	 * 
+	 * @param banBody	the whole ban
+	 * @return			a ban object if present, empty string otherwise
+	 */
 	public static String tryGetObjectTitle(String banBody)
 	{
 		//toglie maiuscole e spazi consecutivi
@@ -290,6 +236,78 @@ public class Util
 			ret = "";
 		}
 
-		return ret.replaceAll("[ ]+", " ");
+		return tryDeleteLastLines(ret.replaceAll("[ ]+", " "));
+	}
+	
+	/**
+	 * 	Continuously tries to delete the last line of th ban object, only if the remaining String is still a valid object
+	 * 
+	 * @param banObj	the ban description
+	 * @return			ban withouth useless lines
+	 */
+	private static String tryDeleteLastLines(String banObj)
+	{
+		String truncated = banObj;
+		int i = 0;
+		int secondToLastLineIndex = banObj.lastIndexOf(".\n");
+		
+		//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
+		try
+		{
+			truncated = banObj.substring(0, secondToLastLineIndex);
+
+			while(BandoValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
+			{
+				banObj = truncated;
+				secondToLastLineIndex = banObj.lastIndexOf('\n');
+				truncated = banObj.substring(0, secondToLastLineIndex);
+				i++;
+			}
+		}
+		catch(Exception e)
+		{ }
+		
+		return banObj.replace("\n", " ");
+	}
+
+	/**
+	 * removes useless strings in an hypothetical ban object
+	 * 
+	 * @param banObj		the ban object to be filtered
+	 * @return	the ban object without useless words
+	 */
+	private static String removeUseless(String banObj)
+	{	
+		//rimuove spazi fra i punto e accapo
+		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n");
+		
+		//rimuove . e : iniziali e spazi di troppo
+		if(lastValid.startsWith(":") || lastValid.startsWith("."))
+			lastValid = lastValid.substring(1, lastValid.length()).trim();
+		
+		//cancella ulteriori caratteri sporchi
+		return lastValid
+				.replaceAll("sezione+\\s+[iii|3|ii|2|1|i]+\\s"
+						+ "|(i[.])|(ii[.])|(iii[.])|(iv[.])|(v[.])|(vi[.])|(vii[.])|(viii[.])|(ix[.])|(x[.])"
+						+ "|[[.1]|[.2]|[.3]|[.4]|[.5]|[.6]|[.7]|[.8]|[.9]]+[)]", "").trim();
+	}
+
+	public static Date stringToDate(String scadenza)
+	{
+		Date date;
+		SimpleDateFormat format;
+
+		try
+		{
+			format = new SimpleDateFormat("d MMMM yyyy", Locale.ITALIAN);
+			date = format.parse(scadenza);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			date = null;
+		}
+
+		return date;
 	}
 }
