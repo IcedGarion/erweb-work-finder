@@ -6,13 +6,9 @@ import java.util.Date;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.dbManager.repository.BandoRepository;
-import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
-import it.erweb.crawler.weka.BandoValidator;
 
 /**
  * Searches htmls for specific infos 
@@ -241,82 +237,34 @@ public class HtmlParser
 	public static void parseBan(Bando ban)
 	{
 		String cig = "", oggetto = "";
-		int index = 0, offset = 0;
-		char current;
+		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
 		Element mainContent = doc.body();
 		Element divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
-		String testoBandoOriginale = divBando.text();
-		String testoBandoToLow = testoBandoOriginale.toLowerCase();
+		String testoBando = divBando.text();
 
 		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
-		ban.setTesto(testoBandoOriginale);		
+		ban.setTesto(testoBando);		
 		
 		//estrae CIG, se non e' gia' presente
 		if(ban.getCig() == null)
 		{
-			cig = Util.tryGetCig(testoBandoOriginale);
+			cig = Util.tryGetCig(testoBando);
 			if(!cig.equals(""))
 			{
 				ban.setCig(cig);
 			}
 		}
 
-		// estrae OGGETTO
+		//estrae OGGETTO
 		try
 		{
-			while(index != -1)
+			//prova diversi "pattern", finche' non trova un oggetto valido o finche' non li ha provati tutti
+			while((oggetto == "") && (i < patternLength))
 			{
-				index = testoBandoToLow.indexOf("oggetto dell'appalto", offset);
-				if(index == -1)
-				{
-					index = testoBandoToLow.indexOf("oggetto");
-					if(index != -1)
-						offset = 7;
-				}
-				else
-				{
-					offset = 20;
-				}
-
-				// se ha trovato almeno una occorrenza di "oggetto", prova a leggere fino a..... ".\n"
-				if(offset != 0)
-				{
-					boolean probablyEnd = false;
-					index += offset;
-					current = testoBandoOriginale.charAt(index++);
-					while(true)
-					{
-						oggetto += current;
-
-						if(current == '.')
-							probablyEnd = true;
-						else if(current == '\n' && probablyEnd)
-							break;
-
-						current = testoBandoOriginale.charAt(index++);
-					}
-
-					// se WEKA trova l'oggetto valido, finisce; altrimenti riprova con la prossima occorrenza di "oggetto"
-					if(BandoValidator.validate(oggetto))
-						break;
-				}
-				// se non ha trovato neanche una volta la parola "oggetto", non puo' fare niente
-				else
-				{
-					return;
-				}
-
-				offset += index;
+				oggetto = Util.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
+				i++;
 			}
-
-			if(oggetto != "")
-			{
-				ban.setOggetto(oggetto);
-			}
-			
-			
-			//PROVA ANCHE A CERCARE "BREVE DESCRIZIONE", se oggetto non ha dato buon esito
 		}
 		catch(Exception e)
 		{
@@ -324,11 +272,15 @@ public class HtmlParser
 		}
 		finally
 		{
+			if(oggetto != "")
+			{
+				ban.setOggetto(oggetto);
+			}
+			
 			ban.setStato("PARSIFICATO");
 		}
 
 		return;
-
 	}
 	
 

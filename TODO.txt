@@ -1,12 +1,7 @@
-INTEGRAZIONE WEKA IN JAVA
-Nuova funzione parseBan che non tiene conto delle sezioni (prova)
-continua a leggere le occorrenze di "oggetto"; finito con oggetto, se è andata male, riprova con "Breve Descrizione" (forse meglio il contrario)
+una volta ottenuto il bando, pulisci l'ultimo accapo: magari sempre con removeUseless (Util)
 
-
-viene lasciato fare tutto a weka, in pratica... Cosi' eviti funzione assurda parseBan con sezioni
-
-Se non va, train piu' a fondo
-
-
-
-TRAIN WEKA ANCHE SENZA "OGGETTO" DAVANTI (perche' infatti nel programma viene saltato!)
+denominazione  conferita  all'appalto  dall'amministrazione
+aggiudicatrice: procedura «aperta»  per  la  fornitura  di  materiale
+vario di vestiario ed equipaggiamento. 
+  [[[ii.1.2) tipo di appalto  e  luogo  di  consegna  o  di  esecuzione:
+appalto di forniture (acquisto). ]]]

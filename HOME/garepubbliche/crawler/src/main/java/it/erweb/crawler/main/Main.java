@@ -1,14 +1,13 @@
 package it.erweb.crawler.main;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
+import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
-import it.erweb.crawler.parser.Util;
 import it.erweb.crawler.weka.BandoValidator;
 
 public class Main

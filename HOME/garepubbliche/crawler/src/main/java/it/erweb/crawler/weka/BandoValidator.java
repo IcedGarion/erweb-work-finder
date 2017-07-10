@@ -1,17 +1,16 @@
 package it.erweb.crawler.weka;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
+import java.io.PrintWriter;
 import it.erweb.crawler.configurations.PropertiesManager;
 import weka.classifiers.bayes.NaiveBayesMultinomialText;
-import weka.core.Attribute;
-import weka.core.DenseInstance;
 import weka.core.Instances;
-import weka.core.Utils;
 import weka.core.converters.ConverterUtils;
 
+/**
+ * 	Data mining methods: train the agent and use it for classify the ban object 
+ */
 public class BandoValidator
 {
 	private static Instances train;
@@ -40,7 +39,7 @@ public class BandoValidator
 	}
 	
 	/**
-	 * Classifies the input test case in "Valid / Not Valid"
+	 * Classifies the input test case in "Valid / Not Valid", based on what the agent has learned
 	 * 
 	 * @return	true if the test case is classified as valid; else otherwise
 	 */

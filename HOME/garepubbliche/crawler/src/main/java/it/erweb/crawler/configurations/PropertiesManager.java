@@ -23,6 +23,9 @@ public class PropertiesManager
 	public static String BAN_DIVCLASS;
 	public static String VALIDATOR_TRAIN_PATH;
 	public static String VALIDATOR_TEST_PATH;
+	public static String[] BAN_OBJ_PATTERNS;
+	public static int BAN_OBJ_MAX_CHARS;
+	public static int BAN_OBJ_MIN_CHARS;
 
 	
 	/**
@@ -72,6 +75,9 @@ public class PropertiesManager
 		BAN_DIVCLASS = prop.getProperty("BAN_DIVCLASS");
 		VALIDATOR_TRAIN_PATH = prop.getProperty("VALIDATOR_TRAIN_PATH");
 		VALIDATOR_TEST_PATH = prop.getProperty("VALIDATOR_TEST_PATH");
+		BAN_OBJ_PATTERNS = prop.getProperty("BAN_OBJ_PATTERN").split(",");
+		BAN_OBJ_MAX_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MAX_CHARS"));
+		BAN_OBJ_MIN_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MIN_CHARS"));
 	}
 	
 	public static void setProperty(String name, String value)

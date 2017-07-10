@@ -5,9 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import it.erweb.crawler.configurations.PropertiesManager;
+import it.erweb.crawler.weka.BandoValidator;
 
+/**
+ *	A set of parsing utility functions
+ */
 public class Util
 {
+	/**
+	 * Searches the input string, trying to find the CIG
+	 * 
+	 * @param strToSearch	the ban body or publication html 
+	 * @return	the effective CIG (like 7087137A75), or empty string if not found
+	 */
 	public static String tryGetCig(String strToSearch)
 	{
 		String cig = "", cigPattern = PropertiesManager.BAN_CIG_PATTERN;
@@ -62,6 +72,12 @@ public class Util
 		return cig;
 	}
 
+	/**
+	 * Searches the input to find the ban code
+	 * 
+	 * @param optionalInfo	the input string representing a fragment of publication html
+	 * @return	the actual code (like TX17BFC10379), or empty string if not found
+	 */
 	public static String tryGetCode(String optionalInfo)
 	{
 		String cod = "";
@@ -126,8 +142,87 @@ public class Util
 		return date;
 	}
 	
-	public static String removeUseless(String toProcess)
+	/**
+	 * removes useless strings in an hypothetical ban object
+	 * 
+	 * @param banObj		the ban object to be filtered
+	 * @return	the ban object without useless words
+	 */
+	public static String removeUseless(String banObj)
 	{
-		return toProcess.replaceAll("Sezione[III|3|II|2|I|1]|Sezione [III|3|II|2|I|1]|I[II|I|V].", "");
+		//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
+		String lastValid = banObj, truncated = "";
+		int secondToLastLineIndex = lastValid.lastIndexOf(".\n");
+		truncated = lastValid.substring(0, secondToLastLineIndex);
+		
+		while(BandoValidator.validate(truncated))
+		{
+			lastValid = truncated;
+			secondToLastLineIndex = lastValid.lastIndexOf('\n');
+			truncated = lastValid.substring(0, secondToLastLineIndex);
+		}
+		
+		//lastValid e' l'ultimo oggetto ancora valido (dopo ipotetici troncamenti):
+		//cancella ulteriori caratteri sporchi
+		return lastValid.replaceAll("Sezione[III|3|II|2|I|1]|Sezione [III|3|II|2|I|1]|I[II|I|V].", "");
+	}
+	
+	/**
+	 * Tries to find a valid Ban Object (a brief description), searching the ban body for different patterns
+	 * 
+	 * @param banBody	the whole ban
+	 * @param pattern	different possible strings anticipating a ban description
+	 * @return
+	 */
+	public static String tryGetObject(String banBody, String pattern)
+	{
+		int index = 0, offset = 0, i = 0;
+		int maxChars = PropertiesManager.BAN_OBJ_MAX_CHARS, minChars = PropertiesManager.BAN_OBJ_MIN_CHARS;
+		boolean probablyEnd;
+		char current;
+		//toglie maiuscole e spazi consecutivi
+		String validBanBody = banBody.toLowerCase().replaceAll("[ ]+", " ");
+		String ret = "";
+		
+		//cerca nel testo il pattern
+		index = validBanBody.indexOf(pattern, offset);
+		offset = pattern.length();
+		while(index != -1)
+		{
+			//se ha trovato almeno una occorrenza:
+			//prova a leggere fino a ".\n", ma solo se h letto almeno minChars caratteri
+			probablyEnd = false;
+			index += offset;
+			current = validBanBody.charAt(index++);
+			//per sicurezza ci si ferma a maxChars
+			while(i < maxChars)
+			{
+				ret += current;
+
+				if(current == '.')
+					probablyEnd = true;
+				else if(current == '\n' && probablyEnd && i >= minChars)
+					break;
+
+				current = validBanBody.charAt(index++);
+				i++;
+			}
+
+			// se WEKA trova l'oggetto valido, finisce;
+			if(BandoValidator.validate(ret))
+			{
+				index = -1;
+				ret = Util.removeUseless(ret);
+			}
+			// altrimenti azzera e ricomincia con la prossima occorrenza
+			else
+			{
+				ret = "";
+				offset += index;
+				index = validBanBody.indexOf(pattern, offset);
+			}
+		}
+		
+		return ret;
 	}
 }
