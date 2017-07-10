@@ -16,7 +16,7 @@ import it.erweb.crawler.weka.BandoValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-	
+
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "", pubURL = "";
@@ -100,7 +100,7 @@ public class Main
 				
 				
 				
-				if((i++) >= 29)
+				if((i++) >= 50)
 					break;
 				
 				
@@ -127,18 +127,15 @@ public class Main
 				
 				
 				
-				if((i++) >= 29)
+				if(i >= 50)
 					break;
 		
 				
 				
 				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
 				
-					
-					if(ban.getOggetto() == null)
-						r.write("VUOTO\n");
-					else
-						r.write(ban.getOggetto() + "\n");
+
+					r.write(i + ": " + ban.getOggetto() + "\n");
 					r.flush();
 				
 			

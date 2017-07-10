@@ -179,12 +179,15 @@ public class Util
 		{ }
 		//lastValid e' l'ultimo oggetto ancora valido (dopo ipotetici troncamenti):
 		//cancella ulteriori caratteri sporchi
-		return lastValid.replaceAll("sezione[iii|3|ii|2|i|1]|sezione [iii|3|ii|2|i|1]|i[ii|i|v].", "")
-				.replace("\n", " ");
+		return lastValid
+				.replaceAll("sezione+\\s+[iii|3|ii|2|1|i]+\\s"
+						+ "|(i[.])|(ii[.])|(iii[.])|(iv[.])|(v[.])|(vi[.])|(vii[.])|(viii[.])|(ix[.])|(x[.])"
+						+ "|[[.1]|[.2]|[.3]|[.4]|[.5]|[.6]|[.7]|[.8]|[.9]]+[)]", "")
+				.replace("\n", " ").trim();
 	}
 
 	/**
-	 * Tries to find a valid Ban Object (a brief description), searching the ban
+	 * Tries to find a valid Ban Object (a brief description), given the ban
 	 * body for different patterns
 	 * 
 	 * @param banBody
@@ -228,12 +231,14 @@ public class Util
 				current = validBanBody.charAt(index++);
 				i++;
 			}
-
+			
+			//rimuove caratteri che non c'entrano
+			ret = Util.removeUseless(ret);
+			
 			// se WEKA trova l'oggetto valido, finisce;
 			if(BandoValidator.validate(ret))
 			{
 				index = -1;
-				ret = Util.removeUseless(ret);
 			}
 			// altrimenti azzera e ricomincia con la prossima occorrenza
 			else

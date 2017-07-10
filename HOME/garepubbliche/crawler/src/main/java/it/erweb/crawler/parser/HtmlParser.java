@@ -268,6 +268,7 @@ public class HtmlParser
 				oggetto = Util.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
 				i++;
 			}
+			
 		}
 		catch(Exception e)
 		{
