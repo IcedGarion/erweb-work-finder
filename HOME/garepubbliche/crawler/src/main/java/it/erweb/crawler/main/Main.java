@@ -1,5 +1,8 @@
 package it.erweb.crawler.main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import java.util.logging.Logger;
@@ -14,14 +17,14 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 	
-	public static void main(String[] args) throws JPAException
+	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "", pubURL = "";
 		int i = 0;
 		ArrayList<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		ArrayList<String> publicationsHtml = new ArrayList<String>();
 		ArrayList<Bando> Bans = new ArrayList<Bando>();
-
+		PrintWriter r = new PrintWriter(new File("testoBandi"));
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -61,7 +64,7 @@ public class Main
 			}
 			logger.info("OK\n");
 			
-			//scorre le pubblicazionie ricava i bandi, e li inserisce nel DB
+			//scorre le pubblicazioni e ricava i bandi, e li inserisce nel DB
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
@@ -81,15 +84,23 @@ public class Main
 				html = HttpGetter.get(ban.getUrl());
 	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
-				ban.setTesto(html);
+				ban.setTesto(html);	
 				
 				
 				
 				
 				
 				
-				if(i++ == 2)
-				//sono troppi, si ferma a un certo tot per debug
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				if((i++) >= 29)
 					break;
 				
 				
@@ -97,15 +108,42 @@ public class Main
 				
 				
 				
+				
+				
+				
+				
 			}
 			logger.info("OK\n");
 			
+	
 			i = 0;
 			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
 			{				
 				logger.info("Parsing ban n. " + (++i) + "...\n");
 				HtmlParser.parseBan(ban);
+				
+				
+				
+				
+				
+				if((i++) >= 29)
+					break;
+		
+				
+				
+				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
+				
+					
+					if(ban.getOggetto() == null)
+						r.write("VUOTO\n");
+					else
+						r.write(ban.getOggetto() + "\n");
+					r.flush();
+				
+			
+				
+				
 			}
 			logger.info("OK\n");
 			
@@ -113,6 +151,10 @@ public class Main
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			r.close();
 		}
 		
 		return;

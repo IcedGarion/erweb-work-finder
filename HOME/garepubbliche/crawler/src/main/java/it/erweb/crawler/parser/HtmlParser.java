@@ -1,5 +1,8 @@
 package it.erweb.crawler.parser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -58,7 +61,7 @@ public class HtmlParser
 		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
 		while(startIndex != -1)
 		{
-			//aggiunge URL dall'inizio di "" fino alla fine di ""
+			//salva URL dall'inizio di "" fino alla fine di ""
 			current = html.charAt(startIndex);
 			while(current != '\"')
 			{
@@ -224,7 +227,7 @@ public class HtmlParser
 			
 			//SALVA NEL DB
 			//repository.create(b);
-		}	
+			}	
 		
 		return bandi;
 	}
@@ -279,7 +282,7 @@ public class HtmlParser
 			
 			ban.setStato("PARSIFICATO");
 		}
-
+		
 		return;
 	}
 	

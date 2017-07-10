@@ -8,22 +8,23 @@ import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.weka.BandoValidator;
 
 /**
- *	A set of parsing utility functions
+ * A set of parsing utility functions
  */
 public class Util
 {
 	/**
 	 * Searches the input string, trying to find the CIG
 	 * 
-	 * @param strToSearch	the ban body or publication html 
-	 * @return	the effective CIG (like 7087137A75), or empty string if not found
+	 * @param strToSearch
+	 *            the ban body or publication html
+	 * @return the effective CIG (like 7087137A75), or empty string if not found
 	 */
 	public static String tryGetCig(String strToSearch)
 	{
 		String cig = "", cigPattern = PropertiesManager.BAN_CIG_PATTERN;
 		int index = 0, offset = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i = 4;
 		char ch;
-		
+
 		try
 		{
 			if(strToSearch.contains("CIG"))
@@ -34,7 +35,7 @@ public class Util
 					index = strToSearch.indexOf("CIG", offset);
 					offset = index;
 
-					//parte dal carattere dopo "CIG " e salva il cig
+					// parte dal carattere dopo "CIG " e salva il cig
 					ch = strToSearch.charAt(index + i);
 					while(i < cigLength + 4)
 					{
@@ -47,7 +48,8 @@ public class Util
 					if(!cig.matches(cigPattern))
 					{
 						cig = "";
-						// prova con altre occorrenze di "CIG", se quello trovato non va bene
+						// prova con altre occorrenze di "CIG", se quello
+						// trovato non va bene
 						offset = index + i;
 						index = strToSearch.indexOf("CIG", offset);
 						offset = index;
@@ -68,15 +70,16 @@ public class Util
 			e.printStackTrace();
 			cig = "";
 		}
-		
+
 		return cig;
 	}
 
 	/**
 	 * Searches the input to find the ban code
 	 * 
-	 * @param optionalInfo	the input string representing a fragment of publication html
-	 * @return	the actual code (like TX17BFC10379), or empty string if not found
+	 * @param optionalInfo
+	 *            the input string representing a fragment of publication html
+	 * @return the actual code (like TX17BFC10379), or empty string if not found
 	 */
 	public static String tryGetCode(String optionalInfo)
 	{
@@ -84,31 +87,33 @@ public class Util
 		int index = 0, offset = 0, i;
 		char ch;
 		String codPattern = PropertiesManager.BAN_CD_ESTERNO_PATTERN;
-		
+
 		try
 		{
 			while(index != -1)
 			{
 				i = 1;
-				//si posiziona sulle occorrenze di '('
+				// si posiziona sulle occorrenze di '('
 				index = optionalInfo.indexOf('(', offset);
 				offset = index;
-				
-				//scorre tutta la stringa fino a ')' o fino a sforare la lunghezza del codice
+
+				// scorre tutta la stringa fino a ')' o fino a sforare la
+				// lunghezza del codice
 				ch = optionalInfo.charAt(index + i);
 				while((ch != ')') && (i < codPattern.length()))
 				{
 					cod += ch;
 					ch = optionalInfo.charAt(index + (++i));
 				}
-				
-				//controlla se l'ipotetico codice appena ottenuto rispetta il pattern
-				if(! cod.matches(codPattern))
+
+				// controlla se l'ipotetico codice appena ottenuto rispetta il
+				// pattern
+				if(!cod.matches(codPattern))
 				{
 					cod = "";
 				}
-					
-				//prova con altre occorrenze di '('
+
+				// prova con altre occorrenze di '('
 				offset = index + i;
 				index = optionalInfo.indexOf('(', offset);
 				offset = index;
@@ -119,7 +124,7 @@ public class Util
 			e.printStackTrace();
 			cod = "";
 		}
-		
+
 		return cod;
 	}
 
@@ -127,7 +132,7 @@ public class Util
 	{
 		Date date;
 		SimpleDateFormat format;
-		
+
 		try
 		{
 			format = new SimpleDateFormat("d MMMM yyyy", Locale.ITALIAN);
@@ -138,10 +143,10 @@ public class Util
 			e.printStackTrace();
 			date = null;
 		}
-		
+
 		return date;
 	}
-	
+
 	/**
 	 * removes useless strings in an hypothetical ban object
 	 * 
@@ -150,28 +155,42 @@ public class Util
 	 */
 	public static String removeUseless(String banObj)
 	{
-		//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
-		String lastValid = banObj, truncated = "";
+		//rimuove spazi fra i punto e accapo
+		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n"), truncated = "";
 		int secondToLastLineIndex = lastValid.lastIndexOf(".\n");
-		truncated = lastValid.substring(0, secondToLastLineIndex);
+
+		//rimuove . e : iniziali e spazi
+		if(lastValid.startsWith(":") || lastValid.startsWith("."))
+			lastValid = lastValid.substring(1, lastValid.length()).trim();
 		
-		while(BandoValidator.validate(truncated))
+		try
 		{
-			lastValid = truncated;
-			secondToLastLineIndex = lastValid.lastIndexOf('\n');
 			truncated = lastValid.substring(0, secondToLastLineIndex);
+
+			//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
+			while(BandoValidator.validate(truncated))
+			{
+				lastValid = truncated;
+				secondToLastLineIndex = lastValid.lastIndexOf('\n');
+				truncated = lastValid.substring(0, secondToLastLineIndex);
+			}
 		}
-		
+		catch(Exception e)
+		{ }
 		//lastValid e' l'ultimo oggetto ancora valido (dopo ipotetici troncamenti):
 		//cancella ulteriori caratteri sporchi
-		return lastValid.replaceAll("Sezione[III|3|II|2|I|1]|Sezione [III|3|II|2|I|1]|I[II|I|V].", "");
+		return lastValid.replaceAll("sezione[iii|3|ii|2|i|1]|sezione [iii|3|ii|2|i|1]|i[ii|i|v].", "")
+				.replace("\n", " ");
 	}
-	
+
 	/**
-	 * Tries to find a valid Ban Object (a brief description), searching the ban body for different patterns
+	 * Tries to find a valid Ban Object (a brief description), searching the ban
+	 * body for different patterns
 	 * 
-	 * @param banBody	the whole ban
-	 * @param pattern	different possible strings anticipating a ban description
+	 * @param banBody
+	 *            the whole ban
+	 * @param pattern
+	 *            different possible strings anticipating a ban description
 	 * @return
 	 */
 	public static String tryGetObject(String banBody, String pattern)
@@ -180,21 +199,23 @@ public class Util
 		int maxChars = PropertiesManager.BAN_OBJ_MAX_CHARS, minChars = PropertiesManager.BAN_OBJ_MIN_CHARS;
 		boolean probablyEnd;
 		char current;
+		
 		//toglie maiuscole e spazi consecutivi
 		String validBanBody = banBody.toLowerCase().replaceAll("[ ]+", " ");
 		String ret = "";
-		
+
 		//cerca nel testo il pattern
 		index = validBanBody.indexOf(pattern, offset);
 		offset = pattern.length();
 		while(index != -1)
 		{
-			//se ha trovato almeno una occorrenza:
-			//prova a leggere fino a ".\n", ma solo se h letto almeno minChars caratteri
+			// se ha trovato almeno una occorrenza:
+			// prova a leggere fino a ".\n", ma solo se h letto almeno minChars
+			// caratteri
 			probablyEnd = false;
 			index += offset;
 			current = validBanBody.charAt(index++);
-			//per sicurezza ci si ferma a maxChars
+			// per sicurezza ci si ferma a maxChars
 			while(i < maxChars)
 			{
 				ret += current;
@@ -222,7 +243,7 @@ public class Util
 				index = validBanBody.indexOf(pattern, offset);
 			}
 		}
-		
+
 		return ret;
 	}
 }
