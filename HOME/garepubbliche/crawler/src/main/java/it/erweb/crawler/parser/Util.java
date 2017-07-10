@@ -155,6 +155,8 @@ public class Util
 	 */
 	public static String removeUseless(String banObj)
 	{
+		int i = 0;
+		
 		//rimuove spazi fra i punto e accapo
 		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n"), truncated = "";
 		int secondToLastLineIndex = lastValid.lastIndexOf(".\n");
@@ -168,11 +170,12 @@ public class Util
 			truncated = lastValid.substring(0, secondToLastLineIndex);
 
 			//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
-			while(BandoValidator.validate(truncated))
+			while(BandoValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
 			{
 				lastValid = truncated;
 				secondToLastLineIndex = lastValid.lastIndexOf('\n');
 				truncated = lastValid.substring(0, secondToLastLineIndex);
+				i++;
 			}
 		}
 		catch(Exception e)
@@ -250,5 +253,43 @@ public class Util
 		}
 
 		return ret;
+	}
+	
+	public static String tryGetObjectTitle(String banBody)
+	{
+		//toglie maiuscole e spazi consecutivi
+		String validBanBody = banBody.toLowerCase().replaceAll("[ ]+", " ");
+		String ret = "";
+		char current;
+		int index = 0, i = 0;
+		int maxChars = PropertiesManager.BAN_OBJ_MAX_TITLE_CHARS, minChars = PropertiesManager.BAN_OBJ_MIN_TITLE_CHARS;
+		boolean probablyEnd = false;
+		
+		//legge i primi maxChars caratteri (o fino a .\n) (cioe' il titolo)
+		current = validBanBody.charAt(index++);
+		// per sicurezza ci si ferma a maxChars
+		while(i < maxChars)
+		{
+			ret += current;
+
+			if(current == '.')
+				probablyEnd = true;
+			else if(current == '\n' && probablyEnd && i >= minChars)
+				break;
+
+			current = validBanBody.charAt(index++);
+			i++;
+		}
+		
+		//rimuove caratteri che non c'entrano
+		ret = Util.removeUseless(ret);
+		
+		//se trova un oggetto valido lo ritorna, altrimenti vuoto
+		if(! BandoValidator.validate(ret))
+		{
+			ret = "";
+		}
+
+		return ret.replaceAll("[ ]+", " ");
 	}
 }

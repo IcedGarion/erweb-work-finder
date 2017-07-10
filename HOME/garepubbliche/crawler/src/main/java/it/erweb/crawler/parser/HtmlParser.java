@@ -1,8 +1,5 @@
 package it.erweb.crawler.parser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -268,7 +265,11 @@ public class HtmlParser
 				oggetto = Util.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
 				i++;
 			}
-			
+			//se ha finito tutti i pattern ma ancora non ha trovato niente, prova a cercare ne titolo
+			if(oggetto == "")
+			{
+				oggetto = Util.tryGetObjectTitle(testoBando);
+			}
 		}
 		catch(Exception e)
 		{

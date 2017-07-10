@@ -10,22 +10,25 @@ import java.util.Properties;
 public class PropertiesManager
 {
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
-	public static String GAZZETTA_HOME_URL;
-	public static String PUBLICATIONS_HOME_URL;
-	public static String PUBLICATIONS_HOME_PATTERN;
-	public static String PUBLICATION_DETAIL_PATTERN;
-	public static String PUBLICATION_BAN_DIVID_PATTERN;
-	public static String PUBLICATION_NUMBER_PATTERN;
-	public static String BAN_CD_ESTERNO_PATTERN;
-	public static int BAN_CD_ESTERNO_LENGTH;
-	public static String BAN_CIG_PATTERN;
-	public static int BAN_CIG_LENGTH;
-	public static String BAN_DIVCLASS;
-	public static String VALIDATOR_TRAIN_PATH;
-	public static String VALIDATOR_TEST_PATH;
-	public static String[] BAN_OBJ_PATTERNS;
-	public static int BAN_OBJ_MAX_CHARS;
-	public static int BAN_OBJ_MIN_CHARS;
+	public static String GAZZETTA_HOME_URL;					//home page gazzetta	(dismesso)
+	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
+	public static String PUBLICATIONS_HOME_PATTERN;			//pattern per trovare home page pubblicazioni (dismesso)
+	public static String PUBLICATION_NUMBER_PATTERN;		//pattern per trovare numero pubblicazione (in home page pub)
+	public static String PUBLICATION_DETAIL_PATTERN;		//pattern per trovare url singole pubblicazioni
+	public static String PUBLICATION_BAN_DIVID_PATTERN;		//div id del bando all'interno di una pubblicazione
+	public static String BAN_CD_ESTERNO_PATTERN;			//pattern per trovare codice esterno bando, all'interno di pubblicazi
+	public static int BAN_CD_ESTERNO_LENGTH;				//lunghezza pattern
+	public static String BAN_CIG_PATTERN;					//pattern per trovare cig all'interno di pubblicazione
+	public static int BAN_CIG_LENGTH;						//lunghezza pattern
+	public static String BAN_DIVCLASS;						//div class del testo del bando, all'interno di bando
+	public static String VALIDATOR_TRAIN_PATH;				//path del file di training del validator weka
+	public static String VALIDATOR_TEST_PATH;				//path del file di test del validator weka
+	public static String[] BAN_OBJ_PATTERNS;				//patterns per trovare oggetto bando, all'interno di bando
+	public static int BAN_OBJ_MAX_CHARS;					//stima massima totale caratteri di un oggetto di un bando
+	public static int BAN_OBJ_MIN_CHARS;					//stima minima totale caratteri di un oggetto di un bando
+	public static int BAN_OBJ_MAX_TITLE_CHARS;				//stima massima del totale caratteri del titolo di un bando
+	public static int BAN_OBJ_MIN_TITLE_CHARS;				//stima minima del totale caratteri del titolo di un bando
+	public static int BAN_OBJ_PADDING_LINES;				//stima linee lette in eccesso per trovare ogg, che si possono elimin
 
 	
 	/**
@@ -78,6 +81,9 @@ public class PropertiesManager
 		BAN_OBJ_PATTERNS = prop.getProperty("BAN_OBJ_PATTERN").split(",");
 		BAN_OBJ_MAX_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MAX_CHARS"));
 		BAN_OBJ_MIN_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MIN_CHARS"));
+		BAN_OBJ_MAX_TITLE_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MAX_TITLE_CHARS"));
+		BAN_OBJ_MIN_TITLE_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MIN_TITLE_CHARS"));
+		BAN_OBJ_PADDING_LINES = Integer.parseInt(prop.getProperty("BAN_OBJ_PADDING_LINES"));
 	}
 	
 	public static void setProperty(String name, String value)

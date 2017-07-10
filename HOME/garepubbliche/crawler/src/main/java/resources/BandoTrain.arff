@@ -4,16 +4,26 @@
 @attribute class {t,f}
 
 @data
+'affidamento del servizio di prelievo, trasporto e smaltimento del liquido melmoso disoleato',t
+'procedura aperta per affidamento dei lavori di costruzione della variante di sessa aurunca',t
+'affidamento del servizio di ristorazione scolastica',
+'affidamento polizza assicurativa',t
+'lavori di messa in sicurezza, adeguamento alle norme antincendio e completamento dell auditorium comunale sito in via garibaldi',t
+'affidamento della gestione del servizio di parcheggio e delle aree a sosta a pagamento',t
+'procedura aperta per l affidamento triennale dei servizi socio-assistenziali',t
+'affidamento del servizio di sostegno alle famiglie e reddito di maternita',t
+'bando di gara - refezione scolastica per le scuole dell infanzia statale e comunale e per le scuole primarie statali del comune di bracciano',t
+'affidamento del servizio di supporto alla gestione, accertamento e riscossione coattiva delle entrate tributarie ed extratributarie e di tutti i servizi',t
+'procedura aperta per l appalto del servizio di',t
 'denominazione conferita all appalto dall amministrazione aggiudicatrice: procedura aperta per la fornitura di materiale vario di vestiario ed equipaggiamento.',t
 'servizi relativi al rinnovamento dell impianto di rifornimento laterale hepburn per i carichi solidi e liquidi di nave etna.-  fasc.4108/17, suddiviso in 3 lotti.',t
-'oggetto e lotti: procedura aperta per l affidamento  triennale dei servizi socio-assistenziali, sanitari e generali a favore di persone anziane per tre anni con  possibilita di opzione  per ulteriori tre anni, ripartita nei seguenti tre lotti:', t
+'oggetto e lotti: procedura aperta per l affidamento triennale dei servizi socio-assistenziali, sanitari e generali a favore di persone anziane per tre anni con  possibilita di opzione  per ulteriori tre anni, ripartita nei seguenti tre lotti:', t
 'oggetto  dell appalto: fornitura di un escavatore gommato e contestuale ritiro in parziale permuta di una terna fai 90 - cig: 6996142703. importo a base di gara: euro 130.000,00, oltre iva, compresi gli oneri di trasporto e garanzia.',t
 'oggetto. servizio di trasporto scolastico degli  alunni residenti nel comune di poirino, frequentanti l istituto comprensivo di poirino e l istituto amaretti. importo: € 179.932,50 netti soggetti a ribasso.',t
 'oggetto: lavori di: "sistemazione viabilita urbana" c.i.g.: 70892580c6',t
 'oggetto  dell appalto.  tipo  di  appalto:  appalto  di servizi. procedura aperta per l appalto del servizio di  conferimento presso impianto autorizzato  delle  seguenti  tipologie  di  rifiuti: er150101 imballaggi in carta  e  cartone,  cer150102  imballaggi  in plastica, cer 150104  imballaggi  metallici,  cer  150106  imballaggi misti provenienti dal riassetto del  territorio  comunale,  cer150107 imballaggi in vetro, cer 160103  pneumatici  fuori  uso,  cer  200102 carta e cartoni, cer 200102 vetro, cer 200111 prodotti  tessili,  cer 200121 tubi fluorescenti, cer 200123 app. elettriche contenenti c.f.c (frigo), cer200125 oli e grassi commestibili, cer 200 132  medicinali scaduti, cer 200134 batterie e accumulatori fuori uso, cer200135  app elettriche ed elettroniche fuori uso (tv), cer 200136 app. elettriche ed elettroniche fuori uso, cer 200138 legno, diverso da quello di cui alla voce 200137, cer 200201 sfalcio da potatura,  cer  200203  altri rifiuti biodegradabili (residui bare di legno),  cer  200303  residui della ulizia stradale, cer 200307  rifiuti  ingombranti,  cer  080318 toner per stampa esauriti diversi da quelli di cui alla voce  080317, provenienti dalla raccolta differenziata dei rifiuti  sul  territorio del comune di striano. cig: 7013598c27 cup: j26g17000060004',t
 'oggetto: gara simog 6747651. affidamento dei servizi sussidiari per la gestione del procedimento delle violazioni delle norme del codice della strada e di polizia amministrativa di competenza della polizia municipale. importo € 840.000,00, oltre iva. cpv 72322000-8.',t
 'oggetto: concessione della gestione dell impianto sportivo comunale "palazzetto dello sport" del comune di san costanzo (pu)',t
-'oggetto. procedura  aperta',t
 'oggetto  dell appalto: miglioramento della rete idroviaria del nord italia. eliminazione di colli di bottiglia sul sistema idroviario padano veneto, per adeguamento agli standard della classe v europea di navigazione',t
 'demolizione della botte sifone esistente in  corrispondenza  dell attraversamento del canal bianco del canale boicelli e realizzazione di una nuova botte sifone in nuova posizione con modifica delle quote di estradosso del tratto sottopassante',t
 'oggetto dell appalto. descrizione. denominazione  conferita  all appalto  dall amministrazione aggiudicatrice: fornitura di n. 6 battelli pneumatici per le esigenze dei distaccamenti navali dell arma dei carabinieri. ',t
@@ -36,3 +46,19 @@
 'descrizione.',f
 'fornitura',f
 'a ribasso. ne deriva un importo a base d asta pari ad euro 5.131,49, iva e oneri derivanti da rischi per interferenze quantificati in euro 1.000,00',f
+'descrizione denominazione conferita all appalto dall amministrazione aggiudicatrice: gara d appalto a mezzo procedura aperta telematica',f
+'fornitura',f
+'descrizione denominazione conferita all appalto dall amministrazione aggiudicatrice: gara d appalto a mezzo procedura aperta telematica',f
+'bando di gar. 1.c.u.c. per i comuni di castelfranco di sotto, montopoli in val',f
+'bando di gara a procedura aperta - cig ',f
+'bando di gar. 1.c.u.c. per i comuni di castelfranco di sotto, montopoli in val',f
+'ore 10:00 del 20/07/17',f
+'ore del',f
+'oggetto. procedura aperta',f
+'- procedura aperta per l appalto',f
+'dell appalto',f
+'entita dell appalto. denominazione.',f
+'come meglio dettagliato in',f
+'importo presunto complessivo',f
+'modalita' di apertura',f
+'affidamento dei servizi di',f
