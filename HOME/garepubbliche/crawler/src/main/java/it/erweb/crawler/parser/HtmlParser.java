@@ -250,7 +250,7 @@ public class HtmlParser
 				divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
 				break;
 			}
-			catch(IndexOutOfBoundsException e)
+			catch(Exception e)
 			{
 				continue;
 			}

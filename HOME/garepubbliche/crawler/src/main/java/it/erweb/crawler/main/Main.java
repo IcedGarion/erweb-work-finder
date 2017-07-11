@@ -17,7 +17,6 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 
-
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "", pubURL = "";
@@ -61,9 +60,25 @@ public class Main
 			for(Pubblicazione pub : publications)
 			{
 				logger.info("Connecting to: " + pub.getUrl() + " ...");
+				//Thread.sleep(750);
 				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				if((i++) >= 200)
+					break;
 			}
 			logger.info("OK\n");
+			
+			
+			i=0;
 			
 			//scorre le pubblicazioni e ricava i bandi, e li inserisce nel DB
 			logger.info("Parsing all publications...\n");
@@ -101,7 +116,7 @@ public class Main
 				
 				
 				
-				if((i++) >= 50)
+				if((i++) >= 300)
 					break;
 				
 				
@@ -128,7 +143,7 @@ public class Main
 				
 				
 				
-				if(i >= 50)
+				if(i >= 300)
 					break;
 		
 				
