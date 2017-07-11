@@ -278,7 +278,7 @@ public class Util
 	 */
 	private static String removeUseless(String banObj)
 	{	
-		String ret = "";
+		String ret = "", replaced = "";
 		
 		//rimuove spazi fra i punto e accapo
 		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n");
@@ -288,8 +288,15 @@ public class Util
 			lastValid = lastValid.substring(1, lastValid.length()).trim();
 		
 		//cancella ulteriori caratteri sporchi
-		ret = lastValid.replaceAll(PropertiesManager.BAN_OBJ_JUNK_BODY, "").trim()
-				.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		ret = lastValid.replaceAll(PropertiesManager.BAN_OBJ_JUNK_BODY, "").trim();
+		replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		
+		//continua a togliere parole in testa
+		while(! (ret.equals(replaced)))
+		{
+			ret = replaced;
+			replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		}
 		
 		//toglie spazi consecutivi
 		return ret.replaceAll("\\s{2,}|\\t", " ").trim();

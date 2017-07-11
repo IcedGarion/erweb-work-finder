@@ -101,7 +101,7 @@ public class Main
 				
 				
 				
-				if((i++) >= 200)
+				if((i++) >= 50)
 					break;
 				
 				
@@ -128,7 +128,7 @@ public class Main
 				
 				
 				
-				if(i >= 200)
+				if(i >= 50)
 					break;
 		
 				
