@@ -29,7 +29,8 @@ public class PropertiesManager
 	public static int BAN_OBJ_MAX_TITLE_CHARS;				//stima massima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_MIN_TITLE_CHARS;				//stima minima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_PADDING_LINES;				//stima linee lette in eccesso per trovare ogg, che si possono elimin
-
+	public static String BAN_OBJ_JUNK_HEAD;						//regex di parole che si possono togliere dall'oggetto del bando
+	public static String BAN_OBJ_JUNK_BODY;
 	
 	/**
 	 * Loads all properties of configuration file in variables
@@ -84,6 +85,8 @@ public class PropertiesManager
 		BAN_OBJ_MAX_TITLE_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MAX_TITLE_CHARS"));
 		BAN_OBJ_MIN_TITLE_CHARS = Integer.parseInt(prop.getProperty("BAN_OBJ_MIN_TITLE_CHARS"));
 		BAN_OBJ_PADDING_LINES = Integer.parseInt(prop.getProperty("BAN_OBJ_PADDING_LINES"));
+		BAN_OBJ_JUNK_HEAD = prop.getProperty("BAN_OBJ_JUNK_HEAD");
+		BAN_OBJ_JUNK_BODY = prop.getProperty("BAN_OBJ_JUNK_BODY");
 	}
 	
 	public static void setProperty(String name, String value)

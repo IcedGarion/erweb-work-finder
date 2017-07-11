@@ -236,7 +236,7 @@ public class Util
 			ret = "";
 		}
 
-		return tryDeleteLastLines(ret.replaceAll("[ ]+", " "));
+		return tryDeleteLastLines(ret);
 	}
 	
 	/**
@@ -278,18 +278,21 @@ public class Util
 	 */
 	private static String removeUseless(String banObj)
 	{	
+		String ret = "";
+		
 		//rimuove spazi fra i punto e accapo
 		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n");
-		
+				
 		//rimuove . e : iniziali e spazi di troppo
 		if(lastValid.startsWith(":") || lastValid.startsWith("."))
 			lastValid = lastValid.substring(1, lastValid.length()).trim();
 		
 		//cancella ulteriori caratteri sporchi
-		return lastValid
-				.replaceAll("sezione+\\s+[iii|3|ii|2|1|i]+\\s"
-						+ "|(i[.])|(ii[.])|(iii[.])|(iv[.])|(v[.])|(vi[.])|(vii[.])|(viii[.])|(ix[.])|(x[.])"
-						+ "|[[.1]|[.2]|[.3]|[.4]|[.5]|[.6]|[.7]|[.8]|[.9]]+[)]", "").trim();
+		ret = lastValid.replaceAll(PropertiesManager.BAN_OBJ_JUNK_BODY, "").trim()
+				.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		
+		//toglie spazi consecutivi
+		return ret.replaceAll("\\s{2,}|\\t", " ").trim();
 	}
 
 	public static Date stringToDate(String scadenza)
