@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.weka.BandoValidator;
 
@@ -32,7 +35,7 @@ public class Util
 				while(index != -1)
 				{
 					// si posiziona sulle occorrenze di "CIG"
-					index = strToSearch.indexOf("CIG", offset);
+					index = regexIndexOf(Pattern.compile(PropertiesManager.BAN_CIG_REGEX), strToSearch, offset);
 					offset = index;
 
 					// parte dal carattere dopo "CIG " e salva il cig
@@ -51,7 +54,7 @@ public class Util
 						// prova con altre occorrenze di "CIG", se quello
 						// trovato non va bene
 						offset = index + i;
-						index = strToSearch.indexOf("CIG", offset);
+						index = regexIndexOf(Pattern.compile("CIG"), strToSearch, offset);
 						offset = index;
 					}
 					else
@@ -150,7 +153,7 @@ public class Util
 		String ret = "";
 
 		//cerca nel testo il pattern
-		index = validBanBody.indexOf(pattern, offset);
+		index = regexIndexOf(Pattern.compile(pattern), validBanBody, offset);
 		offset = pattern.length();
 		while(index != -1)
 		{
@@ -188,7 +191,7 @@ public class Util
 			{
 				ret = "";
 				offset += index;
-				index = validBanBody.indexOf(pattern, offset);
+				index = regexIndexOf(Pattern.compile(pattern), validBanBody, offset);
 			}
 		}
 
@@ -319,5 +322,12 @@ public class Util
 		}
 
 		return date;
+	}
+	
+	private static int regexIndexOf(Pattern pattern, String s, int offset)
+	{
+		s = s.substring(offset, s.length() - 1);
+	    Matcher matcher = pattern.matcher(s);
+	    return matcher.find() ? matcher.start() + offset : -1;
 	}
 }

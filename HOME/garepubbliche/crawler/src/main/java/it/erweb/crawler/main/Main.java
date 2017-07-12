@@ -17,6 +17,13 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 
+	public static void gain(String args[])
+	{
+		init();
+		String a = "acionNNNNC CIG cig 214 CIG23 ciG2 CiG 233 ";
+		System.out.println(a.replaceAll("(?i)cig", ""));
+	}
+	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "", pubURL = "";
@@ -60,7 +67,7 @@ public class Main
 			for(Pubblicazione pub : publications)
 			{
 				logger.info("Connecting to: " + pub.getUrl() + " ...");
-				//Thread.sleep(750);
+				Thread.sleep(PropertiesManager.HTTP_GET_FREQUENCY);
 				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
 				
 				
@@ -97,6 +104,7 @@ public class Main
 			for(Bando ban : Bans)
 			{
 				logger.info("Connecting to: " + ban.getUrl() + " ...");
+				Thread.sleep(PropertiesManager.HTTP_GET_FREQUENCY);
 				html = HttpGetter.get(ban.getUrl());
 	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
@@ -151,7 +159,7 @@ public class Main
 				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
 				
 
-					r.write(i + ": " + ban.getOggetto() + "\n");
+					r.write(i + ": CIG : " + ban.getCig() + " - " + ban.getOggetto() + "\n");
 					r.flush();
 				
 			

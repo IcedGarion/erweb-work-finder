@@ -10,6 +10,7 @@ import java.util.Properties;
 public class PropertiesManager
 {
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
+	public static int HTTP_GET_FREQUENCY;
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta	(dismesso)
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
 	public static String PUBLICATIONS_HOME_PATTERN;			//pattern per trovare home page pubblicazioni (dismesso)
@@ -20,6 +21,7 @@ public class PropertiesManager
 	public static int BAN_CD_ESTERNO_LENGTH;				//lunghezza pattern
 	public static String BAN_CIG_PATTERN;					//pattern per trovare cig all'interno di pubblicazione
 	public static int BAN_CIG_LENGTH;						//lunghezza pattern
+	public static String BAN_CIG_REGEX;						//regex per matchare cig
 	public static String BAN_DIVCLASS;						//div class del testo del bando, all'interno di bando
 	public static String VALIDATOR_TRAIN_PATH;				//path del file di training del validator weka
 	public static String VALIDATOR_TEST_PATH;				//path del file di test del validator weka
@@ -66,6 +68,7 @@ public class PropertiesManager
 		}
 		
 		//salva le properties lette
+		HTTP_GET_FREQUENCY = Integer.parseInt(prop.getProperty("HTTP_GET_FREQUENCY"));
 		GAZZETTA_HOME_URL = prop.getProperty("GAZZETTA_HOME_URL");
 		PUBLICATIONS_HOME_PATTERN = prop.getProperty("PUBLICATIONS_HOME_PATTERN");
 		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
@@ -76,6 +79,7 @@ public class PropertiesManager
 		BAN_CD_ESTERNO_LENGTH = Integer.parseInt(prop.getProperty("BAN_CD_ESTERNO_LENGTH"));
 		BAN_CIG_PATTERN = prop.getProperty("BAN_CIG_PATTERN");
 		BAN_CIG_LENGTH = Integer.parseInt(prop.getProperty("BAN_CIG_LENGTH"));
+		BAN_CIG_REGEX = prop.getProperty("BAN_CIG_REGEX");
 		BAN_DIVCLASS = prop.getProperty("BAN_DIVCLASS");
 		VALIDATOR_TRAIN_PATH = prop.getProperty("VALIDATOR_TRAIN_PATH");
 		VALIDATOR_TEST_PATH = prop.getProperty("VALIDATOR_TEST_PATH");
