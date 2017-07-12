@@ -32,15 +32,16 @@ public class HtmlParser
 		PubblicazioneRepository repository = new PubblicazioneRepository();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
-		String url = "", strNumPub = "", strDate = "";
+		String url, strNumPub, strDate;
 		Pubblicazione pub;
-		Date pubDate;
-		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		Date pubDate, lastPubDate = repository.getLastDate();;
 		
 		//va alla prima occorrenza dell'url pattern
 		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
 		while(startIndex != -1)
 		{
+			url = strNumPub = strDate = "";
+			
 			//salva URL dall'inizio di "" fino alla fine di ""
 			current = html.charAt(startIndex);
 			while(current != '\"')
@@ -88,27 +89,25 @@ public class HtmlParser
 				if(current != '\n' && current != ' ' && current != '\t')
 					strDate += current;
 			}
-			pubDate = format.parse(strDate);
+			pubDate = new SimpleDateFormat("dd-MM-yyyy").parse(strDate);
 			
-			
-			
-			//controllo date e ret = true se c'e' nuova!
-			
-			
-			
-			//crea nuova pubblicazione con tutti i dati raccolti
-			pub = new Pubblicazione();									
-			pub.setDtInserimento(new Date());							//DT_INSERIMENTO
-			if(numPub != -1)
+			//controllo date: inserisce soltanto se trova una NUOVA pubblicazione SCARICATA (data maggiore di tutte quelle nel db)
+			if(pubDate.after(lastPubDate))
 			{
-				pub.setNmPubblicazione(numPub);							//NM_PUBBLICAZIONE
-			}
-			pub.setStato("DA_SCARICARE");								//STATO
-			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
+				ret = true;
+				//crea nuova pubblicazione con tutti i dati raccolti
+				pub = new Pubblicazione();									
+				pub.setDtInserimento(new Date());							//DT_INSERIMENTO
+				if(numPub != -1)
+				{
+					pub.setNmPubblicazione(numPub);							//NM_PUBBLICAZIONE
+				}
+				pub.setStato("DA_SCARICARE");								//STATO
+				pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
 						
-			//SALVA NEL DB
-			repository.create(pub);
-			
+				//SALVA NEL DB
+				repository.create(pub);
+			}
 			
 			//ricomincia il ciclo per trovare altre pubblicazioni
 			offset = startIndex;

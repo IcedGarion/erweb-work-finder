@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
@@ -21,7 +23,7 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-
+	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		PubblicazioneRepository pubRepo = new PubblicazioneRepository();

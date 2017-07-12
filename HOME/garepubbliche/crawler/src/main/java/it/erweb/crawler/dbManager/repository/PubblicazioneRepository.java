@@ -1,5 +1,8 @@
 package it.erweb.crawler.dbManager.repository;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
@@ -31,5 +34,14 @@ public class PubblicazioneRepository extends JPAManager
 	public void updateState(Pubblicazione pubblicazione, String string)
 	{
 		throw new NotImplementedException();		
+	}
+
+	public Date getLastDate()
+	{
+		ArrayList<Object> ret = (ArrayList<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
+		if(ret.size() == 0)
+			return Date.from(Instant.EPOCH);
+		else
+			return (Date) ret.get(0);
 	}
 }
