@@ -8,12 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.weka.BandoValidator;
+import it.erweb.crawler.weka.BandoObjValidator;
 
 /**
- * A set of parsing utility functions
+ * A set of string parsing utility functions
  */
-public class Util
+public class StringParser
 {
 	/**
 	 * Searches the input string, trying to find the CIG
@@ -78,7 +78,7 @@ public class Util
 	}
 
 	/**
-	 * Searches the input to find the ban code
+	 * Searches the input to find the ban external code
 	 * 
 	 * @param optionalInfo
 	 *            the input string representing a fragment of publication html
@@ -153,7 +153,7 @@ public class Util
 		String ret = "";
 
 		//cerca nel testo il pattern
-		index = regexIndexOf(Pattern.compile(pattern), validBanBody, offset);
+		index = validBanBody.indexOf(pattern, offset);
 		offset = pattern.length();
 		while(index != -1)
 		{
@@ -178,10 +178,10 @@ public class Util
 			}
 			
 			//rimuove caratteri che non c'entrano
-			ret = Util.removeUseless(ret);
+			ret = StringParser.removeUseless(ret);
 			
 			// se WEKA trova l'oggetto valido, finisce;
-			if(BandoValidator.validate(ret))
+			if(BandoObjValidator.validate(ret))
 			{
 				index = -1;
 				ret = tryDeleteLastLines(ret);
@@ -191,7 +191,7 @@ public class Util
 			{
 				ret = "";
 				offset += index;
-				index = regexIndexOf(Pattern.compile(pattern), validBanBody, offset);
+				index = validBanBody.indexOf(pattern, offset);
 			}
 		}
 
@@ -199,10 +199,11 @@ public class Util
 	}
 	
 	/**
-	 * 	Searches the ban title to find a valid ban object
+	 * Searches the ban title to find a valid ban object
 	 * 
-	 * @param banBody	the whole ban
-	 * @return			a ban object if present, empty string otherwise
+	 * @param banBody
+	 *            the whole ban
+	 * @return a ban object if present, empty string otherwise
 	 */
 	public static String tryGetObjectTitle(String banBody)
 	{
@@ -231,17 +232,46 @@ public class Util
 		}
 		
 		//rimuove caratteri che non c'entrano
-		ret = Util.removeUseless(ret);
+		ret = StringParser.removeUseless(ret);
 		
 		//se trova un oggetto valido lo ritorna, altrimenti vuoto
-		if(! BandoValidator.validate(ret))
+		if(! BandoObjValidator.validate(ret))
 		{
 			ret = "";
 		}
 
 		return tryDeleteLastLines(ret);
 	}
-	
+
+	/**
+	 * removes useless strings in an hypothetical ban object
+	 * 
+	 * @param banObj
+	 *            the ban object to be filtered
+	 * @return the ban object without useless words
+	 */
+	private static String removeUseless(String banObj)
+	{	
+		String ret = "", replaced = "";
+		
+		//rimuove spazi fra i punto e accapo
+		String lastValid = banObj.replaceAll(".\\s+\n", ".\n");
+		
+		//cancella ulteriori caratteri sporchi
+		ret = lastValid.replaceAll(PropertiesManager.BAN_OBJ_JUNK_BODY, "");
+		replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		
+		//continua a togliere parole in testa, finche' qualcosa fa match
+		while(! (ret.equals(replaced)))
+		{
+			ret = replaced;
+			replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
+		}
+		
+		//toglie spazi consecutivi
+		return ret.replaceAll("\\s{2,}|\\t", " ").trim();
+	}
+
 	/**
 	 * 	Continuously tries to delete the last line of th ban object, only if the remaining String is still a valid object
 	 * 
@@ -259,7 +289,8 @@ public class Util
 		{
 			truncated = banObj.substring(0, secondToLastLineIndex);
 
-			while(BandoValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
+			//cancella solo un max numero di volte
+			while(BandoObjValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
 			{
 				banObj = truncated;
 				secondToLastLineIndex = banObj.lastIndexOf('\n');
@@ -272,39 +303,13 @@ public class Util
 		
 		return banObj.replace("\n", " ");
 	}
-
+	
 	/**
-	 * removes useless strings in an hypothetical ban object
+	 * 	Converts a literal italian date in the explicit form ("2 luglio 2017") into a Java Util.Date
 	 * 
-	 * @param banObj		the ban object to be filtered
-	 * @return	the ban object without useless words
+	 * @param scadenza	string literal date
+	 * @return	Date representing the string
 	 */
-	private static String removeUseless(String banObj)
-	{	
-		String ret = "", replaced = "";
-		
-		//rimuove spazi fra i punto e accapo
-		String lastValid = banObj.replaceAll(".[ ]+\n", ".\n");
-				
-		//rimuove . e : iniziali e spazi di troppo
-		if(lastValid.startsWith(":") || lastValid.startsWith("."))
-			lastValid = lastValid.substring(1, lastValid.length()).trim();
-		
-		//cancella ulteriori caratteri sporchi
-		ret = lastValid.replaceAll(PropertiesManager.BAN_OBJ_JUNK_BODY, "").trim();
-		replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
-		
-		//continua a togliere parole in testa
-		while(! (ret.equals(replaced)))
-		{
-			ret = replaced;
-			replaced = ret.replaceAll(PropertiesManager.BAN_OBJ_JUNK_HEAD, "");
-		}
-		
-		//toglie spazi consecutivi
-		return ret.replaceAll("\\s{2,}|\\t", " ").trim();
-	}
-
 	public static Date stringToDate(String scadenza)
 	{
 		Date date;
@@ -324,6 +329,14 @@ public class Util
 		return date;
 	}
 	
+	/**
+	 * 	Same of the classic indexOf java function, but matches a regular expression
+	 * 
+	 * @param pattern	the regular expression to find
+	 * @param s			the string in where search
+	 * @param offset	s' starting search index
+	 * @return			index of the first matching substring, -1 if nothing matches
+	 */
 	private static int regexIndexOf(Pattern pattern, String s, int offset)
 	{
 		s = s.substring(offset, s.length() - 1);

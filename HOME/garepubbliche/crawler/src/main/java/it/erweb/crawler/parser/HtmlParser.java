@@ -168,8 +168,8 @@ public class HtmlParser
 			
 			//prova a estrarre cig e codice bando
 			optionalInfo = bando.child(1).ownText();
-			codEsterno = Util.tryGetCode(optionalInfo);
-			cig = Util.tryGetCig(optionalInfo);
+			codEsterno = StringParser.tryGetCode(optionalInfo);
+			cig = StringParser.tryGetCig(optionalInfo);
 			
 			
 			//prende tutta la riga ancora sporca del bando e splitta dove trova '"': nella seconda cella c'e' l'URL
@@ -215,7 +215,7 @@ public class HtmlParser
 			b.setTiporichiedente(tipoRichiedente);			//TIPORICHIEDENTE
 			b.setNmRichiedente(nmRichiedente);				//NM_RICHIEDENTE
 			if(scadenza != "")
-				b.setScadenza(Util.stringToDate(scadenza));	//SCADENZA
+				b.setScadenza(StringParser.stringToDate(scadenza));	//SCADENZA
 			b.setUrl(url);									//URL
 			b.setStato("DA_PARSIFICARE");					//STATO
 			b.setDtInserimento(new Date());					//DT_INSERIMENTO
@@ -237,12 +237,12 @@ public class HtmlParser
 	public static void parseBan(Bando ban)
 	{
 		String cig = "", oggetto = "";
-		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
+		int i = 0, timeout = PropertiesManager.SYS_BAN_PARSING_TRIALS_TIMEOUT, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
 		Element mainContent = doc.body();
 		Element divBando;
 		
-		//codice soggetto ad errori! basta riprovare
+		//codice soggetto ad errori
 		while(true)
 		{
 			try
@@ -252,6 +252,12 @@ public class HtmlParser
 			}
 			catch(Exception e)
 			{
+				if(--timeout <= 0)
+				{
+					System.err.println("Unable to parse Ban");
+					System.exit(1);
+				}
+				
 				continue;
 			}
 		}
@@ -263,7 +269,7 @@ public class HtmlParser
 		//estrae CIG, se non e' gia' presente
 		if(ban.getCig() == null)
 		{
-			cig = Util.tryGetCig(testoBando);
+			cig = StringParser.tryGetCig(testoBando);
 			if(!cig.equals(""))
 			{
 				ban.setCig(cig);
@@ -276,13 +282,13 @@ public class HtmlParser
 			//prova diversi "pattern", finche' non trova un oggetto valido o finche' non li ha provati tutti
 			while((oggetto == "") && (i < patternLength))
 			{
-				oggetto = Util.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
+				oggetto = StringParser.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
 				i++;
 			}
 			//se ha finito tutti i pattern ma ancora non ha trovato niente, prova a cercare ne titolo
 			if(oggetto == "")
 			{
-				oggetto = Util.tryGetObjectTitle(testoBando);
+				oggetto = StringParser.tryGetObjectTitle(testoBando);
 			}
 		}
 		catch(Exception e)
@@ -301,168 +307,4 @@ public class HtmlParser
 		
 		return;
 	}
-	
-
-	/*		FUNZIONE COMPLESSA, DIVIDE IN VARI CASI 	*/
-	/*public static void parseBan(Bando ban)
-	{
-		String cig = "", oggetto = "", end = "";
-		int index = 0, offset = 0;
-		boolean strutturato = false;
-		char current;
-		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
-		Element mainContent = doc.body();
-		Element divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
-		String testoBandoOriginale = divBando.text();
-		String testoBandoToLow = testoBandoOriginale.toLowerCase();
-
-		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
-		ban.setTesto(testoBandoOriginale);		
-		
-		//estrae CIG, se non e' gia' presente
-		if(ban.getCig() == null)
-		{
-			cig = Util.tryGetCig(testoBandoOriginale);
-			if(!cig.equals(""))
-			{
-				ban.setCig(cig);
-			}
-		}
-		
-		//estrae OGGETTO
-		try
-		{
-			//prova a cercare la sezione 2, con diverse formattazioni
-			index = testoBandoToLow.indexOf("sezione ii");
-			if(index == -1)
-			{
-				index = testoBandoToLow.indexOf("sezione 2");
-				if(index == -1)
-				{
-					strutturato = false;
-				}
-				else
-				{
-					strutturato = true;
-					offset = 9;
-				}
-			}
-			else
-			{
-				strutturato = true;
-				offset = 10;
-			}
-			
-			if(strutturato)
-			{
-				//cerca sezione II.1.2) Oggetto (partendo da sezione 2 precedentemente trovata)
-				index = testoBandoToLow.indexOf("ii.1.2)", index);
-				if(index == -1)
-				{
-					//se non trova la sotto-sezione, cerca "oggetto" in tutta la sezione 2, e si ferma a Sezione 3
-					index += offset;
-					current = testoBandoOriginale.charAt(index++);
-					end = oggetto.trim();
-					while((! end.contains("Sezione3")) && (! end.contains("SezioneIII:"))
-							&& (! end.contains("Sezione1")) && (! end.contains("SezioneI"))
-							&& (! end.contains("Sezione2")) && (! end.contains("Sezione2")))
-					{
-						oggetto += current;
-						current = testoBandoOriginale.charAt(index++);
-						end = oggetto.trim();
-					}
-					//poi analizza l'oggetto per togliere SEZIONE, DESCRIZIONE / OGGETTO...
-					oggetto = Util.removeUseless(oggetto);
-				}
-				else
-				{
-					//se la trova, salta "II.1.2)" e salva tutta la sotto-sezione
-					index += 7;
-					current = testoBandoOriginale.charAt(index++);
-					end = oggetto.trim();
-					//si ferma quando trova la prossima sotto-sezione
-					while((! end.contains("III.")) && (! end.contains("SezioneIII")) && (! end.contains("Sezione3"))
-							&& (! end.contains("II.")) && (! end.contains("SezioneII")) && (! end.contains("Sezione2")))
-					{
-						oggetto += current;
-						current = testoBandoOriginale.charAt(index++);
-						end = oggetto.trim();
-					}
-					//poi analizza l'oggetto per togliere SEZIONE, DESCRIZIONE / OGGETTO...
-					oggetto = Util.removeUseless(oggetto);
-
-				}
-			}
-			else
-			{
-				// QUA INTERVIENE WEKA: LEGGI TUTTE LE OCCORRENZE DI BANDO, MA NON TUTTE SONO GIUSTE 
-				//se non riesce a trovare la sezione allora il bando non e' strutturato:
-				//prova con indexOf oggetto
-				index = 0;
-				offset = 0;
-				oggetto = "";
-				while(index != -1)
-				{
-					index = testoBandoToLow.indexOf("oggetto dell'appalto", offset);
-					if(index == -1)
-					{
-						index = testoBandoToLow.indexOf("oggetto");
-						if(index != -1)
-							offset = 7;
-					}
-
-					else
-					{
-						offset = 20;
-					}
-
-					// se ha trovato almeno una occorrenza di "oggetto", prova a leggere fino a..... ".\n"
-					if(offset != 0)
-					{
-						boolean probablyEnd = false;
-						index += offset;
-						current = testoBandoOriginale.charAt(index++);
-						while(true)
-						{
-							oggetto += current;
-
-							if(current == '.')
-								probablyEnd = true;
-							else if(current == '\n' && probablyEnd)
-								break;
-
-							current = testoBandoOriginale.charAt(index++);
-						}
-
-						//se WEKA trova l'oggetto valido, finisce; altrimenti riprova con la prossima occorrenza di "oggetto"
-						if(BandoValidator.validate(oggetto))
-							break;
-					}
-					// se non ha trovato neanche una volta la parola "oggetto", non puo' fare niente
-					else
-					{
-						return;
-					}
-					
-					offset += index;
-				}
-			}
-			
-			if(oggetto != "")
-			{
-				ban.setOggetto(oggetto);
-			}
-		}
-		catch(Exception e)
-		{
-			//lascia oggetto a null, ma ha comunque provato a parsificare il bando			
-		}
-		finally
-		{
-			ban.setStato("PARSIFICATO");
-		}
-		
-		return;
-	}
-	*/
 }

@@ -11,7 +11,7 @@ import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
-import it.erweb.crawler.weka.BandoValidator;
+import it.erweb.crawler.weka.BandoObjValidator;
 
 public class Main
 {
@@ -20,8 +20,10 @@ public class Main
 	public static void gain(String args[])
 	{
 		init();
-		String a = "acionNNNNC CIG cig 214 CIG23 ciG2 CiG 233 ";
-		System.out.println(a.replaceAll("(?i)cig", ""));
+		String a = null;
+		System.out.println("CIG : " + (a==null?"null\t\t":"\t" ) + "- " + "sxbiquxb" + "\n");
+		String b = "CIG : 706794196B \t- avviso di gara di lavori - procedura apert. agenzia provinciale per gli appalti e contratti - servizio appalti - ufficio gare - trento - dogana 8, tel. 0461496444 fax 0461496422";
+		System.out.println("CIG : " + (b==null?"\t\t":"706794196B\t" ) + "- " + "sxbiquxb" + "\n");
 	}
 	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
@@ -67,7 +69,7 @@ public class Main
 			for(Pubblicazione pub : publications)
 			{
 				logger.info("Connecting to: " + pub.getUrl() + " ...");
-				Thread.sleep(PropertiesManager.HTTP_GET_FREQUENCY);
+				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
 				
 				
@@ -104,7 +106,7 @@ public class Main
 			for(Bando ban : Bans)
 			{
 				logger.info("Connecting to: " + ban.getUrl() + " ...");
-				Thread.sleep(PropertiesManager.HTTP_GET_FREQUENCY);
+				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				html = HttpGetter.get(ban.getUrl());
 	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
@@ -158,8 +160,8 @@ public class Main
 				
 				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
 				
-
-					r.write(i + ": CIG : " + ban.getCig() + " - " + ban.getOggetto() + "\n");
+					
+					r.write(i + (i>=10?"":" ") + ": CIG : " + (ban.getCig()==null?"nil\t\t\t":ban.getCig()+"\t" ) + "- " + ban.getOggetto() + "\n");
 					r.flush();
 				
 			
@@ -189,7 +191,7 @@ public class Main
 			PropertiesManager.loadProperties();
 			
 			//carica il file e fa il train del validatore oggetti
-			BandoValidator.train();
+			BandoObjValidator.train();
 		}
 		catch(Exception e)
 		{

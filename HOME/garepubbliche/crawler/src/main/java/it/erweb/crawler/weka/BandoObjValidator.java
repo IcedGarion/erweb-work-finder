@@ -11,7 +11,7 @@ import weka.core.converters.ConverterUtils;
 /**
  * 	Data mining methods: train the agent and use it for classify the ban object 
  */
-public class BandoValidator
+public class BandoObjValidator
 {
 	private static Instances train;
 	

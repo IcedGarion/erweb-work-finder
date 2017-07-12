@@ -10,7 +10,8 @@ import java.util.Properties;
 public class PropertiesManager
 {
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
-	public static int HTTP_GET_FREQUENCY;
+	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
+	public static int SYS_BAN_PARSING_TRIALS_TIMEOUT;		//max numero di tentativi parsing bando
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta	(dismesso)
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
 	public static String PUBLICATIONS_HOME_PATTERN;			//pattern per trovare home page pubblicazioni (dismesso)
@@ -68,7 +69,8 @@ public class PropertiesManager
 		}
 		
 		//salva le properties lette
-		HTTP_GET_FREQUENCY = Integer.parseInt(prop.getProperty("HTTP_GET_FREQUENCY"));
+		SYS_HTTP_GET_FREQUENCY = Integer.parseInt(prop.getProperty("SYS_HTTP_GET_FREQUENCY"));
+		SYS_BAN_PARSING_TRIALS_TIMEOUT = Integer.parseInt(prop.getProperty("SYS_BAN_PARSING_TRIALS_TIMEOUT"));
 		GAZZETTA_HOME_URL = prop.getProperty("GAZZETTA_HOME_URL");
 		PUBLICATIONS_HOME_PATTERN = prop.getProperty("PUBLICATIONS_HOME_PATTERN");
 		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
