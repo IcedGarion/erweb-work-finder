@@ -1,7 +1,6 @@
 package it.erweb.crawler.configurations;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Properties;
 
 /**
@@ -12,9 +11,8 @@ public class PropertiesManager
 	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
 	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
 	public static int SYS_BAN_PARSING_TRIALS_TIMEOUT;		//max numero di tentativi parsing bando
-	public static String GAZZETTA_HOME_URL;					//home page gazzetta	(dismesso)
+	public static String GAZZETTA_HOME_URL;					//home page gazzetta
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
-	public static String PUBLICATIONS_HOME_PATTERN;			//pattern per trovare home page pubblicazioni (dismesso)
 	public static String PUBLICATION_NUMBER_PATTERN;		//pattern per trovare numero pubblicazione (in home page pub)
 	public static String PUBLICATION_DETAIL_PATTERN;		//pattern per trovare url singole pubblicazioni
 	public static String PUBLICATION_BAN_DIVID_PATTERN;		//div id del bando all'interno di una pubblicazione
@@ -36,7 +34,7 @@ public class PropertiesManager
 	public static String BAN_OBJ_JUNK_BODY;
 	
 	/**
-	 * Loads all properties of configuration file in variables
+	 * Loads all properties contained in configuration file
 	 */
 	public static void loadProperties()
 	{
@@ -72,7 +70,6 @@ public class PropertiesManager
 		SYS_HTTP_GET_FREQUENCY = Integer.parseInt(prop.getProperty("SYS_HTTP_GET_FREQUENCY"));
 		SYS_BAN_PARSING_TRIALS_TIMEOUT = Integer.parseInt(prop.getProperty("SYS_BAN_PARSING_TRIALS_TIMEOUT"));
 		GAZZETTA_HOME_URL = prop.getProperty("GAZZETTA_HOME_URL");
-		PUBLICATIONS_HOME_PATTERN = prop.getProperty("PUBLICATIONS_HOME_PATTERN");
 		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
 		PUBLICATION_BAN_DIVID_PATTERN = prop.getProperty("PUBLICATION_BAN_DIVID_PATTERN");
 		PUBLICATION_DETAIL_PATTERN = prop.getProperty("PUBLICATION_DETAIL_PATTERN");
@@ -93,36 +90,5 @@ public class PropertiesManager
 		BAN_OBJ_PADDING_LINES = Integer.parseInt(prop.getProperty("BAN_OBJ_PADDING_LINES"));
 		BAN_OBJ_JUNK_HEAD = prop.getProperty("BAN_OBJ_JUNK_HEAD");
 		BAN_OBJ_JUNK_BODY = prop.getProperty("BAN_OBJ_JUNK_BODY");
-	}
-	
-	public static void setProperty(String name, String value)
-	{
-		FileOutputStream output = null;
-		Properties prop = new Properties();
-
-		try
-		{
-			output = new FileOutputStream(PROPERTIES_FILE);
-			prop.setProperty(name, value);
-			prop.store(output, null);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if(output != null)
-			{
-				try
-				{
-					output.close();
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}		
 	}
 }

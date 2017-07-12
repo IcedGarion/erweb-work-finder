@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.util.List;
 import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
+import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
@@ -16,23 +18,16 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-
-	public static void gain(String args[])
-	{
-		init();
-		String a = null;
-		System.out.println("CIG : " + (a==null?"null\t\t":"\t" ) + "- " + "sxbiquxb" + "\n");
-		String b = "CIG : 706794196B \t- avviso di gara di lavori - procedura apert. agenzia provinciale per gli appalti e contratti - servizio appalti - ufficio gare - trento - dogana 8, tel. 0461496444 fax 0461496422";
-		System.out.println("CIG : " + (b==null?"\t\t":"706794196B\t" ) + "- " + "sxbiquxb" + "\n");
-	}
 	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
+		PubblicazioneRepository pubRepo = new PubblicazioneRepository();
+		BandoRepository banRepo = new BandoRepository();
 		String html = "", pubURL = "";
 		int i = 0;
-		ArrayList<Pubblicazione> publications = new ArrayList<Pubblicazione>();
-		ArrayList<String> publicationsHtml = new ArrayList<String>();
-		ArrayList<Bando> Bans = new ArrayList<Bando>();
+		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
+		List<String> publicationsHtml = new ArrayList<String>();
+		List<Bando> Bans = new ArrayList<Bando>();
 		PrintWriter r = new PrintWriter(new File("testoBandi"));
 		
 		//inizializza configurazioni
@@ -42,18 +37,6 @@ public class Main
 		
 		try
 		{
-			/*
-			//prende homepage
-			logger.info("Connecting to " + PropertiesManager.GAZZETTA_HOME_URL + "...");
-			html = HttpGetter.get(PropertiesManager.GAZZETTA_HOME_URL);
-			logger.info("OK\n");
-			
-			//ricava url della pagina delle pubblicazioni (5a sezione) dalla home
-			logger.info("Searching for publications page...");
-			pubURL += HtmlParser.getHomePublicationsURL(html);
-			logger.info("OK\n");
-			*/
-			
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + pubURL + " ...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
@@ -61,47 +44,41 @@ public class Main
 			
 			//ricava le prime informazioni sulle pubblicazioni disponibili e le salva nel DB
 			logger.info("Searching for publications...");
-			publications = HtmlParser.getPublications(html);
+			HtmlParser.getPublications(html);
 			logger.info("OK\n");
 			
-			//scarica tutte le pubblicazioni
+			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
+			logger.info("Retrieving publications...");
+			publications = pubRepo.getAllDaScaricare();
+			logger.info("OK\n");
+
+			//per ogni pubblicazione "DA_SCARICARE", ricava URL e scarica (aggiungendo gli html a una lista)
 			logger.info("Downloading all publications...");
 			for(Pubblicazione pub : publications)
 			{
 				logger.info("Connecting to: " + pub.getUrl() + " ...");
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				if((i++) >= 200)
-					break;
 			}
 			logger.info("OK\n");
-			
-			
-			i=0;
-			
-			//scorre le pubblicazioni e ricava i bandi, e li inserisce nel DB
+	
+			//scorre le pubblicazioni e ricava i bandi, li inserisce nel DB
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
 				logger.info("Parsing publication n. " + (i + 1) + " ...");
 				//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
-				Bans.addAll(HtmlParser.getPublicationBans(pub, publications.get(i)));	
+				HtmlParser.getPublicationBans(pub, publications.get(i));	
 				i++;
 			}
 			logger.info("OK\n");
 			
-			i=0;
-			//scarica tutti i bandi salvati
+			//carica dal DB tutti i bandi appena inseriti ("DA_PARSIFICARE")
+			logger.info("Retrieving bans...\n");
+			Bans = banRepo.getAllDaParsificare();
+			logger.info("OK\n");
+
+			//scarica tutti i bandi salvati e aggiorna il DB
 			logger.info("Downloading all bans...\n");
 			for(Bando ban : Bans)
 			{
@@ -110,53 +87,17 @@ public class Main
 				html = HttpGetter.get(ban.getUrl());
 	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
-				ban.setTesto(html);	
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				if((i++) >= 300)
-					break;
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				banRepo.updateText(ban, html);	
 			}
 			logger.info("OK\n");
 			
-	
 			i = 0;
 			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
 			{				
 				logger.info("Parsing ban n. " + (++i) + "...\n");
 				HtmlParser.parseBan(ban);
-				
-				
-				
-				
-				
-				if(i >= 300)
-					break;
-		
-				
 				
 				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
 				
@@ -190,7 +131,7 @@ public class Main
 			//legge il file di configurazione e salva le configs in PropertiesManager
 			PropertiesManager.loadProperties();
 			
-			//carica il file e fa il train del validatore oggetti
+			//carica il file di train e configura il validatore oggetti
 			BandoObjValidator.train();
 		}
 		catch(Exception e)

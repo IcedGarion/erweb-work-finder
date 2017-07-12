@@ -4,15 +4,17 @@ import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
+import it.erweb.crawler.model.Pubblicazione;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *	Contains the methods for manipulating a Pubblicazione object in the database
  */
 public class PubblicazioneRepository extends JPAManager
 {
-	public List<Object> getAllDaParsificare() throws JPAException
+	public List<Pubblicazione> getAllDaScaricare() throws JPAException
 	{
-		List<Object> result;
+		List<Pubblicazione> result;
 		
 		try
 		{
@@ -24,5 +26,10 @@ public class PubblicazioneRepository extends JPAManager
 		}
 		
 		return result;
+	}
+
+	public void updateState(Pubblicazione pubblicazione, String string)
+	{
+		throw new NotImplementedException();		
 	}
 }

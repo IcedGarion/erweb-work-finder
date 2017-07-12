@@ -1,12 +1,13 @@
 package it.erweb.crawler.parser;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import it.erweb.crawler.configurations.PropertiesManager;
+import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
 
@@ -14,41 +15,16 @@ import it.erweb.crawler.model.Pubblicazione;
  * Searches htmls for specific infos 
  */
 public class HtmlParser
-{
-	
-	/**
-	 * Gets the publications home page, given the Gazzetta home page
-	 * 
-	 * @param html	gazzetta home page html
-	 * @return		a String representing the publications page URL
-	 */
-	public static String getHomePublicationsURL(String html)
-	{
-		String ret = "";
-		int startIndex;
-		char current;
-		
-		startIndex = html.indexOf(PropertiesManager.PUBLICATIONS_HOME_PATTERN);
-		current = html.charAt(startIndex);
-		while(current != '\"')
-		{
-			ret += current;
-			current = html.charAt(++startIndex);
-		}
-		
-		return PropertiesManager.GAZZETTA_HOME_URL + ret;
-	}
-	
+{	
 	/**
 	 * Gets all the publications infos, given the publications home page
 	 * 
 	 * @param html	publications page
 	 * @return		A list of publications
 	 */
-	public static ArrayList<Pubblicazione> getPublications(String html)
+	public static void getPublications(String html)
 	{
-		//PubblicazioneRepository repository = new PubblicazioneRepository();
-		ArrayList<Pubblicazione> pubblicazioni = new ArrayList<Pubblicazione>();
+		PubblicazioneRepository repository = new PubblicazioneRepository();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
 		String url = "", strNumPub;
@@ -71,6 +47,8 @@ public class HtmlParser
 					 + PropertiesManager.PUBLICATION_NUMBER_PATTERN.length();
 			current = html.charAt(nmIndex);
 			strNumPub = "";
+			
+			//aggiunge numero pubblicazione
 			while(true)
 			{
 				try
@@ -97,28 +75,24 @@ public class HtmlParser
 				
 			
 			//crea nuova pubblicazione con tutti i dati raccolti
-			pub = new Pubblicazione();
-			pub.setDtInserimento(new Date());
+			pub = new Pubblicazione();									
+			pub.setDtInserimento(new Date());							//DT_INSERIMENTO
 			if(numPub != -1)
 			{
-				pub.setNmPubblicazione(numPub);
+				pub.setNmPubblicazione(numPub);							//NM_PUBBLICAZIONE
 			}
-			pub.setStato("DA_SCARICARE");
-			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);
-			
-			pubblicazioni.add(pub);
-			
+			pub.setStato("DA_SCARICARE");								//STATO
+			pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
+						
 			//SALVA NEL DB
-			//repository.create(pub);
+			repository.create(pub);
 			
 			
-			//ricomincia per trovare altre pubblicazioni
+			//ricomincia il ciclo per trovare altre pubblicazioni
 			offset = startIndex;
 			startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN, offset);
 			url = "";
 		}
-		
-		return pubblicazioni;
 	}
 
 	/**
@@ -128,10 +102,10 @@ public class HtmlParser
 	 * @param pubblicazione 	the referenced Pubblicazione containing the Bans
 	 * @return					a list of Bans contained in pub
 	 */
-	public static ArrayList<Bando> getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
+	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
 	{
-		//BandoRepository repository = new BandoRepository();
-		ArrayList<Bando> bandi = new ArrayList<Bando>();
+		BandoRepository repository = new BandoRepository();
+		PubblicazioneRepository pubRepository = new PubblicazioneRepository();
 		Bando b;
 		int i = 4, dataLength;
 		Element bando, bandoSenzaSpan, data;
@@ -207,26 +181,25 @@ public class HtmlParser
 			//crea un nuovo bando con tutte le info raccolte
 			b = new Bando();
 			if(codEsterno != "")
-				b.setCdEsterno(codEsterno);					//CD_ESTERNO
-			b.setPubblicazione(pubblicazione);				//CD_PUBBLICAZIONE
+				b.setCdEsterno(codEsterno);							//CD_ESTERNO
+			b.setPubblicazione(pubblicazione);						//CD_PUBBLICAZIONE
 			if(cig != "")
-				b.setCig(cig);								//CIG
-			b.setTipo(tipoBando);							//TIPO
-			b.setTiporichiedente(tipoRichiedente);			//TIPORICHIEDENTE
-			b.setNmRichiedente(nmRichiedente);				//NM_RICHIEDENTE
-			if(scadenza != "")
+				b.setCig(cig);										//CIG
+			b.setTipo(tipoBando);									//TIPO
+			b.setTiporichiedente(tipoRichiedente);					//TIPORICHIEDENTE
+			b.setNmRichiedente(nmRichiedente);						//NM_RICHIEDENTE
+			if(scadenza != "")	
 				b.setScadenza(StringParser.stringToDate(scadenza));	//SCADENZA
-			b.setUrl(url);									//URL
-			b.setStato("DA_PARSIFICARE");					//STATO
-			b.setDtInserimento(new Date());					//DT_INSERIMENTO
-	
-			bandi.add(b);
-			
+			b.setUrl(url);											//URL
+			b.setStato("DA_PARSIFICARE");							//STATO
+			b.setDtInserimento(new Date());							//DT_INSERIMENTO
+				
 			//SALVA NEL DB
-			//repository.create(b);
+			repository.create(b);
 			}	
 		
-		return bandi;
+		//ricavati tutti i bandi di una pubblicazione, aggiorna lo stato
+		pubRepository.updateState(pubblicazione, "SCARICATA");
 	}
 	
 	/**
@@ -236,6 +209,7 @@ public class HtmlParser
 	 */
 	public static void parseBan(Bando ban)
 	{
+		BandoRepository repository = new BandoRepository();
 		String cig = "", oggetto = "";
 		int i = 0, timeout = PropertiesManager.SYS_BAN_PARSING_TRIALS_TIMEOUT, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
@@ -264,7 +238,7 @@ public class HtmlParser
 		
 		String testoBando = divBando.text();
 		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
-		ban.setTesto(testoBando);		
+		repository.updateText(ban, testoBando);		
 		
 		//estrae CIG, se non e' gia' presente
 		if(ban.getCig() == null)
@@ -272,7 +246,7 @@ public class HtmlParser
 			cig = StringParser.tryGetCig(testoBando);
 			if(!cig.equals(""))
 			{
-				ban.setCig(cig);
+				repository.updateCig(ban, cig);
 			}
 		}
 
@@ -299,10 +273,10 @@ public class HtmlParser
 		{
 			if(oggetto != "")
 			{
-				ban.setOggetto(oggetto);
+				repository.updateObject(ban, oggetto);
 			}
 			
-			ban.setStato("PARSIFICATO");
+			repository.updateState(ban, "PARSIFICATO");
 		}
 		
 		return;

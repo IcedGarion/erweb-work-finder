@@ -52,7 +52,7 @@ public abstract class JPAManager
 		try
 		{
 			entityManager.getTransaction().begin();
-			result =  entityManager.createQuery(query).executeUpdate();
+			result = entityManager.createQuery(query).executeUpdate();
 			entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
