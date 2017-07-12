@@ -13,7 +13,7 @@ public class Bando extends AbstractModel implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "CD_BANDO")
 	private String cdBando;
 

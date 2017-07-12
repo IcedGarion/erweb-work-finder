@@ -1,1 +1,13 @@
-inserire nel db
+inserire nel db:
+
+aggiornamenti a db:
+Main: ban.setTesto (76);
+HtmlParser: pubblicazione.setStato (210)
+HtmlParser: ban.setOggetto/stato (285-288)				OK
+
+implementare i metodi update bando e pub, e testare questi sopra.
+
+
+inserire nuova pub solo se e' piu' recente!
+
+parsing data... OK! CONFRONTO DATE!

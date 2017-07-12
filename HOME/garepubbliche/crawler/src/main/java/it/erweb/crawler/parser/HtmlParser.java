@@ -1,5 +1,8 @@
 package it.erweb.crawler.parser;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jsoup.Jsoup;
@@ -20,15 +23,19 @@ public class HtmlParser
 	 * Gets all the publications infos, given the publications home page
 	 * 
 	 * @param html	publications page
-	 * @return		A list of publications
+	 * @return		True if a new publication is available
+	 * @throws ParseException 
 	 */
-	public static void getPublications(String html)
+	public static boolean getPublications(String html) throws ParseException
 	{
+		boolean ret = false;
 		PubblicazioneRepository repository = new PubblicazioneRepository();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
-		String url = "", strNumPub;
+		String url = "", strNumPub = "", strDate = "";
 		Pubblicazione pub;
+		Date pubDate;
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		
 		//va alla prima occorrenza dell'url pattern
 		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
@@ -46,7 +53,6 @@ public class HtmlParser
 			nmIndex = html.indexOf(PropertiesManager.PUBLICATION_NUMBER_PATTERN, startIndex)
 					 + PropertiesManager.PUBLICATION_NUMBER_PATTERN.length();
 			current = html.charAt(nmIndex);
-			strNumPub = "";
 			
 			//aggiunge numero pubblicazione
 			while(true)
@@ -73,6 +79,22 @@ public class HtmlParser
 				numPub = -1;
 			}
 				
+			//dopo il numero c'e' la Data in cui la pubblicazione e' stata inserita
+			nmIndex += 5;
+			while(strDate.length() < 10)
+			{
+				current = html.charAt(nmIndex++);
+				System.out.print(current);
+				if(current != '\n' && current != ' ' && current != '\t')
+					strDate += current;
+			}
+			pubDate = format.parse(strDate);
+			
+			
+			
+			//controllo date e ret = true se c'e' nuova!
+			
+			
 			
 			//crea nuova pubblicazione con tutti i dati raccolti
 			pub = new Pubblicazione();									
@@ -93,6 +115,8 @@ public class HtmlParser
 			startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN, offset);
 			url = "";
 		}
+		
+		return ret;
 	}
 
 	/**
@@ -100,7 +124,6 @@ public class HtmlParser
 	 * 
 	 * @param publicationHtml	html of a publication page
 	 * @param pubblicazione 	the referenced Pubblicazione containing the Bans
-	 * @return					a list of Bans contained in pub
 	 */
 	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
 	{

@@ -3,6 +3,9 @@ package it.erweb.crawler.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,7 +21,7 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-	
+
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		PubblicazioneRepository pubRepo = new PubblicazioneRepository();
@@ -29,6 +32,7 @@ public class Main
 		List<String> publicationsHtml = new ArrayList<String>();
 		List<Bando> Bans = new ArrayList<Bando>();
 		PrintWriter r = new PrintWriter(new File("testoBandi"));
+		boolean newAvailable;
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -44,8 +48,14 @@ public class Main
 			
 			//ricava le prime informazioni sulle pubblicazioni disponibili e le salva nel DB
 			logger.info("Searching for publications...");
-			HtmlParser.getPublications(html);
+			newAvailable = HtmlParser.getPublications(html);
 			logger.info("OK\n");
+			
+			if(! (newAvailable))
+			{
+				logger.info("There are no new publications!");
+				return;
+			}
 			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving publications...");
