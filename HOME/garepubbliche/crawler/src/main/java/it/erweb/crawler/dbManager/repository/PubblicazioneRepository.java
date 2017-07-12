@@ -31,9 +31,13 @@ public class PubblicazioneRepository extends JPAManager
 		return result;
 	}
 
-	public void updateState(Pubblicazione pubblicazione, String string)
+	public void updateState(Pubblicazione pubblicazione, String newState)
 	{
-		throw new NotImplementedException();		
+		Pubblicazione pubDb = entityManager.find(Pubblicazione.class, pubblicazione.getCdPubblicazione());
+		 
+		entityManager.getTransaction().begin();
+		pubDb.setStato(newState);
+		entityManager.getTransaction().commit();		
 	}
 
 	public Date getLastDate()

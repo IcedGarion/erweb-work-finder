@@ -103,7 +103,7 @@ public class StringParser
 				// scorre tutta la stringa fino a ')' o fino a sforare la
 				// lunghezza del codice
 				ch = optionalInfo.charAt(index + i);
-				while((ch != ')') && (i < codPattern.length()))
+				while(ch != ')')
 				{
 					cod += ch;
 					ch = optionalInfo.charAt(index + (++i));

@@ -43,6 +43,7 @@ public class Main
 		
 		try
 		{
+/*
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + pubURL + " ...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
@@ -58,7 +59,7 @@ public class Main
 				logger.info("There are no new publications!");
 				return;
 			}
-			
+*/			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving publications...");
 			publications = pubRepo.getAllDaScaricare();

@@ -8,6 +8,4 @@ HtmlParser: ban.setOggetto/stato (285-288)				OK
 implementare i metodi update bando e pub, e testare questi sopra.
 
 
-inserire nuova pub solo se e' piu' recente!
-
-parsing data... OK! CONFRONTO DATE!
+Repository statici?

@@ -17,7 +17,6 @@ public class PropertiesManager
 	public static String PUBLICATION_DETAIL_PATTERN;		//pattern per trovare url singole pubblicazioni
 	public static String PUBLICATION_BAN_DIVID_PATTERN;		//div id del bando all'interno di una pubblicazione
 	public static String BAN_CD_ESTERNO_PATTERN;			//pattern per trovare codice esterno bando, all'interno di pubblicazi
-	public static int BAN_CD_ESTERNO_LENGTH;				//lunghezza pattern
 	public static String BAN_CIG_PATTERN;					//pattern per trovare cig all'interno di pubblicazione
 	public static int BAN_CIG_LENGTH;						//lunghezza pattern
 	public static String BAN_CIG_REGEX;						//regex per matchare cig
@@ -75,7 +74,6 @@ public class PropertiesManager
 		PUBLICATION_DETAIL_PATTERN = prop.getProperty("PUBLICATION_DETAIL_PATTERN");
 		PUBLICATION_NUMBER_PATTERN = prop.getProperty("PUBLICATION_NUMBER_PATTERN");
 		BAN_CD_ESTERNO_PATTERN = prop.getProperty("BAN_CD_ESTERNO_PATTERN");
-		BAN_CD_ESTERNO_LENGTH = Integer.parseInt(prop.getProperty("BAN_CD_ESTERNO_LENGTH"));
 		BAN_CIG_PATTERN = prop.getProperty("BAN_CIG_PATTERN");
 		BAN_CIG_LENGTH = Integer.parseInt(prop.getProperty("BAN_CIG_LENGTH"));
 		BAN_CIG_REGEX = prop.getProperty("BAN_CIG_REGEX");
