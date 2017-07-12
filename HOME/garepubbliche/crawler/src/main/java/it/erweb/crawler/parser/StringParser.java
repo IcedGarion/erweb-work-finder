@@ -280,28 +280,28 @@ public class StringParser
 	 */
 	private static String tryDeleteLastLines(String banObj)
 	{
-		String truncated = banObj;
+		String truncated = banObj, ret = banObj;
 		int i = 0;
-		int secondToLastLineIndex = banObj.lastIndexOf(".\n");
+		int secondToLastLineIndex = ret.lastIndexOf(".\n");
 		
 		//continua a cancellare l'ultima riga, finche' e' ancora un oggetto valido
 		try
 		{
-			truncated = banObj.substring(0, secondToLastLineIndex);
+			truncated = ret.substring(0, secondToLastLineIndex);
 
 			//cancella solo un max numero di volte
 			while(BandoObjValidator.validate(truncated) && i < PropertiesManager.BAN_OBJ_PADDING_LINES)
 			{
-				banObj = truncated;
-				secondToLastLineIndex = banObj.lastIndexOf('\n');
-				truncated = banObj.substring(0, secondToLastLineIndex);
+				ret = truncated;
+				secondToLastLineIndex = ret.lastIndexOf('\n');
+				truncated = ret.substring(0, secondToLastLineIndex);
 				i++;
 			}
 		}
 		catch(Exception e)
 		{ }
 		
-		return banObj.replace("\n", " ");
+		return ret.replace("\n", " ");
 	}
 	
 	/**
@@ -339,8 +339,8 @@ public class StringParser
 	 */
 	private static int regexIndexOf(Pattern pattern, String s, int offset)
 	{
-		s = s.substring(offset, s.length() - 1);
-	    Matcher matcher = pattern.matcher(s);
+		String x = s.substring(offset, s.length() - 1);
+	    Matcher matcher = pattern.matcher(x);
 	    return matcher.find() ? matcher.start() + offset : -1;
 	}
 }

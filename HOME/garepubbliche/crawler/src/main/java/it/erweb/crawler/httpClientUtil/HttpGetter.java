@@ -21,14 +21,15 @@ public class HttpGetter
 	 */
     public static String get(String URL) 
     {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet request = new HttpGet(URL);
         String body = "ERROR";
-        CloseableHttpResponse result = null;								
 
         try
+        (
+        		CloseableHttpClient httpclient = HttpClients.createDefault();
+        		CloseableHttpResponse result = httpclient.execute(request);
+        )
         {									
-        	result = httpclient.execute(request);				
             body = EntityUtils.toString(result.getEntity());
             result.close();			
             httpclient.close();

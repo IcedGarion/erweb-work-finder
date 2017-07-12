@@ -46,17 +46,17 @@ public class BandoObjValidator
 	public static boolean validate(String oggettoBando)
 	{
 		boolean ret = false;
+		String validObj;
 		
-		try
+		try(PrintWriter writer = new PrintWriter(new File(PropertiesManager.VALIDATOR_TEST_PATH)))
 		{
 			//converte oggettoBando togliendo tutti i "'" e "\n"
-			oggettoBando = removeIllegalChars(oggettoBando);
+			validObj = removeIllegalChars(oggettoBando);
 			
 			
 			//scrive sul file di test l'oggettoBando (da testare)
-			PrintWriter writer = new PrintWriter(new File(PropertiesManager.VALIDATOR_TEST_PATH));
 			writer.write("@relation weka_mymodel_model\n@attribute text string\n@attribute class {t,f}\n@data\n"
-					+ "'" + oggettoBando + "',?\n");
+					+ "'" + validObj + "',?\n");
 			writer.close();
 			
 			// import file di test appena scritto

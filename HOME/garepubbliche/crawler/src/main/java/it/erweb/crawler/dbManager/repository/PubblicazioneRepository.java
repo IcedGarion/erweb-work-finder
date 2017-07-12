@@ -41,10 +41,14 @@ public class PubblicazioneRepository extends JPAManager
 
 	public static Date getLastDate()
 	{
-		ArrayList<Object> ret = (ArrayList<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
-		if(ret.size() == 0)
-			return Date.from(Instant.EPOCH);
+		Date ret;
+		
+		ArrayList<Object> lastDate = (ArrayList<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
+		if(lastDate.size() == 0)
+			ret = Date.from(Instant.EPOCH);
 		else
-			return (Date) ret.get(0);
+			ret = (Date) lastDate.get(0);
+		
+		return ret;
 	}
 }

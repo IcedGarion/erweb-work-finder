@@ -1,6 +1,5 @@
 package it.erweb.crawler.parser;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import it.erweb.crawler.configurations.PropertiesManager;
+import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.model.Bando;
@@ -105,7 +105,7 @@ public class HtmlParser
 				pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
 						
 				//SALVA NEL DB
-				PubblicazioneRepository.create(pub);
+				JPAManager.create(pub);
 			}
 			
 			//ricomincia il ciclo per trovare altre pubblicazioni
@@ -214,7 +214,7 @@ public class HtmlParser
 			b.setDtInserimento(new Date());							//DT_INSERIMENTO
 				
 			//SALVA NEL DB
-			BandoRepository.create(b);
+			JPAManager.create(b);
 			}	
 		
 		//ricavati tutti i bandi di una pubblicazione, aggiorna lo stato

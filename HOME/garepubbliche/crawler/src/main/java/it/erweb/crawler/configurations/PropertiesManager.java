@@ -37,32 +37,17 @@ public class PropertiesManager
 	 */
 	public static void loadProperties()
 	{
-		FileInputStream input = null;
 		Properties prop = new Properties();
 		
 		//legge il file
-		try
+		try(FileInputStream input = new FileInputStream(PROPERTIES_FILE))
 		{
-			input = new FileInputStream(PROPERTIES_FILE);
 			prop.load(input);
+		
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
-		{
-			if(input != null)
-			{
-				try
-				{
-					input.close();
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
 		}
 		
 		//salva le properties lette

@@ -73,7 +73,7 @@ public class Expreg extends AbstractModel implements Serializable
 	@Override
 	public String toString()
 	{
-		return cdExpreg + ", " + utente + ", " + expplus + ", " + expminus;
+		return this.cdExpreg + ", " + this.utente + ", " + this.expplus + ", " + this.expminus;
 	}
 
 }

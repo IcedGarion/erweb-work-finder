@@ -117,7 +117,7 @@ public class Pubblicazione extends AbstractModel implements Serializable
 	@Override
 	public String toString()
 	{
-		return cdPubblicazione + ", " + dtInserimento + ", " + nmPubblicazione + ", " + stato + ", " + url;
+		return this.cdPubblicazione + ", " + this.dtInserimento + ", " + this.nmPubblicazione + ", " + this.stato + ", " + this.url;
 	}
 
 }

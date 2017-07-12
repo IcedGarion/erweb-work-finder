@@ -7,5 +7,4 @@ HtmlParser: ban.setOggetto/stato (285-288)				OK
 
 implementare i metodi update bando e pub, e testare questi sopra.
 
-
-Repository statici?
+Compattare il piu' possibile le transazioni

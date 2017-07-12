@@ -32,7 +32,6 @@ public abstract class JPAManager
 		entityManager.getTransaction().begin();
 		entityManager.persist(obj);
 		entityManager.getTransaction().commit();
-		//entityManager.close();
 	}
 
 	public static List<Object> read(String query) throws JPAException
@@ -82,4 +81,9 @@ public abstract class JPAManager
 			throw new JPAException("Error in delete:\n" + e.getMessage());
 		}
 	}	
+	
+	public static void close()
+	{
+		entityManager.close();
+	}
 }

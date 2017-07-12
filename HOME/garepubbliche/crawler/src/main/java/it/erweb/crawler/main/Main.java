@@ -1,14 +1,7 @@
 package it.erweb.crawler.main;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
@@ -32,7 +25,6 @@ public class Main
 		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		List<String> publicationsHtml = new ArrayList<String>();
 		List<Bando> Bans = new ArrayList<Bando>();
-		PrintWriter r = new PrintWriter(new File("testoBandi"));
 		boolean newAvailable;
 		
 		//inizializza configurazioni
@@ -90,7 +82,7 @@ public class Main
 			Bans = BandoRepository.getAllDaParsificare();
 			logger.info("OK\n");
 
-			//scarica tutti i bandi salvati e aggiorna il DB
+			//scarica tutti i bandi appena recuperati e aggiorna il DB con il testo
 			logger.info("Downloading all bans...\n");
 			for(Bando ban : Bans)
 			{
@@ -98,28 +90,18 @@ public class Main
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				html = HttpGetter.get(ban.getUrl());
 	
-				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
-				
+				//Inizialmente salva tutto l'html del bando come testo
 				BandoRepository.updateText(ban, html);	
 			}
 			logger.info("OK\n");
 			
+			//processa i bandi di cui ora si conosce il testo, aggiornando oggetto, cig e stato nel DB
 			i = 0;
 			logger.info("Parsing all bans...\n");
 			for(Bando ban : Bans)
 			{				
 				logger.info("Parsing ban n. " + (++i) + "...\n");
 				HtmlParser.parseBan(ban);
-				
-				//SCRIVE SU FILE IL TESTO DEI BANDI (DEBUG)
-				
-					
-					r.write(i + (i>=10?"":" ") + ": CIG : " + (ban.getCig()==null?"nil\t\t\t":ban.getCig()+"\t" ) + "- " + ban.getOggetto() + "\n");
-					r.flush();
-				
-			
-				
-				
 			}
 			logger.info("OK\n");
 			
@@ -130,7 +112,7 @@ public class Main
 		}
 		finally
 		{
-			r.close();
+			JPAManager.close();
 		}
 		
 		return;
@@ -146,7 +128,7 @@ public class Main
 			//carica il file di train e configura il validatore oggetti
 			BandoObjValidator.train();
 			
-			//inizializza repository JPA db
+			//inizializza repository JPA db (e ache tutti gli implementers)
 			JPAManager.init();
 		}
 		catch(Exception e)
