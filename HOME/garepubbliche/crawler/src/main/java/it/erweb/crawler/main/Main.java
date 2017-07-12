@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
+import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
@@ -26,9 +27,7 @@ public class Main
 	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
-		PubblicazioneRepository pubRepo = new PubblicazioneRepository();
-		BandoRepository banRepo = new BandoRepository();
-		String html = "", pubURL = "";
+		String html = "";
 		int i = 0;
 		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		List<String> publicationsHtml = new ArrayList<String>();
@@ -45,7 +44,7 @@ public class Main
 		{
 /*
 			//si connette alla pagina delle pubblicazioni
-			logger.info("Connecting to publications page: " + pubURL + " ...");
+			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + " ...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
 			logger.info("OK\n");
 			
@@ -62,7 +61,7 @@ public class Main
 */			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving publications...");
-			publications = pubRepo.getAllDaScaricare();
+			publications = PubblicazioneRepository.getAllDaScaricare();
 			logger.info("OK\n");
 
 			//per ogni pubblicazione "DA_SCARICARE", ricava URL e scarica (aggiungendo gli html a una lista)
@@ -88,7 +87,7 @@ public class Main
 			
 			//carica dal DB tutti i bandi appena inseriti ("DA_PARSIFICARE")
 			logger.info("Retrieving bans...\n");
-			Bans = banRepo.getAllDaParsificare();
+			Bans = BandoRepository.getAllDaParsificare();
 			logger.info("OK\n");
 
 			//scarica tutti i bandi salvati e aggiorna il DB
@@ -101,7 +100,7 @@ public class Main
 	
 				//INIZIALMENTE SALVA TUTTO HTML COME TESTO DEL BANDO
 				
-				banRepo.updateText(ban, html);	
+				BandoRepository.updateText(ban, html);	
 			}
 			logger.info("OK\n");
 			
@@ -146,6 +145,9 @@ public class Main
 			
 			//carica il file di train e configura il validatore oggetti
 			BandoObjValidator.train();
+			
+			//inizializza repository JPA db
+			JPAManager.init();
 		}
 		catch(Exception e)
 		{

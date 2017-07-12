@@ -15,7 +15,7 @@ public class BandoRepository extends JPAManager
 {	
 	//altre funzioni specifiche molto usate (tipo "trova tutti i bandi con stato x")
 	
-	public List<Bando> getAllDaParsificare() throws JPAException
+	public static List<Bando> getAllDaParsificare() throws JPAException
 	{
 		List<Bando> result;
 		
@@ -31,22 +31,22 @@ public class BandoRepository extends JPAManager
 		return result;
 	}
 
-	public void updateText(Bando ban, String testoBando)
+	public static void updateText(Bando ban, String testoBando)
 	{
 		throw new NotImplementedException();				
 	}
 
-	public void updateCig(Bando ban, String cig)
+	public static void updateCig(Bando ban, String cig)
 	{
 		throw new NotImplementedException();				
 	}
 
-	public void updateObject(Bando ban, String oggetto)
+	public static void updateObject(Bando ban, String oggetto)
 	{
 		throw new NotImplementedException();				
 	}
 
-	public void updateState(Bando ban, String string)
+	public static void updateState(Bando ban, String string)
 	{
 		throw new NotImplementedException();				
 	}

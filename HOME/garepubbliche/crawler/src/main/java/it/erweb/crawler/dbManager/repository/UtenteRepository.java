@@ -10,7 +10,7 @@ import it.erweb.crawler.dbManager.JPAManager;
  */
 public class UtenteRepository extends JPAManager
 {
-	public List<Object> getAllUsers() throws JPAException
+	public static List<Object> getAllUsers() throws JPAException
 	{
 		List<Object> result;
 		

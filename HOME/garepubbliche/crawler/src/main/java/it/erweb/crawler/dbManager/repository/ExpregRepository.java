@@ -11,7 +11,7 @@ import it.erweb.crawler.model.Utente;
  */
 public class ExpregRepository extends JPAManager
 {
-	public List<Object> getAllUsersExpr(Utente usr) throws JPAException
+	public static List<Object> getAllUsersExpr(Utente usr) throws JPAException
 	{
 		List<Object> result;
 		String usrname;

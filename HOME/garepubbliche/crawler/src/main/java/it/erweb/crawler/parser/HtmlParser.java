@@ -29,12 +29,11 @@ public class HtmlParser
 	public static boolean getPublications(String html) throws ParseException
 	{
 		boolean ret = false;
-		PubblicazioneRepository repository = new PubblicazioneRepository();
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
 		char current;
 		String url, strNumPub, strDate;
 		Pubblicazione pub;
-		Date pubDate, lastPubDate = repository.getLastDate();;
+		Date pubDate, lastPubDate = PubblicazioneRepository.getLastDate();
 		
 		//va alla prima occorrenza dell'url pattern
 		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
@@ -106,7 +105,7 @@ public class HtmlParser
 				pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
 						
 				//SALVA NEL DB
-				repository.create(pub);
+				PubblicazioneRepository.create(pub);
 			}
 			
 			//ricomincia il ciclo per trovare altre pubblicazioni
@@ -126,8 +125,6 @@ public class HtmlParser
 	 */
 	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
 	{
-		BandoRepository repository = new BandoRepository();
-		PubblicazioneRepository pubRepository = new PubblicazioneRepository();
 		Bando b;
 		int i = 4, dataLength;
 		Element bando, bandoSenzaSpan, data;
@@ -217,11 +214,11 @@ public class HtmlParser
 			b.setDtInserimento(new Date());							//DT_INSERIMENTO
 				
 			//SALVA NEL DB
-			repository.create(b);
+			BandoRepository.create(b);
 			}	
 		
 		//ricavati tutti i bandi di una pubblicazione, aggiorna lo stato
-		pubRepository.updateState(pubblicazione, "SCARICATA");
+		PubblicazioneRepository.updateState(pubblicazione, "SCARICATA");
 	}
 	
 	/**
@@ -231,7 +228,6 @@ public class HtmlParser
 	 */
 	public static void parseBan(Bando ban)
 	{
-		BandoRepository repository = new BandoRepository();
 		String cig = "", oggetto = "";
 		int i = 0, timeout = PropertiesManager.SYS_BAN_PARSING_TRIALS_TIMEOUT, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
 		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
@@ -260,7 +256,7 @@ public class HtmlParser
 		
 		String testoBando = divBando.text();
 		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
-		repository.updateText(ban, testoBando);		
+		BandoRepository.updateText(ban, testoBando);		
 		
 		//estrae CIG, se non e' gia' presente
 		if(ban.getCig() == null)
@@ -268,7 +264,7 @@ public class HtmlParser
 			cig = StringParser.tryGetCig(testoBando);
 			if(!cig.equals(""))
 			{
-				repository.updateCig(ban, cig);
+				BandoRepository.updateCig(ban, cig);
 			}
 		}
 
@@ -295,10 +291,10 @@ public class HtmlParser
 		{
 			if(oggetto != "")
 			{
-				repository.updateObject(ban, oggetto);
+				BandoRepository.updateObject(ban, oggetto);
 			}
 			
-			repository.updateState(ban, "PARSIFICATO");
+			BandoRepository.updateState(ban, "PARSIFICATO");
 		}
 		
 		return;

@@ -8,14 +8,13 @@ import java.util.List;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.model.Pubblicazione;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *	Contains the methods for manipulating a Pubblicazione object in the database
  */
 public class PubblicazioneRepository extends JPAManager
 {
-	public List<Pubblicazione> getAllDaScaricare() throws JPAException
+	public static List<Pubblicazione> getAllDaScaricare() throws JPAException
 	{
 		List<Pubblicazione> result;
 		
@@ -31,7 +30,7 @@ public class PubblicazioneRepository extends JPAManager
 		return result;
 	}
 
-	public void updateState(Pubblicazione pubblicazione, String newState)
+	public static void updateState(Pubblicazione pubblicazione, String newState)
 	{
 		Pubblicazione pubDb = entityManager.find(Pubblicazione.class, pubblicazione.getCdPubblicazione());
 		 
@@ -40,7 +39,7 @@ public class PubblicazioneRepository extends JPAManager
 		entityManager.getTransaction().commit();		
 	}
 
-	public Date getLastDate()
+	public static Date getLastDate()
 	{
 		ArrayList<Object> ret = (ArrayList<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
 		if(ret.size() == 0)

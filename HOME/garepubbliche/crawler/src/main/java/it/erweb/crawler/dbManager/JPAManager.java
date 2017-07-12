@@ -13,15 +13,21 @@ import it.erweb.crawler.model.AbstractModel;
  */
 public abstract class JPAManager
 {
-	protected final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
-	protected EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME);
-	protected EntityManager entityManager = entityManagerFactory.createEntityManager();
+	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
+	protected static EntityManagerFactory entityManagerFactory;
+	protected static EntityManager entityManager;
 	
 	//join
 	//result = db.read("select u.username, e.expplus from Utente u join Expreg e on u.cdUtente = e.utente");
 	
 	//reads: ritorna un elemento lista per ogni riga; ogni elemento è array Obj: una cella per colonna
-	public void create(AbstractModel obj)
+	public static void init()
+	{
+		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME);
+		entityManager = entityManagerFactory.createEntityManager();
+	}
+	
+	public static void create(AbstractModel obj)
 	{	
 		entityManager.getTransaction().begin();
 		entityManager.persist(obj);
@@ -29,7 +35,7 @@ public abstract class JPAManager
 		//entityManager.close();
 	}
 
-	public List<Object> read(String query) throws JPAException
+	public static List<Object> read(String query) throws JPAException
 	{
 		List<Object> result;
 		
@@ -45,7 +51,7 @@ public abstract class JPAManager
 		return result;
 	}
 
-	public int update(String query) throws JPAException
+	public static int update(String query) throws JPAException
 	{
 		int result;
 		
@@ -63,7 +69,7 @@ public abstract class JPAManager
 		return result;
 	}
 
-	public void delete(AbstractModel obj) throws JPAException
+	public static void delete(AbstractModel obj) throws JPAException
 	{
 		try
 		{
