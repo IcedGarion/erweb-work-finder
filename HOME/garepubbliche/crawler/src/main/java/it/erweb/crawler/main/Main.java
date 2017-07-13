@@ -14,6 +14,9 @@ import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
 import it.erweb.crawler.weka.BandoObjValidator;
 
+/**
+ * Crawler's main class
+ */
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
@@ -63,6 +66,12 @@ public class Main
 				logger.info("Connecting to: " + pub.getUrl() + " ...");
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
+				
+				
+				
+				break;
+				
+				
 			}
 			logger.info("OK\n");
 	

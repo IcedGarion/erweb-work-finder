@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 /**
- * Contains all configuration properties, stored in crawler.config
+ *  A class for managing configurations
  */
 public class PropertiesManager
 {
@@ -33,7 +33,7 @@ public class PropertiesManager
 	public static String BAN_OBJ_JUNK_BODY;
 	
 	/**
-	 * Loads all properties contained in configuration file
+	 * Loads all properties contained in the configuration file
 	 */
 	public static void loadProperties()
 	{

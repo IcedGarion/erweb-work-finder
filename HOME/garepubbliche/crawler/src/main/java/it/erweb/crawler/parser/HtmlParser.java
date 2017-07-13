@@ -20,7 +20,7 @@ import it.erweb.crawler.model.Pubblicazione;
 public class HtmlParser
 {	
 	/**
-	 * Gets all the publications infos, given the publications home page
+	 * Gets all the publications' infos, given the publications home page, and stores them persistently on the DB
 	 * 
 	 * @param html	publications page
 	 * @return		True if a new publication is available
@@ -64,6 +64,7 @@ public class HtmlParser
 					strNumPub += current;
 					current = html.charAt(++nmIndex);
 				}
+				//quando arriva al carattere che non e' piu' un int, ha finito di leggere il numero
 				catch(Exception e)
 				{
 					break;
@@ -79,7 +80,7 @@ public class HtmlParser
 				numPub = -1;
 			}
 				
-			//dopo il numero c'e' la Data in cui la pubblicazione e' stata inserita
+			//appena dopo il numero c'e' la Data in cui la pubblicazione e' stata inserita
 			nmIndex += 5;
 			while(strDate.length() < 10)
 			{
@@ -222,7 +223,7 @@ public class HtmlParser
 	}
 	
 	/**
-	 * Searches the Ban body, trying to find the Ban Object
+	 * Searches the Ban body, trying to find the Ban Object and Cig, and then updates the Ban properties in the DB
 	 * 
 	 * @param ban	html of the whole Ban page
 	 */

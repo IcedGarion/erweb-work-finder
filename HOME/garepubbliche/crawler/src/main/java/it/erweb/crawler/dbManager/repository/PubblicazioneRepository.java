@@ -1,7 +1,6 @@
 package it.erweb.crawler.dbManager.repository;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +13,12 @@ import it.erweb.crawler.model.Pubblicazione;
  */
 public class PubblicazioneRepository extends JPAManager
 {
+	/**
+	 * 	Returns a list of all Publications whose State is "DA_SCARICARE"
+	 * 
+	 * @return	A list of publications
+	 * @throws JPAException
+	 */
 	public static List<Pubblicazione> getAllDaScaricare() throws JPAException
 	{
 		List<Pubblicazione> result;
@@ -30,6 +35,12 @@ public class PubblicazioneRepository extends JPAManager
 		return result;
 	}
 
+	/**
+	 * 	Updates the STATO property of Pubblicazione
+	 * 
+	 * @param pubblicazione		the publication to be updated
+	 * @param newState			the new state
+	 */
 	public static void updateState(Pubblicazione pubblicazione, String newState)
 	{
 		Pubblicazione pubDb = entityManager.find(Pubblicazione.class, pubblicazione.getCdPubblicazione());
@@ -39,11 +50,19 @@ public class PubblicazioneRepository extends JPAManager
 		entityManager.getTransaction().commit();		
 	}
 
+	/**
+	 * 	Gets the most recent date from all the Publications' insertions dates
+	 * 
+	 * @return	the most recent date, or EPOCH if no data found
+	 */
 	public static Date getLastDate()
 	{
 		Date ret;
 		
-		ArrayList<Object> lastDate = (ArrayList<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
+		List<Object> lastDate = (List<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
+		
+		//se la tabella pubblicazioni e' vuota, ritorna epoch
+		//cosi' se c'e' una nuova pubblicazione sul sito sara' per forza piu' recente e quindi la scarica
 		if(lastDate.size() == 0)
 			ret = Date.from(Instant.EPOCH);
 		else

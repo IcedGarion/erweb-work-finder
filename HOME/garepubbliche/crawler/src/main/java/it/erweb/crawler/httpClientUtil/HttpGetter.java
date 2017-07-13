@@ -16,8 +16,8 @@ public class HttpGetter
 	/**
 	 * Performs an HTTP GET with target the specified URL
 	 * 
-	 * @param URL
-	 * @return
+	 * @param URL	target URL of the web page / resource  requested
+	 * @return	A string representing the resource (i.e. an html)
 	 */
     public static String get(String URL) 
     {
@@ -31,8 +31,6 @@ public class HttpGetter
         )
         {									
             body = EntityUtils.toString(result.getEntity());
-            result.close();			
-            httpclient.close();
         }
         catch (IOException e)
         {

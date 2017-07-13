@@ -78,7 +78,7 @@ public class StringParser
 	}
 
 	/**
-	 * Searches the input to find the ban external code
+	 * Searches the input to find the ban's external code
 	 * 
 	 * @param optionalInfo
 	 *            the input string representing a fragment of publication html
@@ -132,8 +132,8 @@ public class StringParser
 	}
 
 	/**
-	 * Tries to find a valid Ban Object (a brief description), given the ban
-	 * body for different patterns
+	 * Tries to find a valid Ban Object (a brief description) with different patterns, given the ban
+	 * body
 	 * 
 	 * @param banBody
 	 *            the whole ban
@@ -330,7 +330,7 @@ public class StringParser
 	}
 	
 	/**
-	 * 	Same of the classic indexOf java function, but matches a regular expression
+	 * 	Classic old 'indexOf' java function, but matches a regular expression (Pattern)
 	 * 
 	 * @param pattern	the regular expression to find
 	 * @param s			the string in where search

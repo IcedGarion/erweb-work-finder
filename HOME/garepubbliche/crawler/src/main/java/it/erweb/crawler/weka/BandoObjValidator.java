@@ -16,7 +16,7 @@ public class BandoObjValidator
 	private static Instances train;
 	
 	/**
-	 * Agent Training: learns to classify based on a train.arff file
+	 * Agent Training: learns to classify the objects, basing on a train.arff file
 	 */
 	public static void train()
 	{ 
