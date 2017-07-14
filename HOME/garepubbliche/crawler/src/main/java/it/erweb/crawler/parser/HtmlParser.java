@@ -7,10 +7,14 @@ import java.util.Date;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
+import it.erweb.crawler.httpClientUtil.HttpGetter;
+import it.erweb.crawler.httpClientUtil.Notifier;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
 
@@ -29,7 +33,7 @@ public class HtmlParser
 	public static boolean getPublications(String html) throws ParseException
 	{
 		boolean ret = false;
-		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1;
+		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1, i = 0;
 		char current;
 		String url, strNumPub, strDate;
 		Pubblicazione pub;
@@ -40,13 +44,21 @@ public class HtmlParser
 		while(startIndex != -1)
 		{
 			url = strNumPub = strDate = "";
+			i = 0;
 			
 			//salva URL dall'inizio di "" fino alla fine di ""
 			current = html.charAt(startIndex);
-			while(current != '\"')
+			while(current != PropertiesManager.GAZZETTA_URL_TERMINATOR)
 			{
 				url += current;
 				current = html.charAt(++startIndex);
+				
+				if((i++) > PropertiesManager.PUBLICATIONS_URL_LENGTH)
+				{
+					System.err.println("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+					Notifier.notify("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+					System.exit(2);
+				}
 			}
 			
 			//scorre ancora un po' avanti per trovare relativo numero di pubblicazione (che è sempre presente)
@@ -85,7 +97,6 @@ public class HtmlParser
 			while(strDate.length() < 10)
 			{
 				current = html.charAt(nmIndex++);
-				System.out.print(current);
 				if(current != '\n' && current != ' ' && current != '\t')
 					strDate += current;
 			}
@@ -129,12 +140,27 @@ public class HtmlParser
 		Bando b;
 		int i = 4, dataLength;
 		Element bando, bandoSenzaSpan, data;
-		String codEsterno = "", cig = "", url, scadenza = "", tmp, spanType, optionalInfo, nmRichiedente;
-
-		//primo parsing per arrivare a elenco bandi
-		Element doc = Jsoup.parseBodyFragment(publicationHtml).body();		//tutto l'html
-		Element elencoBandi = doc.getElementById(PropertiesManager.PUBLICATION_BAN_DIVID_PATTERN);			//<div id="elenco_hp"> 
-		String tipoBando = elencoBandi.child(2).ownText();				//avvisi e bandi di gara
+		String publicationHtmlCpy = publicationHtml, tipoBando = "", codEsterno = "", cig = "", url = "", scadenza = "", tmp, spanType, optionalInfo, nmRichiedente;
+		Element doc, elencoBandi = null;
+		
+		//primo parsing per arrivare a elenco bandi: causa possobili fallimenti, cicla
+		while(tipoBando == "")
+		{
+			doc = Jsoup.parseBodyFragment(publicationHtmlCpy).body();		//tutto l'html
+			elencoBandi = doc.getElementById(PropertiesManager.PUBLICATION_BAN_DIVID_PATTERN);			//<div id="elenco_hp"> 
+			
+			//potrebbe fallire se html e' corrotto: lo riscarica
+			try
+			{
+				tipoBando = elencoBandi.child(2).ownText();				//avvisi e bandi di gara7
+			}
+			catch(Exception e)
+			{
+				publicationHtmlCpy = HttpGetter.get(pubblicazione.getUrl());
+			}
+		}
+		
+		
 		Element emettitore = elencoBandi.child(3);			//<span class="emettitore"> MINISTERI..
 		String tipoRichiedente = emettitore.ownText();		//emettitore senza <span...
 
@@ -167,7 +193,17 @@ public class HtmlParser
 			
 			
 			//prende tutta la riga ancora sporca del bando e splitta dove trova '"': nella seconda cella c'e' l'URL
-			url = PropertiesManager.GAZZETTA_HOME_URL + bandoSenzaSpan.toString().split("\"")[1];
+			try
+			{
+				url = PropertiesManager.GAZZETTA_HOME_URL + bandoSenzaSpan.toString().split(""+PropertiesManager.GAZZETTA_URL_TERMINATOR)[1];
+			}
+			catch(Exception e)
+			{
+				System.err.println("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+				Notifier.notify("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+				System.exit(2);
+			}
+			
 			url = url.replace("&amp;", "&");	//rimuove caratteri che poi spariscono (?)
 			
 			//toglie anche <a href... e rimane il nome richiedente e scadenza
@@ -230,28 +266,27 @@ public class HtmlParser
 	public static void parseBan(Bando ban)
 	{
 		String cig = "", oggetto = "";
-		int i = 0, timeout = PropertiesManager.SYS_BAN_PARSING_TRIALS_TIMEOUT, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
-		Document doc = Jsoup.parseBodyFragment(ban.getTesto());
-		Element mainContent = doc.body();
-		Element divBando;
+		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
+		Document doc;
+		Element mainContent;
+		Element divBando = null;
+		Elements tmp;
 		
-		//codice soggetto ad errori
-		while(true)
+		//causa possibili fallimenti, cicla
+		while(divBando == null)
 		{
+			//se non riesce a leggere bene html, lo riscarica
 			try
 			{
-				divBando = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS).get(0);
-				break;
+				doc = Jsoup.parseBodyFragment(ban.getTesto());
+				mainContent = doc.body();
+				tmp = mainContent.getElementsByClass(PropertiesManager.BAN_DIVCLASS);
+				divBando = tmp.get(0);
 			}
 			catch(Exception e)
 			{
-				if(--timeout <= 0)
-				{
-					System.err.println("Unable to parse Ban");
-					System.exit(1);
-				}
-				
-				continue;
+				//riscarica il ban e setta il testo da nuovo
+				ban.setTesto(HttpGetter.get(ban.getUrl()));
 			}
 		}
 		

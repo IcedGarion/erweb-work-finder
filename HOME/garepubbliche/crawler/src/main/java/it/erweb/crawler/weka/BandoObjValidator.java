@@ -127,6 +127,12 @@ public class BandoObjValidator
 	}
 	*/
 	
+	/**
+	 * 	Removes WEKA .arff file illegal characters
+	 * 
+	 * @param oggettoBando	string supposed to be not valid
+	 * @return	the validated and converted string
+	 */
 	public static String removeIllegalChars(String oggettoBando)
 	{
 		String ret = "";

@@ -9,6 +9,7 @@ import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
+import it.erweb.crawler.dbManager.repository.UtenteRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
@@ -24,10 +25,11 @@ public class Main
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
-		int i = 0;
+		int i = 0, length;
 		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		List<String> publicationsHtml = new ArrayList<String>();
-		List<Bando> Bans = new ArrayList<Bando>();
+		List<Bando> bans = new ArrayList<Bando>();
+		List<Utente> users = new ArrayList<Utente>();
 		boolean newAvailable;
 		
 		//inizializza configurazioni
@@ -36,10 +38,9 @@ public class Main
 		logger.info("OK\n");
 		
 		try
-		{
-/*
+		{/*
 			//si connette alla pagina delle pubblicazioni
-			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + " ...");
+			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
 			logger.info("OK\n");
 			
@@ -53,49 +54,48 @@ public class Main
 				logger.info("There are no new publications!");
 				return;
 			}
-*/			
+			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving publications...");
 			publications = PubblicazioneRepository.getAllDaScaricare();
 			logger.info("OK\n");
 
 			//per ogni pubblicazione "DA_SCARICARE", ricava URL e scarica (aggiungendo gli html a una lista)
+			i = 0;
+			length = publications.size();
 			logger.info("Downloading all publications...");
 			for(Pubblicazione pub : publications)
 			{
-				logger.info("Connecting to: " + pub.getUrl() + " ...");
+				logger.info("Downloading Publication " + (++i) + " of " + (length + 1) + "\nConnecting to: " + pub.getUrl() + "...");
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
-				publicationsHtml.add(HttpGetter.get(pub.getUrl()));
-				
-				
-				
-				break;
-				
-				
+				publicationsHtml.add(HttpGetter.get(pub.getUrl()));	
 			}
 			logger.info("OK\n");
 	
 			//scorre le pubblicazioni e ricava i bandi, li inserisce nel DB
+			i = 0;
+			length = publicationsHtml.size();
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
-				logger.info("Parsing publication n. " + (i + 1) + " ...");
+				logger.info("Parsing publication n. " + (++i) + " of " + (length + 1) + "...");
 				//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
 				HtmlParser.getPublicationBans(pub, publications.get(i));	
-				i++;
 			}
 			logger.info("OK\n");
 			
 			//carica dal DB tutti i bandi appena inseriti ("DA_PARSIFICARE")
-			logger.info("Retrieving bans...\n");
-			Bans = BandoRepository.getAllDaParsificare();
+			logger.info("Retrieving all bans...");
+			bans = BandoRepository.getAllDaParsificare();
 			logger.info("OK\n");
 
 			//scarica tutti i bandi appena recuperati e aggiorna il DB con il testo
+			i = 0;
+			length = bans.size();
 			logger.info("Downloading all bans...\n");
-			for(Bando ban : Bans)
+			for(Bando ban : bans)
 			{
-				logger.info("Connecting to: " + ban.getUrl() + " ...");
+				logger.info("Downloading ban n. " + (++i) + " of " + (length + 1) + "\nConnecting to: " + ban.getUrl() + "...");
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				html = HttpGetter.get(ban.getUrl());
 	
@@ -106,14 +106,27 @@ public class Main
 			
 			//processa i bandi di cui ora si conosce il testo, aggiornando oggetto, cig e stato nel DB
 			i = 0;
-			logger.info("Parsing all bans...\n");
-			for(Bando ban : Bans)
+			logger.info("Parsing all bans...");
+			for(Bando ban : bans)
 			{				
-				logger.info("Parsing ban n. " + (++i) + "...\n");
+				logger.info("Parsing ban n. " + (++i) + " of " + (length + 1) + "...");
 				HtmlParser.parseBan(ban);
 			}
 			logger.info("OK\n");
 			
+			
+			//processa tutti gli utenti e per ognuno
+			//cerca in tutti i bandi se qualche bando fa match 
+			
+			//recupera tutti gli utenti
+			logger.info("Retrieving ll Users...");
+			users = UtenteRepository.getAllUsers();
+			logger.info("OK\n");
+			
+			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
+			i = 0;
+			logger.info("Matching all RegExps...\n");
+			*/
 		}
 		catch(Exception e)
 		{
@@ -123,6 +136,8 @@ public class Main
 		{
 			JPAManager.close();
 		}
+		
+		logger.info("Crawler has finished...");
 		
 		return;
 	}

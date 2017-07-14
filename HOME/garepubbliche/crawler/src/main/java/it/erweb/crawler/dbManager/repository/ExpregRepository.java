@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
+import it.erweb.crawler.model.Expreg;
 import it.erweb.crawler.model.Utente;
 
 /**
@@ -11,9 +12,9 @@ import it.erweb.crawler.model.Utente;
  */
 public class ExpregRepository extends JPAManager
 {
-	public static List<Object> getAllUsersExpr(Utente usr) throws JPAException
+	public static List<Expreg> getAllUsersExpr(Utente usr) throws JPAException
 	{
-		List<Object> result;
+		List<Expreg> result;
 		String usrname;
 		
 		try

@@ -1,5 +1,0 @@
-@relation weka_mymodel_model
-@attribute text string
-@attribute class {t,f}
-@data
-'servizio assicurativo di responsabilita  civile derivante dalla circolazione del parco autobus ed autovetture aziendali con contratti a "libro matricola" con franchigia, comprensivo di incendio e rischi divers cpv: 66514110-0. importo',?

@@ -1,4 +1,34 @@
-inserire nel db:
-implementare i metodi update di BandoRepository
+File necessari al jar? file di confg
 
-Compattare il piu' possibile le transazioni
+causare in qualche modo il fallimento del parsing in modo da testare i nuovi RISCARICAMENTI (guarda bookmarks)
+
+Riprova training agente con il db nuovo
+htecnopol iici deve matchare (DB DATO)
+
+match con le expreg e salva nel db!
+
+definire il metodo di NOTIFICA!
+
+
+INFO: Connecting to: http://www.gazzettaufficiale.it/atto/contratti/caricaDettaglioAtto/originario;jsessionid=ZRcG7OB7samApQPSTInT3A__.ntc-as4-guri2b?atto.dataPubblicazioneGazzetta=2017-06-26&atto.codiceRedazionale=TX17BFF10843 ...
+org.apache.http.client.ClientProtocolException
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
+	at it.erweb.crawler.httpClientUtil.HttpGetter.get(HttpGetter.java:30)
+	at it.erweb.crawler.main.Main.main(Main.java:101)
+Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.gazzettaufficiale.it/error'
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:177)
+	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:221)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:122)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	... 4 more
+	
+	
+	
+
+	
+
+
+459/1074 NULL CIGs	-->	57% CIG
+204/1074 NULL OBJs	-->	81% OBJ

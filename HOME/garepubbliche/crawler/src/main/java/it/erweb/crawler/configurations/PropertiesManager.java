@@ -8,9 +8,8 @@ import java.util.Properties;
  */
 public class PropertiesManager
 {
-	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
+	private static final String PROPERTIES_FILE = "resources/crawler.config";
 	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
-	public static int SYS_BAN_PARSING_TRIALS_TIMEOUT;		//max numero di tentativi parsing bando
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
 	public static String PUBLICATION_NUMBER_PATTERN;		//pattern per trovare numero pubblicazione (in home page pub)
@@ -29,8 +28,10 @@ public class PropertiesManager
 	public static int BAN_OBJ_MAX_TITLE_CHARS;				//stima massima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_MIN_TITLE_CHARS;				//stima minima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_PADDING_LINES;				//stima linee lette in eccesso per trovare ogg, che si possono elimin
-	public static String BAN_OBJ_JUNK_HEAD;						//regex di parole che si possono togliere dall'oggetto del bando
-	public static String BAN_OBJ_JUNK_BODY;
+	public static String BAN_OBJ_JUNK_HEAD;					//regex di parole che si possono togliere dall'oggetto del bando
+	public static String BAN_OBJ_JUNK_BODY;					///
+	public static char GAZZETTA_URL_TERMINATOR;				//terminatore degli url: (" oppure ')
+	public static int PUBLICATIONS_URL_LENGTH;				//lunghezza massima url di una pubblicazione
 	
 	/**
 	 * Loads all properties contained in the configuration file
@@ -52,7 +53,6 @@ public class PropertiesManager
 		
 		//salva le properties lette
 		SYS_HTTP_GET_FREQUENCY = Integer.parseInt(prop.getProperty("SYS_HTTP_GET_FREQUENCY"));
-		SYS_BAN_PARSING_TRIALS_TIMEOUT = Integer.parseInt(prop.getProperty("SYS_BAN_PARSING_TRIALS_TIMEOUT"));
 		GAZZETTA_HOME_URL = prop.getProperty("GAZZETTA_HOME_URL");
 		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
 		PUBLICATION_BAN_DIVID_PATTERN = prop.getProperty("PUBLICATION_BAN_DIVID_PATTERN");
@@ -73,5 +73,7 @@ public class PropertiesManager
 		BAN_OBJ_PADDING_LINES = Integer.parseInt(prop.getProperty("BAN_OBJ_PADDING_LINES"));
 		BAN_OBJ_JUNK_HEAD = prop.getProperty("BAN_OBJ_JUNK_HEAD");
 		BAN_OBJ_JUNK_BODY = prop.getProperty("BAN_OBJ_JUNK_BODY");
+		GAZZETTA_URL_TERMINATOR = prop.getProperty("GAZZETTA_URL_TERMINATOR").charAt(0);
+		PUBLICATIONS_URL_LENGTH = Integer.parseInt(prop.getProperty("PUBLICATIONS_URL_LENGTH"));
 	}
 }

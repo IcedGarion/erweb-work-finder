@@ -85,5 +85,6 @@ public abstract class JPAManager
 	public static void close()
 	{
 		entityManager.close();
+		entityManagerFactory.close();
 	}
 }

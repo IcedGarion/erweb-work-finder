@@ -59,7 +59,7 @@ public class StringParser
 					}
 					else
 					{
-						break;
+						index = -1;	//(break)
 					}
 				}
 			}
@@ -96,12 +96,11 @@ public class StringParser
 			while(index != -1)
 			{
 				i = 1;
-				// si posiziona sulle occorrenze di '('
+				// si posiziona sull'occorrenza di '('
 				index = optionalInfo.indexOf('(', offset);
 				offset = index;
 
-				// scorre tutta la stringa fino a ')' o fino a sforare la
-				// lunghezza del codice
+				// scorre tutta la stringa fino a ')'
 				ch = optionalInfo.charAt(index + i);
 				while(ch != ')')
 				{
@@ -109,17 +108,17 @@ public class StringParser
 					ch = optionalInfo.charAt(index + (++i));
 				}
 
-				// controlla se l'ipotetico codice appena ottenuto rispetta il
-				// pattern
+				// controlla se l'ipotetico codice appena ottenuto rispetta il pattern
 				if(!cod.matches(codPattern))
 				{
 					cod = "";
+					//se no, prova con altre occorrenze di '('
+					offset = index + i;
+					index = optionalInfo.indexOf('(', offset);
+					offset = index;
 				}
-
-				// prova con altre occorrenze di '('
-				offset = index + i;
-				index = optionalInfo.indexOf('(', offset);
-				offset = index;
+				else
+					break;
 			}
 		}
 		catch(Exception e)
@@ -158,8 +157,7 @@ public class StringParser
 		while(index != -1)
 		{
 			// se ha trovato almeno una occorrenza:
-			// prova a leggere fino a ".\n", ma solo se h letto almeno minChars
-			// caratteri
+			// prova a leggere fino a ".\n", ma solo se h letto almeno minChars caratteri
 			probablyEnd = false;
 			index += offset;
 			current = validBanBody.charAt(index++);
@@ -183,7 +181,8 @@ public class StringParser
 			// se WEKA trova l'oggetto valido, finisce;
 			if(BandoObjValidator.validate(ret))
 			{
-				index = -1;
+				index = -1;	//(break)
+				//prova a togliere righe lette superflue
 				ret = tryDeleteLastLines(ret);
 			}
 			// altrimenti azzera e ricomincia con la prossima occorrenza
