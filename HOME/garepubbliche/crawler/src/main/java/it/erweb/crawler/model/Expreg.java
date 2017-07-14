@@ -21,8 +21,8 @@ public class Expreg extends AbstractModel implements Serializable
 
 	private String expplus;
 
-	// bi-directional many-to-one association to Utente
-	@ManyToOne
+	// uni-directional one-to-one association to Utente
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CD_UTENTE")
 	private Utente utente;
 

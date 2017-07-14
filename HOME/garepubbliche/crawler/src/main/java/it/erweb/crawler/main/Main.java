@@ -78,7 +78,7 @@ public class Main
 			//scorre le pubblicazioni e ricava i bandi, li inserisce nel DB
 			i = 0;
 			length = publicationsHtml.size();
-			logger.info("Parsing all publications...\n");
+			logger.info("Parsing all publications...");
 			for(String pub : publicationsHtml)
 			{
 				logger.info("Parsing publication n. " + (i + 1) + " of " + (length + 1) + "...");
@@ -107,8 +107,10 @@ public class Main
 			}
 			logger.info("OK\n");
 			
-			//processa i bandi di cui ora si conosce il testo, aggiornando oggetto, cig e stato nel DB
+				
+			//processa i bandi di cui ora si conosce il testo, aggiornando oggetto, cig e stato nel DB	
 			i = 0;
+			length = bans.size();
 			logger.info("Parsing all bans...");
 			for(Bando ban : bans)
 			{				
@@ -122,8 +124,13 @@ public class Main
 			//cerca in tutti i bandi se qualche bando fa match 
 			
 			//recupera tutti gli utenti
-			logger.info("Retrieving ll Users...");
+			logger.info("Retrieving all Users...");
 			users = UtenteRepository.getAllUsers();
+			logger.info("OK\n");
+			
+			//recupera tutti i bandi parsificati
+			logger.info("Retrieving all Bans...");
+			bans = BandoRepository.getAllParsificato();
 			logger.info("OK\n");
 			
 			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
@@ -135,15 +142,18 @@ public class Main
 			for(Utente usr : users)
 			{
 				logger.info("Processing User n. " + (++i) + " of " + length + "...");
-				//prende solo i bandi la cui data e' successiva a ultima data notifica utente 
-				for(Bando ban : BandoRepository.getAllParsificatiNuovi())
+				for(Bando ban : bans)
 				{
-					//prova con il match
-					logger.info("Searching Ban n. " + (++j) + " of " + length2 + "; (User " + i + " of " + length + ")...");
-					notify = Matcher.tryMatch(usr, ban);
+					//prima controlla la data: magari utente e' gia' stato notificato per quel bando
+					if(Matcher.checkDate(usr, ban))
+					{
+						//prova con il match
+						logger.info("Searching Ban n. " + (++j) + " of " + length2 + "; (User " + i + " of " + length + ")...");
+						notify = Matcher.tryMatch(usr, ban);
 					
-					if(notify)
-						Notifier.notifyUser(ban);
+						if(notify)
+							Notifier.notifyUser(usr, ban);
+					}
 				}
 			}
 			logger.info("OK\n");

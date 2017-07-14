@@ -3,7 +3,6 @@ package it.erweb.crawler.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The persistent class for the utente database table.
@@ -30,8 +29,8 @@ public class Utente extends AbstractModel implements Serializable
 	private String username;
 
 	// bi-directional many-to-one association to Expreg
-	@OneToMany(mappedBy = "utente")
-	private List<Expreg> expregs;
+	@OneToOne(mappedBy = "utente")
+	private Expreg expreg;
 
 	public Utente()
 	{
@@ -87,30 +86,14 @@ public class Utente extends AbstractModel implements Serializable
 		this.username = username;
 	}
 
-	public List<Expreg> getExpregs()
+	public Expreg getExpreg()
 	{
-		return this.expregs;
+		return this.expreg;
 	}
 
-	public void setExpregs(List<Expreg> expregs)
+	public void setExpreg(Expreg expreg)
 	{
-		this.expregs = expregs;
-	}
-
-	public Expreg addExpreg(Expreg expreg)
-	{
-		getExpregs().add(expreg);
-		expreg.setUtente(this);
-
-		return expreg;
-	}
-
-	public Expreg removeExpreg(Expreg expreg)
-	{
-		getExpregs().remove(expreg);
-		expreg.setUtente(null);
-
-		return expreg;
+		this.expreg = expreg;
 	}
 
 	@Override

@@ -20,11 +20,34 @@ public class BandoRepository extends JPAManager
 	 */
 	public static List<Bando> getAllDaParsificare() throws JPAException
 	{
+		return getState("DA_PARSIFICARE");
+	}
+
+	/**
+	 * Gets a list of all Bans with Stato "PARSIFICATO"
+	 * 
+	 * @return	A list of Bans
+	 * @throws JPAException
+	 */
+	public static List<Bando> getAllParsificato() throws JPAException
+	{
+		return getState("PARSIFICATO");
+	}
+	
+	/**
+	 * 	Summarize the two previous functions, which are quite the same
+	 * 
+	 * @param state	"DA_PARSIFICARE" "PARSIFICATO"
+	 * @return	A list of bans matching the state
+	 * @throws JPAException
+	 */
+	private static List<Bando> getState(String state) throws JPAException
+	{
 		List<Bando> result;
 		
 		try
 		{
-			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = 'DA_PARSIFICARE'").getResultList();
+			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "'").getResultList();
 		}
 		catch(Exception e)
 		{
@@ -33,7 +56,7 @@ public class BandoRepository extends JPAManager
 		
 		return result;
 	}
-
+	
 	/**
 	 * 	Updates the TESTO property of a Ban
 	 * 
@@ -92,10 +115,5 @@ public class BandoRepository extends JPAManager
 		entityManager.getTransaction().begin();
 		banDb.setStato(newStato);
 		entityManager.getTransaction().commit();				
-	}
-
-	public static List<Bando> getAllParsificatiNuovi() throws Exception
-	{
-		throw new Exception("Not yet implemented");
 	}
 }
