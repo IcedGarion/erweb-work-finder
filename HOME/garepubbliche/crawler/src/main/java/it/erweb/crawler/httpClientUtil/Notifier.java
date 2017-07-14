@@ -27,9 +27,15 @@ public class Notifier
 		}
 	}
 
+	/**
+	 *	Temporary: once a ban has matched with a user's expregs, notifies the user in some way (Prints for now)
+	 *
+	 * @param usr	the user that wants to be notified
+	 * @param ban	the ban to be notified
+	 * @throws Exception
+	 */
 	public static void notifyUser(Utente usr, Bando ban) throws Exception
 	{
-		System.out.println("\nUtente: " + usr.getUsername() + " match con oggetto bando:\n"
-				+ ban.getOggetto()==null|ban.getOggetto()==""?ban.getTesto():ban.getOggetto());
+		System.out.println("\nUtente: " + usr.getUsername() + " match con oggetto bando: " + ban.getCdBando());
 	}
 }

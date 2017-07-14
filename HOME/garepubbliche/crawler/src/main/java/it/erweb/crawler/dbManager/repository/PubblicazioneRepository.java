@@ -53,7 +53,7 @@ public class PubblicazioneRepository extends JPAManager
 	/**
 	 * 	Gets the most recent date from all the Publications' insertions dates
 	 * 
-	 * @return	the most recent date, or EPOCH if no data found
+	 * @return	the most recent date, or EPOCH if no valid date found
 	 */
 	public static Date getLastDate()
 	{

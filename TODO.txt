@@ -7,8 +7,8 @@ Provare inserimento incrementale (quando esce una nuova pubblicazione, a databas
 
 
 DA CHIEDERE
-	Ma non basta 1:1 fra utente ed expreg? tanto sono tutte in OR
-	definire il metodo di NOTIFICA SE QUALCOSA VA STORTO! (vedi i bookmarks)
+	definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
+	(e anche NOTIFICA_UTENTE)
 
 
 OPZIONALE (DOVREBBE GIA' ANDARE, BASTA TESTARE)

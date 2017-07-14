@@ -152,7 +152,10 @@ public class Main
 						notify = Matcher.tryMatch(usr, ban);
 					
 						if(notify)
+						{
 							Notifier.notifyUser(usr, ban);
+							UtenteRepository.updateDtNotificaNow(usr);
+						}
 					}
 				}
 			}

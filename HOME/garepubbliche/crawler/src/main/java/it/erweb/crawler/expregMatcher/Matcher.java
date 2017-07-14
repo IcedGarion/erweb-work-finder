@@ -1,7 +1,5 @@
 package it.erweb.crawler.expregMatcher;
 
-import java.util.Date;
-
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Expreg;
 import it.erweb.crawler.model.Utente;
@@ -51,10 +49,10 @@ public class Matcher
 		}
 
 		// prova prima il match con le expregs negative (che NON devono matchare!)
-		if(!(banObj.matches(expMinus)))
+		if(!(banObj.contains(expMinus)) || (expMinus.equals("")))
 		{
 			// se passa, prova anche le negative
-			if(banObj.matches(expPlus))
+			if(banObj.contains(expPlus))
 			{
 				ret = true;
 			}
