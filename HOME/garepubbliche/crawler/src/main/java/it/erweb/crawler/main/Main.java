@@ -10,7 +10,9 @@ import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
+import it.erweb.crawler.expregMatcher.Matcher;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
+import it.erweb.crawler.httpClientUtil.Notifier;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
 import it.erweb.crawler.weka.BandoObjValidator;
@@ -25,12 +27,12 @@ public class Main
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
-		int i = 0, length;
+		int i = 0, j = 0, length, length2;
 		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		List<String> publicationsHtml = new ArrayList<String>();
 		List<Bando> bans = new ArrayList<Bando>();
 		List<Utente> users = new ArrayList<Utente>();
-		boolean newAvailable;
+		boolean newAvailable, notify;
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -38,7 +40,7 @@ public class Main
 		logger.info("OK\n");
 		
 		try
-		{/*
+		{
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
@@ -125,8 +127,25 @@ public class Main
 			
 			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
 			i = 0;
-			logger.info("Matching all RegExps...\n");
-			*/
+			j = 0;
+			length = users.size();
+			length2 = bans.size();
+			logger.info("Matching all RegExps...");
+			for(Utente usr : users)
+			{
+				logger.info("Processing User n. " + (++i) + " of " + length + "...");
+				//prende solo i bandi la cui data e' successiva a ultima data notifica utente 
+				for(Bando ban : BandoRepository.getAllParsificatiNuovi())
+				{
+					//prova con il match
+					logger.info("Searching Ban n. " + (++j) + " of " + length2 + "; (User " + i + " of " + length + ")...");
+					notify = Matcher.tryMatch(usr, ban);
+					
+					if(notify)
+						Notifier.notifyUser(ban);
+				}
+			}
+			logger.info("OK\n");
 		}
 		catch(Exception e)
 		{
@@ -137,7 +156,7 @@ public class Main
 			JPAManager.close();
 		}
 		
-		logger.info("Crawler has finished...");
+		logger.info("Crawler has finished.");
 		
 		return;
 	}

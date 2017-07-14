@@ -7,7 +7,7 @@
 	<artifactId>garepubbliche-crawler</artifactId>
 	<packaging>jar</packaging>
 	<name>garepubbliche-crawler</name>
-	<version>0.0.1</version>
+	<version>1.0.1</version>
 	  
 	<properties>
     	<maven.compiler.source>1.8</maven.compiler.source>
@@ -83,39 +83,17 @@
 			</plugin>	      		
       	</plugins>
       	
-      	<resources>
-			<resource>
-	            <directory>src/main/java/META-INF</directory>
-            	<targetPath>META-INF</targetPath>
-            	<includes>
-            	    <include>persistence.xml</include>
-            	</includes>
-        	</resource>
-        	
+      	<resources>  	
         	<resource>
-	            <directory>src/main/java/resources</directory>
+	            <directory>resources</directory>
             	<targetPath>resources</targetPath>
             	<includes>
+            		<include>persistence.xml</include>
             	    <include>crawler.config</include>
-            	</includes>
-        	</resource>
-        	
-        	<resource>
-	            <directory>src/main/java/resources</directory>
-            	<targetPath>resources</targetPath>
-            	<includes>
+            	    <include>BandoTrain.arff</include>
             	    <include>BandoTest.arff</include>
             	</includes>
         	</resource>
-        	        	
-        	<resource>
-	            <directory>src/main/java/resources</directory>
-            	<targetPath>resources</targetPath>
-            	<includes>
-            	    <include>BandoTrain.arff</include>
-            	</includes>
-        	</resource>
-        	
         </resources>
       	
      </build>

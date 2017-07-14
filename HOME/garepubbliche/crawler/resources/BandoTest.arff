@@ -1,5 +1,0 @@
-@relation weka_mymodel_model
-@attribute text string
-@attribute class {t,f}
-@data
-'di cui all art. 45 del',?

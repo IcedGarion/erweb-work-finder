@@ -93,4 +93,9 @@ public class BandoRepository extends JPAManager
 		banDb.setStato(newStato);
 		entityManager.getTransaction().commit();				
 	}
+
+	public static List<Bando> getAllParsificatiNuovi() throws Exception
+	{
+		throw new Exception("Not yet implemented");
+	}
 }

@@ -8,7 +8,7 @@ import java.util.Properties;
  */
 public class PropertiesManager
 {
-	private static final String PROPERTIES_FILE = "resources/crawler.config";
+	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
 	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni

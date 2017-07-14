@@ -56,7 +56,7 @@ public class HtmlParser
 				if((i++) > PropertiesManager.PUBLICATIONS_URL_LENGTH)
 				{
 					System.err.println("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
-					Notifier.notify("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+					Notifier.notifyDev("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
 					System.exit(2);
 				}
 			}
@@ -200,7 +200,7 @@ public class HtmlParser
 			catch(Exception e)
 			{
 				System.err.println("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
-				Notifier.notify("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
+				Notifier.notifyDev("URL terminators may have changed: " + PropertiesManager.GAZZETTA_URL_TERMINATOR);
 				System.exit(2);
 			}
 			
