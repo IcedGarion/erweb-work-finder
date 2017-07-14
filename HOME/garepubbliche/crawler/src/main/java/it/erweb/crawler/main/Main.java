@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
@@ -80,9 +81,9 @@ public class Main
 			logger.info("Parsing all publications...\n");
 			for(String pub : publicationsHtml)
 			{
-				logger.info("Parsing publication n. " + (++i) + " of " + (length + 1) + "...");
+				logger.info("Parsing publication n. " + (i + 1) + " of " + (length + 1) + "...");
 				//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
-				HtmlParser.getPublicationBans(pub, publications.get(i));	
+				HtmlParser.getPublicationBans(pub, publications.get(i++));	
 			}
 			logger.info("OK\n");
 			
@@ -146,6 +147,8 @@ public class Main
 				}
 			}
 			logger.info("OK\n");
+			
+			logger.info("Crawler has finished.");
 		}
 		catch(Exception e)
 		{
@@ -155,8 +158,6 @@ public class Main
 		{
 			JPAManager.close();
 		}
-		
-		logger.info("Crawler has finished.");
 		
 		return;
 	}
@@ -173,6 +174,11 @@ public class Main
 			
 			//inizializza repository JPA db (e ache tutti gli implementers)
 			JPAManager.init();
+		}
+		catch(JPAException ex)
+		{
+			logger.severe(ex.getMessage());
+			System.exit(3);
 		}
 		catch(Exception e)
 		{

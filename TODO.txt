@@ -1,17 +1,24 @@
-Ma non basta 1:1 fra utente ed expreg? tanto sono tutte in OR
-definire il metodo di NOTIFICA SE QUALCOSA VA STORTO (bookmarks)!
+DA CHIEDERE
+	Ma non basta 1:1 fra utente ed expreg? tanto sono tutte in OR
+	definire il metodo di NOTIFICA SE QUALCOSA VA STORTO (bookmarks)!
+
+
+Provare inserimento incrementale (quando esce una nuova pubblicazione, a database gia' pieno)
+
+
+gitignore! i target
+
+
 
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
 
 
 
-
--File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance)
-
-
--causare in qualche modo il fallimento del parsing in modo da testare i nuovi RISCARICAMENTI (guarda bookmarks) (tanti tests)
-(forse non serve perche' basta sleep tra una get e l'altra)
+OPZIONALE (DOVREBBE GIA' ANDARE, BASTA TESTARE)
+	-File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance)
+	-causare in qualche modo il fallimento del parsing in modo da testare i nuovi RISCARICAMENTI (guarda bookmarks) (tanti tests)
+	(forse non serve perche' basta sleep tra una get e l'altra)
 
 
 

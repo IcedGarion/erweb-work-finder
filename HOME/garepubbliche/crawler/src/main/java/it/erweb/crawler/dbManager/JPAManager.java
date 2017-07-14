@@ -21,10 +21,17 @@ public abstract class JPAManager
 	//result = db.read("select u.username, e.expplus from Utente u join Expreg e on u.cdUtente = e.utente");
 	
 	//reads: ritorna un elemento lista per ogni riga; ogni elemento è array Obj: una cella per colonna
-	public static void init()
+	public static void init() throws JPAException
 	{
-		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME);
-		entityManager = entityManagerFactory.createEntityManager();
+		try
+		{
+			entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME);
+			entityManager = entityManagerFactory.createEntityManager();
+		}
+		catch(Exception e)
+		{
+			throw new JPAException("No database connection!");
+		}
 	}
 	
 	public static void create(AbstractModel obj)
