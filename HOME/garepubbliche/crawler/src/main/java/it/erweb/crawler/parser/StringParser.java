@@ -160,9 +160,14 @@ public class StringParser
 			// prova a leggere fino a ".\n", ma solo se h letto almeno minChars caratteri
 			probablyEnd = false;
 			index += offset;
+			
+			//se trova il pattern quasi a fine bando, sara' sicuramente invalido
+			if(index >= validBanBody.length())
+				break;
+			
 			current = validBanBody.charAt(index++);
 			// per sicurezza ci si ferma a maxChars
-			while(i < maxChars)
+			while((i < maxChars) && (index < validBanBody.length()))
 			{
 				ret += current;
 
