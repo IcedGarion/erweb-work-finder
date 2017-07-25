@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.dbManager.repository.TmpTgazattoRepo;
+import it.erweb.crawler.dbManager.repository.TgazattoRepository;
 import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.StringParser;
 import it.erweb.crawler.weka.BandoObjValidator;
@@ -19,6 +19,9 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 
+	//LEGGE IL DB TEST: PRENDE I BANDI IN Tgazatto E PROVA AD ESTRARRE L'OGGETTO DAL TESTO.
+	//POI CONFRONTA IL NUMERO DI NULLI CON I NULLI GIA' PRESENTI (oggetti calcolati in precedenza con expregs)
+	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		List<Object> list;
@@ -26,9 +29,6 @@ public class Main
 		long tot, origin, weka;
 		Tgazatto t;
 		String oggetto = "";
-		String query = "select ( select count(*) from Tgazatto) as tot, "
-				+ "( select count(oggetto) from Tgazatto WHERE oggetto != '' ) as originale, "
-				+ "( select count(oggettoWeka) as weka from Tgazatto WHERE oggettoWeka != '' ) as weka";
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -37,7 +37,6 @@ public class Main
 		
 		try
 		{
-			/*
 			//pulisce il database per una nuova prova
 			JPAManager.update("update Tgazatto set oggettoWeka = ''");
 			
@@ -48,8 +47,9 @@ public class Main
 
 			for(Object o : list)
 			{
+				i = 0;
 				oggetto = "";
-				System.out.println("Parsing tgazatto " + k++ + " of " + length);
+				System.out.println("Parsing ban " + k++ + " of " + length);
 				t = (Tgazatto) o;
 
 				//per ogni bando, cerca oggetto dal testo (con weka) (Fa la stessa cosa di HtmlParser)
@@ -65,14 +65,14 @@ public class Main
 				
 				if(! oggetto.equals(""))
 				{
-					TmpTgazattoRepo.updateWeka(t, oggetto);
+					TgazattoRepository.updateWeka(t, oggetto);
 				}
 				
 				System.out.println("Parsed");
 			}
 			
 		System.out.println("End Parsing");
-		*/
+		
 		//query per numero di oggetti nulli
 		tot = Long.parseLong(JPAManager.read("select count(t) from Tgazatto t").get(0).toString());
 		origin = Long.parseLong(JPAManager.read("select count(oggetto) from Tgazatto t where oggetto != ''").get(0).toString());

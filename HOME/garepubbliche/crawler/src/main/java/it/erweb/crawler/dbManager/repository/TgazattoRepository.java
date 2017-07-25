@@ -3,7 +3,7 @@ package it.erweb.crawler.dbManager.repository;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.model.Tgazatto;
 
-public class TmpTgazattoRepo extends JPAManager
+public class TgazattoRepository extends JPAManager
 {
 	public static void updateWeka(Tgazatto t, String newObj)
 	{
