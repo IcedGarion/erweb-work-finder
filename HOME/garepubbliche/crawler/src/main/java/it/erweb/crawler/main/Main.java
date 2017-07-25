@@ -41,9 +41,7 @@ public class Main
 		logger.info("OK\n");
 		
 		try
-		{
-			/*
-			
+		{	
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
@@ -124,7 +122,7 @@ public class Main
 			
 			//processa tutti gli utenti e per ognuno
 			//cerca in tutti i bandi se qualche bando fa match 
-		*/	
+		
 			//recupera tutti gli utenti
 			logger.info("Retrieving all Users...");
 			users = UtenteRepository.getAllUsers();
@@ -134,7 +132,8 @@ public class Main
 			logger.info("Retrieving all Bans...");
 			bans = BandoRepository.getAllParsificato();
 			logger.info("OK\n");
-		
+
+			
 			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
 			i = 0;
 			j = 0;

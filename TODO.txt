@@ -1,6 +1,7 @@
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
 
+Regex non vanno da db
 
 DA CHIEDERE
 	definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
