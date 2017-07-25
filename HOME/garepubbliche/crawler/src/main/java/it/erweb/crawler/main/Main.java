@@ -136,12 +136,12 @@ public class Main
 			
 			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
 			i = 0;
-			j = 0;
 			length = users.size();
 			length2 = bans.size();
 			logger.info("Matching all RegExps...");
 			for(Utente usr : users)
 			{
+				j = 0;
 				logger.info("Processing User n. " + (++i) + " of " + length + "...");
 				for(Bando ban : bans)
 				{

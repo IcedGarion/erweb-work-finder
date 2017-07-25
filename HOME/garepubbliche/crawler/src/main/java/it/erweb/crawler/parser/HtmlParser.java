@@ -144,7 +144,7 @@ public class HtmlParser
 		Element doc, elencoBandi = null;
 		
 		//primo parsing per arrivare a elenco bandi: causa possobili fallimenti, cicla
-		while(tipoBando == "")
+		while(tipoBando.equals(""))
 		{
 			doc = Jsoup.parseBodyFragment(publicationHtmlCpy).body();		//tutto l'html
 			elencoBandi = doc.getElementById(PropertiesManager.PUBLICATION_BAN_DIVID_PATTERN);			//<div id="elenco_hp"> 
@@ -308,13 +308,13 @@ public class HtmlParser
 		try
 		{
 			//prova diversi "pattern", finche' non trova un oggetto valido o finche' non li ha provati tutti
-			while((oggetto == "") && (i < patternLength))
+			while((oggetto.equals("")) && (i < patternLength))
 			{
 				oggetto = StringParser.tryGetObject(testoBando, PropertiesManager.BAN_OBJ_PATTERNS[i]);
 				i++;
 			}
 			//se ha finito tutti i pattern ma ancora non ha trovato niente, prova a cercare ne titolo
-			if(oggetto == "")
+			if(oggetto.equals(""))
 			{
 				oggetto = StringParser.tryGetObjectTitle(testoBando);
 			}

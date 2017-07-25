@@ -46,7 +46,7 @@ public class Matcher
 		banTxt = ban.getTesto();
 
 		// se non c'e' l'oggetto, cerca solo nel testo
-		if(banObj == null || banObj == "")
+		if(banObj == null || banObj.equals(""))
 		{
 			banObj = banTxt;
 		}
