@@ -20,7 +20,7 @@ public class BandoRepository extends JPAManager
 	 */
 	public static List<Bando> getAllDaParsificare() throws JPAException
 	{
-		return getState("DA_PARSIFICARE");
+		return getByState("DA_PARSIFICARE");
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class BandoRepository extends JPAManager
 	 */
 	public static List<Bando> getAllParsificato() throws JPAException
 	{
-		return getState("PARSIFICATO");
+		return getByState("PARSIFICATO");
 	}
 	
 	/**
@@ -41,13 +41,13 @@ public class BandoRepository extends JPAManager
 	 * @return	A list of bans matching the state
 	 * @throws JPAException
 	 */
-	private static List<Bando> getState(String state) throws JPAException
+	private static List<Bando> getByState(String state) throws JPAException
 	{
 		List<Bando> result;
 		
 		try
 		{
-			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "'").getResultList();
+			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "'" + " order by b.dtInserimento").getResultList();
 		}
 		catch(Exception e)
 		{

@@ -24,7 +24,7 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-	
+
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
@@ -42,6 +42,8 @@ public class Main
 		
 		try
 		{
+			/*
+			
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);
@@ -98,7 +100,7 @@ public class Main
 			logger.info("Downloading all bans...\n");
 			for(Bando ban : bans)
 			{
-				logger.info("Downloading ban n. " + (++i) + " of " + (length + 1) + "\nConnecting to: " + ban.getUrl() + "...");
+				logger.info("Downloading ban n. " + (++i) + " of " + (length) + "\nConnecting to: " + ban.getUrl() + "...");
 				Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 				html = HttpGetter.get(ban.getUrl());
 	
@@ -122,7 +124,7 @@ public class Main
 			
 			//processa tutti gli utenti e per ognuno
 			//cerca in tutti i bandi se qualche bando fa match 
-			
+		*/	
 			//recupera tutti gli utenti
 			logger.info("Retrieving all Users...");
 			users = UtenteRepository.getAllUsers();
@@ -132,7 +134,7 @@ public class Main
 			logger.info("Retrieving all Bans...");
 			bans = BandoRepository.getAllParsificato();
 			logger.info("OK\n");
-			
+		
 			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
 			i = 0;
 			j = 0;
@@ -154,7 +156,7 @@ public class Main
 						if(notify)
 						{
 							Notifier.notifyUser(usr, ban);
-							UtenteRepository.updateDtNotificaNow(usr);
+							UtenteRepository.updateDtNotifica(usr, ban);
 						}
 					}
 				}

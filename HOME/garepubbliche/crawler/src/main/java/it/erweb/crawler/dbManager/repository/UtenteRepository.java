@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
+import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Utente;
 
 /**
@@ -39,12 +40,12 @@ public class UtenteRepository extends JPAManager
 	 * 
 	 * @param usr	the user to be updated
 	 */
-	public static void updateDtNotificaNow(Utente usr)
+	public static void updateDtNotifica(Utente usr, Bando b)
 	{
 		Utente usrDb = entityManager.find(Utente.class, usr.getCdUtente());
 		 
 		entityManager.getTransaction().begin();
-		usrDb.setDtNotifica(new Date());
+		usrDb.setDtNotifica(b.getDtInserimento());
 		entityManager.getTransaction().commit();
 	}
 }

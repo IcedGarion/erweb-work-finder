@@ -1,5 +1,7 @@
 package it.erweb.crawler.expregMatcher;
 
+import java.util.Date;
+
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Expreg;
 import it.erweb.crawler.model.Utente;
@@ -19,7 +21,8 @@ public class Matcher
 	 */
 	public static boolean checkDate(Utente usr, Bando ban)
 	{
-		return ban.getDtInserimento().after(usr.getDtNotifica());
+		Date inserimento = ban.getDtInserimento(), notifica = usr.getDtNotifica();
+		return (inserimento.after(notifica) || inserimento.equals(notifica));
 	}
 	
 	/**
@@ -49,10 +52,10 @@ public class Matcher
 		}
 
 		// prova prima il match con le expregs negative (che NON devono matchare!)
-		if(!(banObj.contains(expMinus)) || (expMinus.equals("")))
+		if(!(banObj.matches(expMinus)) || (expMinus.equals("")))
 		{
 			// se passa, prova anche le negative
-			if(banObj.contains(expPlus))
+			if(banObj.matches(expPlus))
 			{
 				ret = true;
 			}
