@@ -1,7 +1,10 @@
 Riprova training agente con il db nuovo
-htecnopol iici deve matchare (DB DATO)
+htecnopol iici deve matchare (DB DATO)    --> sto facendo.
 
-Regex non vanno da db
+POI CONFRONTA IL NUMERO DI NULL FRA: tgazatto.oggetto e tgazatto.oggettoWeka
+
+POI RIMETTI TUTTI A POSTO!
+
 
 DA CHIEDERE
 	definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)

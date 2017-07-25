@@ -8,14 +8,16 @@ import java.util.logging.Logger;
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.dbManager.repository.BandoRepository;
-import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
-import it.erweb.crawler.dbManager.repository.UtenteRepository;
-import it.erweb.crawler.expregMatcher.Matcher;
+import it.erweb.crawler.dbManager.repository.TmpTgazattoRepo;
+//import it.erweb.crawler.dbManager.repository.BandoRepository;
+//import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
+//import it.erweb.crawler.dbManager.repository.UtenteRepository;
+//import it.erweb.crawler.expregMatcher.Matcher;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
-import it.erweb.crawler.httpClientUtil.Notifier;
+//import it.erweb.crawler.httpClientUtil.Notifier;
 import it.erweb.crawler.model.*;
-import it.erweb.crawler.parser.HtmlParser;
+import it.erweb.crawler.parser.StringParser;
+//import it.erweb.crawler.parser.HtmlParser;
 import it.erweb.crawler.weka.BandoObjValidator;
 
 /**
@@ -29,10 +31,10 @@ public class Main
 	{
 		String html = "";
 		int i = 0, j = 0, length, length2;
-		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
-		List<String> publicationsHtml = new ArrayList<String>();
-		List<Bando> bans = new ArrayList<Bando>();
-		List<Utente> users = new ArrayList<Utente>();
+//		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
+//		List<String> publicationsHtml = new ArrayList<String>();
+//		List<Bando> bans = new ArrayList<Bando>();
+//		List<Utente> users = new ArrayList<Utente>();
 		boolean newAvailable, notify;
 		
 		//inizializza configurazioni
@@ -40,6 +42,50 @@ public class Main
 		init();
 		logger.info("OK\n");
 		
+		try
+		{
+			//pulisce
+			JPAManager.update("update Tgazatto set oggettoWeka = ''");
+			
+			Tgazatto t;
+			int k = 0, lenght;
+			String oggetto = "";
+			int patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
+			List<Object> list = JPAManager.read("Select p from Tgazatto p");
+			length = list.size();
+			
+			for(Object o : list)
+			{
+				oggetto = "";
+				System.out.println("Parsing tgazatto " + k++ + " of " + length);
+				t = (Tgazatto) o;
+
+				while((oggetto.equals("")) && (i < patternLength))
+				{
+					oggetto = StringParser.tryGetObject(t.getContent(), PropertiesManager.BAN_OBJ_PATTERNS[i]);
+					i++;
+				}
+				//se ha finito tutti i pattern ma ancora non ha trovato niente, prova a cercare ne titolo
+				if(oggetto.equals(""))
+				{
+					oggetto = StringParser.tryGetObjectTitle(t.getContent());
+				}
+				
+				if(! oggetto.equals(""))
+				{
+					TmpTgazattoRepo.updateWeka(t, oggetto);
+				}
+				
+				System.out.println("Parsed");
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("End");
+		
+		/*
 		try
 		{	
 			//si connette alla pagina delle pubblicazioni
@@ -172,7 +218,7 @@ public class Main
 		{
 			JPAManager.close();
 		}
-		
+		*/
 		return;
 	}
 	

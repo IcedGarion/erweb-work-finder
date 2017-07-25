@@ -13,7 +13,7 @@ import it.erweb.crawler.model.AbstractModel;
  */
 public abstract class JPAManager
 {
-	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
+	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler-test";
 	protected static EntityManagerFactory entityManagerFactory;
 	protected static EntityManager entityManager;
 	
@@ -57,6 +57,20 @@ public abstract class JPAManager
 		return result;
 	}
 
+	public static void delete(AbstractModel obj) throws JPAException
+	{
+		try
+		{
+			entityManager.getTransaction().begin();
+			entityManager.remove(obj);
+			entityManager.getTransaction().commit();
+		}
+		catch(Exception e)
+		{
+			throw new JPAException("Error in delete:\n" + e.getMessage());
+		}
+	}	
+	
 	public static int update(String query) throws JPAException
 	{
 		int result;
@@ -75,19 +89,6 @@ public abstract class JPAManager
 		return result;
 	}
 
-	public static void delete(AbstractModel obj) throws JPAException
-	{
-		try
-		{
-			entityManager.getTransaction().begin();
-			entityManager.remove(obj);
-			entityManager.getTransaction().commit();
-		}
-		catch(Exception e)
-		{
-			throw new JPAException("Error in delete:\n" + e.getMessage());
-		}
-	}	
 	
 	public static void close()
 	{
