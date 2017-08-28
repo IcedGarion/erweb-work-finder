@@ -6,13 +6,12 @@ import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Utente;
 
 /**
  *	Contains the methods for manipulating a Utente object in the database
  */
-public class UtenteRepository extends JPAManager
+public class UtenteRepository extends JPAManager<Utente>
 {
 	/**
 	 * 	Returns a list of all users stored in the database
@@ -26,7 +25,7 @@ public class UtenteRepository extends JPAManager
 		
 		try
 		{
-			result = JPAManager.read("SELECT u FROM Utente u", Utente.class);
+			result = JPAManager.read("SELECT u FROM Utente u");
 		}
 		catch(Exception e)
 		{
@@ -42,10 +41,10 @@ public class UtenteRepository extends JPAManager
 	 * @param usr		the user to be updated
 	 * @param bandoDate new date to insert
 	 * @param secOffset offset (seconds) to be added to the new date
+	 * @throws JPAException 
 	 */
-	public static void updateDtNotifica(Utente usr, Date bandoDate, int secOffset)
+	public static void updateDtNotifica(Utente usr, Date bandoDate, int secOffset) throws JPAException
 	{
-		Utente usrDb = entityManager.find(Utente.class, usr.getCdUtente());
 		Date exNotifica = usr.getDtNotifica(), newDate = bandoDate;
 		
 		//aggiunge offset alla data
@@ -57,9 +56,8 @@ public class UtenteRepository extends JPAManager
 		//aggiorna data notifica solo se piu' recente
 		if(newDate.after(exNotifica))
 		{
-			entityManager.getTransaction().begin();
-			usrDb.setDtNotifica(newDate);
-			entityManager.getTransaction().commit();
+			usr.setDtNotifica(newDate);
+			JPAManager.update(usr);
 		}
 	}
 }

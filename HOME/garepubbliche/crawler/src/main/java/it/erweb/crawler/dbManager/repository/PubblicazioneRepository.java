@@ -11,7 +11,7 @@ import it.erweb.crawler.model.Pubblicazione;
 /**
  *	Contains the methods for manipulating a Pubblicazione object in the database
  */
-public class PubblicazioneRepository extends JPAManager
+public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 {
 	/**
 	 * 	Returns a list of all Publications whose State is "DA_SCARICARE"
@@ -25,7 +25,7 @@ public class PubblicazioneRepository extends JPAManager
 		
 		try
 		{
-			result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'", Pubblicazione.class);
+			result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'");
 		}
 		catch(Exception e)
 		{
@@ -40,14 +40,12 @@ public class PubblicazioneRepository extends JPAManager
 	 * 
 	 * @param pubblicazione		the publication to be updated
 	 * @param newState			the new state
+	 * @throws JPAException 
 	 */
-	public static void updateState(Pubblicazione pubblicazione, String newState)
+	public static void updateState(Pubblicazione pubblicazione, String newState) throws JPAException
 	{
-		Pubblicazione pubDb = entityManager.find(Pubblicazione.class, pubblicazione.getCdPubblicazione());
-		 
-		entityManager.getTransaction().begin();
-		pubDb.setStato(newState);
-		entityManager.getTransaction().commit();		
+		pubblicazione.setStato(newState);
+		JPAManager.update(pubblicazione);		
 	}
 
 	/**
@@ -62,7 +60,7 @@ public class PubblicazioneRepository extends JPAManager
 		
 		List<Date> lastDate = JPAManager.read(
 				"SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL ("
-				+ "SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ", Date.class);
+				+ "SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ");
 		
 		//se la tabella pubblicazioni e' vuota, ritorna epoch
 		//cosi' se c'e' una nuova pubblicazione sul sito sara' per forza piu' recente e quindi la scarica

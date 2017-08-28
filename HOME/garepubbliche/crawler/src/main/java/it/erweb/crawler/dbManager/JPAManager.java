@@ -11,7 +11,7 @@ import it.erweb.crawler.model.AbstractModel;
 /**
  * Contains general CRUD methods for JPA and db intraction
  */
-public abstract class JPAManager
+public abstract class JPAManager<T>
 {
 	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
 	protected static EntityManagerFactory entityManagerFactory;
@@ -34,7 +34,7 @@ public abstract class JPAManager
 		}
 	}
 	
-	public static void create(AbstractModel obj)
+	public static <T extends AbstractModel> void create(T obj)
 	{	
 		try
 		{
@@ -49,7 +49,7 @@ public abstract class JPAManager
 		}
 	}
 
-	public static <T> List<T> read(String query, Class<T> type) throws JPAException
+	public static <T> List<T> read(String query) throws JPAException
 	{
 		List<T> result;
 		
@@ -65,6 +65,22 @@ public abstract class JPAManager
 		return result;
 	}
 
+	public static <T extends AbstractModel> void update(T entity) throws JPAException
+	{
+		try
+		{
+			entityManager.getTransaction().begin();
+			entityManager.merge(entity);
+			entityManager.getTransaction().commit();
+		}
+		catch(Exception e)
+		{
+			throw new JPAException("Error in query update\n" + e.getMessage());
+		}
+		
+		return;
+	}
+	
 	public static int update(String query) throws JPAException
 	{
 		int result;
@@ -83,7 +99,7 @@ public abstract class JPAManager
 		return result;
 	}
 
-	public static void delete(AbstractModel obj) throws JPAException
+	public static <T extends AbstractModel> void delete(T obj) throws JPAException
 	{
 		try
 		{

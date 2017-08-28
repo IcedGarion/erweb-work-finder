@@ -2,7 +2,6 @@ package it.erweb.crawler.main;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;

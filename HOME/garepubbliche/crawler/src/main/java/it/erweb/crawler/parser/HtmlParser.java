@@ -140,8 +140,9 @@ public class HtmlParser
 	 * 
 	 * @param publicationHtml	html of a publication page
 	 * @param pubblicazione 	the referenced Pubblicazione containing the Bans
+	 * @throws JPAException 
 	 */
-	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione)
+	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione) throws JPAException
 	{
 		Bando b;
 		int i = 4, dataLength;
@@ -276,8 +277,9 @@ public class HtmlParser
 	 * Searches the Ban body, trying to find the Ban Object and Cig, and then updates the Ban properties in the DB
 	 * 
 	 * @param ban	html of the whole Ban page
+	 * @throws JPAException 
 	 */
-	public static void parseBan(Bando ban)
+	public static void parseBan(Bando ban) throws JPAException
 	{
 		String cig = "", oggetto = "";
 		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;

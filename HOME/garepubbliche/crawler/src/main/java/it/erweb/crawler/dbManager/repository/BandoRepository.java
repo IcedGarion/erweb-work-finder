@@ -11,7 +11,7 @@ import it.erweb.crawler.model.Bando;
 /**
  *	Contains the methods for manipulating a Bando object in the database
  */
-public class BandoRepository extends JPAManager
+public class BandoRepository extends JPAManager<Bando>
 {		
 	/**
 	 * Gets a list of all Bans with Stato "DA_PARSIFICARE"
@@ -48,7 +48,7 @@ public class BandoRepository extends JPAManager
 		
 		try
 		{
-			result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento", Bando.class);
+			result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento");
 		}
 		catch(Exception e)
 		{
@@ -63,14 +63,12 @@ public class BandoRepository extends JPAManager
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newTesto	the new TESTO property value
+	 * @throws JPAException 
 	 */
-	public static void updateText(Bando ban, String newTesto)
+	public static void updateText(Bando ban, String newTesto) throws JPAException
 	{
-		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
-		 
-		entityManager.getTransaction().begin();
-		banDb.setTesto(newTesto);
-		entityManager.getTransaction().commit();			
+		ban.setTesto(newTesto);
+		JPAManager.update(ban);			
 	}
 
 	/**
@@ -78,14 +76,12 @@ public class BandoRepository extends JPAManager
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newCig	the new value of CIG property
+	 * @throws JPAException 
 	 */
-	public static void updateCig(Bando ban, String newCig)
+	public static void updateCig(Bando ban, String newCig) throws JPAException
 	{
-		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
-		 
-		entityManager.getTransaction().begin();
-		banDb.setCig(newCig);
-		entityManager.getTransaction().commit();				
+		ban.setCig(newCig);
+		JPAManager.update(ban);				
 	}
 
 	/**
@@ -93,14 +89,12 @@ public class BandoRepository extends JPAManager
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newOggetto	the new value of the OGGETTO Ban's property
+	 * @throws JPAException 
 	 */
-	public static void updateObject(Bando ban, String newOggetto)
+	public static void updateObject(Bando ban, String newOggetto) throws JPAException
 	{
-		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
-		 
-		entityManager.getTransaction().begin();
-		banDb.setOggetto(newOggetto);
-		entityManager.getTransaction().commit();
+		ban.setOggetto(newOggetto);
+		JPAManager.update(ban);
 	}
 
 	/**
@@ -108,14 +102,12 @@ public class BandoRepository extends JPAManager
 	 * 
 	 * @param ban	the Ban to be modified
 	 * @param newStato	the new value of STATO
+	 * @throws JPAException 
 	 */
-	public static void updateState(Bando ban, String newStato)
+	public static void updateState(Bando ban, String newStato) throws JPAException
 	{
-		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
-		 
-		entityManager.getTransaction().begin();
-		banDb.setStato(newStato);
-		entityManager.getTransaction().commit();				
+		ban.setStato(newStato);
+		JPAManager.update(ban);			
 	}
 	
 	/**
@@ -123,14 +115,12 @@ public class BandoRepository extends JPAManager
 	 * 
 	 * @param ban		the Ban to be modified
 	 * @param newDate	the new value of DT_INSERIMENTO
+	 * @throws JPAException 
 	 */
-	public static void updateDtInserimento(Bando ban, Date newDate)
+	public static void updateDtInserimento(Bando ban, Date newDate) throws JPAException
 	{
-		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
-		 
-		entityManager.getTransaction().begin();
-		banDb.setDtInserimento(newDate);
-		entityManager.getTransaction().commit();				
+		ban.setDtInserimento(newDate);
+		JPAManager.update(ban);			
 	}
 
 	/**
@@ -145,12 +135,12 @@ public class BandoRepository extends JPAManager
 		Date firstNotify;
 
 		//prende la data di notifica piu' vecchia fra tutti gli utenti	
-		firstNotify = JPAManager.read("SELECT MIN(u.dtNotifica) FROM Utente u", Date.class).get(0);
+		firstNotify = (Date) JPAManager.read("SELECT MIN(u.dtNotifica) FROM Utente u").get(0);
 		
 		//prende solo i bandi "parsificato" con data posteriore alla notifica piu' vecchia
 		result = JPAManager.read(
 				"SELECT b FROM Bando b WHERE b.stato = 'PARSIFICATO' "
-				+ "AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento", Bando.class);
+				+ "AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento");
 		
 		return result;
 	}
