@@ -66,7 +66,7 @@ public class Main
 
 			//soltanto se ci sono delle pubblicazioni "DA_SCARICARE" nel db,
 			//le scarica e aggiunge tutti i loro bandi al db;
-			//;potrebbero invece esserci solo pubblicazioni "SCARICATA" ma ancora bandi "DA_PARSIFICARE"
+			//potrebbero invece esserci solo pubblicazioni "SCARICATA" ma ancora bandi "DA_PARSIFICARE"
 			if(publications.size() > 0)
 			{
 				//per ogni pubblicazione "DA_SCARICARE", ricava URL e scarica (aggiungendo gli html a una lista)
@@ -185,12 +185,7 @@ public class Main
 					//(anche se non è stato veramente notificato,
 					//serve per ricordarsi che l'utente non deve più essere potenzialmente notificato per bandi
 					//più vecchi di quello corrente, perchè ormai già controllati
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(lastBanDate);
-			        cal.add(Calendar.SECOND, 1);
-			        lastBanDate = cal.getTime();
-	
-					UtenteRepository.updateDtNotifica(usr, lastBanDate);
+					UtenteRepository.updateDtNotifica(usr, lastBanDate, 1);
 				}
 				logger.info("OK\n");
 			}

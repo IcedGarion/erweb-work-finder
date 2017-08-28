@@ -19,8 +19,8 @@ public abstract class JPAManager
 	
 	//join
 	//result = db.read("select u.username, e.expplus from Utente u join Expreg e on u.cdUtente = e.utente");
-	
 	//reads: ritorna un elemento lista per ogni riga; ogni elemento è array Obj: una cella per colonna
+	
 	public static void init() throws JPAException
 	{
 		try
@@ -49,9 +49,9 @@ public abstract class JPAManager
 		}
 	}
 
-	public static List<Object> read(String query) throws JPAException
+	public static <T> List<T> read(String query, Class<T> type) throws JPAException
 	{
-		List<Object> result;
+		List<T> result;
 		
 		try
 		{

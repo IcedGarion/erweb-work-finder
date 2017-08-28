@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import it.erweb.crawler.configurations.PropertiesManager;
+import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
@@ -33,8 +34,9 @@ public class HtmlParser
 	 * @param html	publications page
 	 * @return		True if a new publication is available
 	 * @throws ParseException 
+	 * @throws JPAException 
 	 */
-	public static boolean getPublications(String html) throws ParseException
+	public static boolean getPublications(String html) throws ParseException, JPAException
 	{
 		boolean ret = false;
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1, i = 0;

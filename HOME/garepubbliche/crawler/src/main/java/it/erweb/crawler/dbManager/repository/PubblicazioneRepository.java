@@ -25,7 +25,7 @@ public class PubblicazioneRepository extends JPAManager
 		
 		try
 		{
-			result = entityManager.createQuery("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'").getResultList();
+			result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'", Pubblicazione.class);
 		}
 		catch(Exception e)
 		{
@@ -54,12 +54,15 @@ public class PubblicazioneRepository extends JPAManager
 	 * 	Gets the most recent date from all the Publications' insertions dates
 	 * 
 	 * @return	the most recent date, or EPOCH if no valid date found
+	 * @throws JPAException 
 	 */
-	public static Date getLastDate()
+	public static Date getLastDate() throws JPAException
 	{
 		Date ret;
 		
-		List<Object> lastDate = (List<Object>) entityManager.createQuery("SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL (SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ").getResultList();
+		List<Date> lastDate = JPAManager.read(
+				"SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL ("
+				+ "SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ", Date.class);
 		
 		//se la tabella pubblicazioni e' vuota, ritorna epoch
 		//cosi' se c'e' una nuova pubblicazione sul sito sara' per forza piu' recente e quindi la scarica

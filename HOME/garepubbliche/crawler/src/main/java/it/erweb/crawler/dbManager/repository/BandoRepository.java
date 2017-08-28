@@ -48,7 +48,7 @@ public class BandoRepository extends JPAManager
 		
 		try
 		{
-			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento").getResultList();
+			result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento", Bando.class);
 		}
 		catch(Exception e)
 		{
@@ -143,12 +143,14 @@ public class BandoRepository extends JPAManager
 	{
 		List<Bando> result;
 		Date firstNotify;
-		
-		//prende la data di notifica piu' vecchia fra tutti gli utenti
-		firstNotify = (Date) entityManager.createQuery("SELECT MIN(u.dtNotifica) FROM Utente u").getResultList().get(0);
+
+		//prende la data di notifica piu' vecchia fra tutti gli utenti	
+		firstNotify = JPAManager.read("SELECT MIN(u.dtNotifica) FROM Utente u", Date.class).get(0);
 		
 		//prende solo i bandi "parsificato" con data posteriore alla notifica piu' vecchia
-		result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = 'PARSIFICATO' AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento").getResultList();
+		result = JPAManager.read(
+				"SELECT b FROM Bando b WHERE b.stato = 'PARSIFICATO' "
+				+ "AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento", Bando.class);
 		
 		return result;
 	}
