@@ -48,7 +48,7 @@ public class BandoRepository extends JPAManager
 		
 		try
 		{
-			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "'" + " order by b.dtInserimento").getResultList();
+			result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento").getResultList();
 		}
 		catch(Exception e)
 		{
@@ -131,5 +131,25 @@ public class BandoRepository extends JPAManager
 		entityManager.getTransaction().begin();
 		banDb.setDtInserimento(newDate);
 		entityManager.getTransaction().commit();				
+	}
+
+	/**
+	 * Returns only the bans having DT_INSERIMENTO after the least recent users' DT_NOTIFICA
+	 * 
+	 * @return				A List of PARSIFICATO bans
+	 * @throws JPAException
+	 */
+	public static List<Bando> getLatestParsificato() throws JPAException
+	{
+		List<Bando> result;
+		Date firstNotify;
+		
+		//prende la data di notifica piu' vecchia fra tutti gli utenti
+		firstNotify = (Date) entityManager.createQuery("SELECT MIN(u.dtNotifica) FROM Utente u").getResultList().get(0);
+		
+		//prende solo i bandi "parsificato" con data posteriore alla notifica piu' vecchia
+		result = entityManager.createQuery("SELECT b FROM Bando b WHERE b.stato = 'PARSIFICATO' AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento").getResultList();
+		
+		return result;
 	}
 }

@@ -1,6 +1,6 @@
-expregs debug?
-update dt notifica quando tenta il match, non solo se riesce;
+sostituire, in tutti i repository, entityManager.createQuery..... con: JPAManager.read(query)
 
+expregs?
 
 da aggiungere il rollback a tutte le eccezioni in JPAManager?
 

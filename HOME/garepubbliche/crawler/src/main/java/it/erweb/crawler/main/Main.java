@@ -26,7 +26,7 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-
+	
 	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
@@ -66,7 +66,7 @@ public class Main
 
 			//soltanto se ci sono delle pubblicazioni "DA_SCARICARE" nel db,
 			//le scarica e aggiunge tutti i loro bandi al db;
-			//potrebbero esserci solo pubblicazioni "SCARICATA" ma ancora bandi "DA_PARSIFICARE"
+			//;potrebbero invece esserci solo pubblicazioni "SCARICATA" ma ancora bandi "DA_PARSIFICARE"
 			if(publications.size() > 0)
 			{
 				//per ogni pubblicazione "DA_SCARICARE", ricava URL e scarica (aggiungendo gli html a una lista)
@@ -145,53 +145,57 @@ public class Main
 			
 			//recupera tutti i bandi parsificati
 			logger.info("Retrieving all Bans...");
-			bans = BandoRepository.getAllParsificato();
+			bans = BandoRepository.getLatestParsificato();
 			logger.info("OK\n");
 
-			
-			//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
-			i = 0;
-			length = users.size();
-			length2 = bans.size();
-			Date lastBanDate = bans.get(0).getDtInserimento();
-			logger.info("Matching all RegExps...");
-			for(Utente usr : users)
+			if(bans.size() > 0)
 			{
-				j = 0;
-				logger.info("Processing User n. " + (++i) + " of " + length + "...");
-				for(Bando ban : bans)
+				//scorre tutti gli utenti: per ciascun utente, scorre tutti i bandi e tenta il match
+				i = 0;
+				length = users.size();
+				length2 = bans.size();
+				Date lastBanDate = bans.get(0).getDtInserimento();
+				logger.info("Matching all RegExps...");
+				for(Utente usr : users)
 				{
-					//tiene conto della data dell'ultimo bando
-					lastBanDate = ban.getDtInserimento().after(lastBanDate) ? ban.getDtInserimento() : lastBanDate;
-							
-					//prima controlla la data: magari utente e' gia' stato notificato per quel bando
-					if(Matcher.checkDate(usr, ban))
+					j = 0;
+					logger.info("Processing User n. " + (++i) + " of " + length + "...");
+					for(Bando ban : bans)
 					{
-						//prova con il match
-						logger.info("Searching Ban n. " + (++j) + " of " + length2 + ";\n\t(User " + i + " of " + length + ")...");
-						notify = Matcher.tryMatch(usr, ban);
-					
-						if(notify)
+						//tiene conto della data dell'ultimo bando
+						lastBanDate = ban.getDtInserimento().after(lastBanDate) ? ban.getDtInserimento() : lastBanDate;
+								
+						//prima controlla la data: magari utente e' gia' stato notificato per quel bando
+						if(Matcher.checkDate(usr, ban))
 						{
-							Notifier.notifyUser(usr, ban);
-							logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
+							//prova con il match
+							logger.info("Searching Ban n. " + (++j) + " of " + length2 + ";\n\t(User " + i + " of " + length + ")...");
+							notify = Matcher.tryMatch(usr, ban);
+						
+							if(notify)
+							{
+								Notifier.notifyUser(usr, ban);
+								logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
+							}
 						}
 					}
+					
+					//in ogni caso, finito il blocco di bandi nuovi, aggiorna data ultima notifica utente 
+					//mettendo data bandi (simile per tutto il blocco) + 1 sec
+					//(anche se non è stato veramente notificato,
+					//serve per ricordarsi che l'utente non deve più essere potenzialmente notificato per bandi
+					//più vecchi di quello corrente, perchè ormai già controllati
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(lastBanDate);
+			        cal.add(Calendar.SECOND, 1);
+			        lastBanDate = cal.getTime();
+	
+					UtenteRepository.updateDtNotifica(usr, lastBanDate);
 				}
-				
-				//in ogni caso, finito il blocco di bandi nuovi, aggiorna data ultima notifica utente 
-				//mettendo data bandi (simile per tutto il blocco) + 1 sec
-				//(anche se non è stato veramente notificato,
-				//serve per ricordarsi che l'utente non deve più essere potenzialmente notificato per bandi
-				//più vecchi di quello corrente, perchè ormai già controllati
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(lastBanDate);
-		        cal.add(Calendar.SECOND, 1);
-		        lastBanDate = cal.getTime();
-
-				UtenteRepository.updateDtNotifica(usr, lastBanDate);
+				logger.info("OK\n");
 			}
-			logger.info("OK\n");
+			else
+				logger.info("There is no new ban that needs to be checked");
 			
 			logger.info("Crawler has finished.");
 		}
