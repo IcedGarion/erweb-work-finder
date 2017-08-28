@@ -25,7 +25,7 @@ public class StringParser
 	public static String tryGetCig(String strToSearch)
 	{
 		String cig = "", cigPattern = PropertiesManager.BAN_CIG_PATTERN;
-		int index = 0, offset = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i = 4;
+		int index = 0, offset = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i;
 		char ch;
 
 		try
@@ -39,8 +39,9 @@ public class StringParser
 					offset = index;
 
 					// parte dal carattere dopo "CIG " e salva il cig
+					i=5;
 					ch = strToSearch.charAt(index + i);
-					while(i < cigLength + 4)
+					while(i <= cigLength + 4)
 					{
 						cig += ch;
 						ch = strToSearch.charAt(index + (++i));

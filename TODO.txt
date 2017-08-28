@@ -1,7 +1,17 @@
+expregs debug?
+update dt notifica quando tenta il match, non solo se riesce;
+
+
+da aggiungere il rollback a tutte le eccezioni in JPAManager?
+
+MIGLIORAMENTI
+Prima di notifica: invece che prendere tutti i bandi e matchare le date uno per uno,
+metodo prendi tutti gli ultimi bandi: cerca utente con dtnotifica più vecchia e prende tutti i bandi più nuovi di quella data
+poi tenta match con expregs solo fra quelli
+
+----------------------------------------------
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
-
-Regex non vanno da db
 
 DA CHIEDERE
 	definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
@@ -10,7 +20,6 @@ DA CHIEDERE
 
 OPZIONALE (DOVREBBE GIA' ANDARE, BASTA TESTARE)
 	-File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
-
 
 
 

@@ -1,5 +1,6 @@
 package it.erweb.crawler.dbManager.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import it.erweb.crawler.dbManager.JPAException;
@@ -114,6 +115,21 @@ public class BandoRepository extends JPAManager
 		 
 		entityManager.getTransaction().begin();
 		banDb.setStato(newStato);
+		entityManager.getTransaction().commit();				
+	}
+	
+	/**
+	 * Updates the DT_INSERIMENTO property of a Ban
+	 * 
+	 * @param ban		the Ban to be modified
+	 * @param newDate	the new value of DT_INSERIMENTO
+	 */
+	public static void updateDtInserimento(Bando ban, Date newDate)
+	{
+		Bando banDb = entityManager.find(Bando.class, ban.getCdBando());
+		 
+		entityManager.getTransaction().begin();
+		banDb.setDtInserimento(newDate);
 		entityManager.getTransaction().commit();				
 	}
 }

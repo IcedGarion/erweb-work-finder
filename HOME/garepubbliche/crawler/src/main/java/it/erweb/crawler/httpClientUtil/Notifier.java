@@ -36,6 +36,6 @@ public class Notifier
 	 */
 	public static void notifyUser(Utente usr, Bando ban) throws Exception
 	{
-		System.out.println("\nUtente: " + usr.getUsername() + " match con bando : " + ban.getCdBando());
+		System.out.println("\nUtente: " + usr.getUsername() + " match con bando : " + ban.getCdEsterno());
 	}
 }

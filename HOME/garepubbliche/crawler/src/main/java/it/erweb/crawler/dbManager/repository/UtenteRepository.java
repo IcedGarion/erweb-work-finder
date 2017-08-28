@@ -40,12 +40,17 @@ public class UtenteRepository extends JPAManager
 	 * 
 	 * @param usr	the user to be updated
 	 */
-	public static void updateDtNotifica(Utente usr, Bando b)
+	public static void updateDtNotifica(Utente usr, Date bandoDate)
 	{
 		Utente usrDb = entityManager.find(Utente.class, usr.getCdUtente());
-		 
-		entityManager.getTransaction().begin();
-		usrDb.setDtNotifica(b.getDtInserimento());
-		entityManager.getTransaction().commit();
+		Date exNotifica = usr.getDtNotifica();
+		
+		//aggiorna data notifica solo se piu' recente
+		if(bandoDate.after(exNotifica))
+		{
+			entityManager.getTransaction().begin();
+			usrDb.setDtNotifica(bandoDate);
+			entityManager.getTransaction().commit();
+		}
 	}
 }

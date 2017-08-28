@@ -36,9 +36,17 @@ public abstract class JPAManager
 	
 	public static void create(AbstractModel obj)
 	{	
-		entityManager.getTransaction().begin();
-		entityManager.persist(obj);
-		entityManager.getTransaction().commit();
+		try
+		{
+			entityManager.getTransaction().begin();
+			entityManager.persist(obj);
+			entityManager.getTransaction().commit();
+		}
+		catch(Exception e)
+		{
+			//se non riesce a inserire (magari perche' esiste gia') ignora e potra' ripetere
+			entityManager.getTransaction().rollback();
+		}
 	}
 
 	public static List<Object> read(String query) throws JPAException

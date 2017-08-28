@@ -3,6 +3,7 @@ package it.erweb.crawler.parser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,6 +16,7 @@ import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.httpClientUtil.Notifier;
+import it.erweb.crawler.main.Main;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Pubblicazione;
 
@@ -23,6 +25,8 @@ import it.erweb.crawler.model.Pubblicazione;
  */
 public class HtmlParser
 {	
+	private static Logger logger = Logger.getLogger(Main.class.getName());
+	
 	/**
 	 * Gets all the publications' infos, given the publications home page, and stores them persistently on the DB
 	 * 
@@ -215,7 +219,7 @@ public class HtmlParser
 			//prende l'ultimo elemento in riga (fra span, a href, font e altro) e ne estrae solo il testo (scadenza)		
 			//ma non in tutti i bandi è presente
 			dataLength = data.children().size();
-			if(dataLength > 1)
+			if(dataLength >= 1)
 			{			
 				tmp = data.child(data.children().size() - 1).ownText();	
 				try
@@ -233,7 +237,6 @@ public class HtmlParser
 				scadenza = "";
 			}
 			
-			
 			//crea un nuovo bando con tutte le info raccolte
 			b = new Bando();
 			if(codEsterno != "")
@@ -249,10 +252,19 @@ public class HtmlParser
 			b.setUrl(url);											//URL
 			b.setStato("DA_PARSIFICARE");							//STATO
 			b.setDtInserimento(new Date());							//DT_INSERIMENTO
-				
-			//SALVA NEL DB
-			JPAManager.create(b);
-			}	
+			
+			try
+			{
+				//SALVA NEL DB
+				JPAManager.create(b);
+			}
+			catch(Exception e)
+			{	
+				//se ci sono errori nell'inserimento in db, esempio:
+				//cerca di inserire un bando già inserito. Allora lo salta e basta
+				logger.info("Ban " + codEsterno + " already in the db!");
+			}
+		}	
 		
 		//ricavati tutti i bandi di una pubblicazione, aggiorna lo stato
 		PubblicazioneRepository.updateState(pubblicazione, "SCARICATA");

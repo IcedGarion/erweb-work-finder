@@ -54,14 +54,13 @@ public class Matcher
 		// prova prima il match con le expregs negative (che NON devono matchare!)
 		if(!(banObj.matches(expMinus)) || (expMinus.equals("")))
 		{
-			// se passa, prova anche le negative
+			// se passa, prova anche le positive
 			if(banObj.matches(expPlus))
 			{
 				ret = true;
 			}
 		}
 		
-		// se non passa in entrambi gli if, ret rimane false
 		return ret;
 	}
 }
