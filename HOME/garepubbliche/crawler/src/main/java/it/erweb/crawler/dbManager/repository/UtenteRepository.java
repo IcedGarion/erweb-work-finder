@@ -53,4 +53,20 @@ public class UtenteRepository extends JPAManager<Utente>
 			JPAManager.update(usr);
 		}
 	}
+
+	/**
+	 *  Returns the whole entity identified by the ID 
+	 * 
+	 * @param cdUtente	ID of the entity
+	 * @return			Utente odentified by ID
+	 * @throws JPAException 
+	 */
+	public static Utente getById(long cdUtente) throws JPAException
+	{
+		List<Utente> result;
+		
+		result = JPAManager.read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente);
+
+		return result.get(0);
+	}
 }

@@ -33,7 +33,7 @@ public abstract class JPAManager<T>
 			throw new JPAException("No database connection!");
 		}
 	}
-	
+		
 	public static <T extends AbstractModel> void create(T obj)
 	{	
 		try

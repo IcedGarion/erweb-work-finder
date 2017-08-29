@@ -34,11 +34,12 @@ public class Main
 		init();
 		
 		//mostra tutte le notifiche
-		notifies = NotificaRepository.getAllNotifications();
+		notifies = NotificaRepository.getAllPendingNotifications();
 		Notifier.sendNotificationsMails(notifies);
+		JPAManager.close();
 	}
 	
-	public static void vin(String[] args) throws JPAException, FileNotFoundException
+	public static void realMain(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
 		int i = 0, j = 0, length, length2;
@@ -203,6 +204,11 @@ public class Main
 			}
 			else
 				logger.info("There is no new ban that needs to be checked");
+			
+			
+			//Invia le mail?
+			//notifies = NotificaRepository.getAllPendingNotifications();
+			//Notifier.sendNotificationsMails(notifies);
 			
 			
 			logger.info("Crawler has finished.");

@@ -137,4 +137,20 @@ public class BandoRepository extends JPAManager<Bando>
 		
 		return result;
 	}
+
+	/**
+	 *  Returns the entity identified by the ID
+	 * 
+	 * @param cdBando	the ID	
+	 * @return			the entity Bando
+	 * @throws JPAException 
+	 */
+	public static Bando getById(long cdBando) throws JPAException
+	{
+		List<Bando> result;
+		
+		result = JPAManager.read("SELECT b FROM Bando b WHERE b.cdBando = " + cdBando);
+
+		return result.get(0);
+	}
 }

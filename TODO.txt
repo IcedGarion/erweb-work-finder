@@ -1,10 +1,14 @@
-MODIFICA ANALISI FUNZIONALE! 
+-MODIFICA ANALISI FUNZIONALE! 
 	DB: relazione utente-expreg non è 1:n; poi bisogna aggiungere la nuova tabella notifica
 	PROCESSI: c'e' un nuovo "componente" che ogni tot legge la tabella delle notifiche e manda le mail
 
-Liste generiche e non (in JPAManager)
+-Liste generiche e non (in JPAManager.read)
 
+-JPAManager abstract getById()? che tutti devono implementare?
 
+-da implementare effettivo invio mail
+
+-in corso:
 (
 notifyUser: non manda niente. Riempie una tabella n : m con: utente x bandi i..j stato y, data notifica.
 modifica database.
@@ -12,6 +16,8 @@ poi un altro "processo" legge da quella tabella e manda UNA SOLA mail per ogni u
 	e gli manda tutti i bandi che deve.
 )
 QUASI FATTO
+
+
 
 ----------------------------------------------
 Riprova training agente con il db nuovo

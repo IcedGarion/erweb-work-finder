@@ -42,11 +42,11 @@ public class NotificaRepository extends JPAManager<Notifica>
 	 * @return	A list of notifications
 	 * @throws JPAException
 	 */
-	public static List<Notifica> getAllNotifications() throws JPAException
+	public static List<Notifica> getAllPendingNotifications() throws JPAException
 	{
 		List<Notifica> notifies;
 
-		notifies = JPAManager.read("SELECT n FROM Notifica n ORDER BY n.id.cdUtente");
+		notifies = JPAManager.read("SELECT n FROM Notifica n where n.stato = 'DA_INVIARE' ORDER BY n.id.cdUtente");
 	
 		return notifies;
 	}
