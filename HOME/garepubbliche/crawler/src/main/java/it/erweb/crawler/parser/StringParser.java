@@ -24,13 +24,14 @@ public class StringParser
 	 */
 	public static String tryGetCig(String strToSearch)
 	{
+		int MAX_CHARS_AFTER_CIG = 20;	//quanti max caratteri fra "cig: " e il cig vero
 		String cig = "", cigPattern = PropertiesManager.BAN_CIG_PATTERN;
-		int index = 0, offset = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i;
+		int index = 0, offset = 0, chSaltati = 0, cigLength = PropertiesManager.BAN_CIG_LENGTH, i;
 		char ch;
 
 		try
 		{
-			if(strToSearch.contains("CIG"))
+			if(strToSearch.toLowerCase().contains("cig"))
 			{
 				while(index != -1)
 				{
@@ -38,15 +39,29 @@ public class StringParser
 					index = regexIndexOf(Pattern.compile(PropertiesManager.BAN_CIG_REGEX), strToSearch, offset);
 					offset = index;
 
-					// parte dal carattere dopo "CIG " e salva il cig
-					i=5;
+					// parte dal carattere dopo "CIG " e salva il cig: legge 2 char in più
+					i=4;
 					ch = strToSearch.charAt(index + i);
-					while(i <= cigLength + 4)
+					
+					String tmp = ch + "";
+					//cig potrebbe essere fra parentesi o dopo "n.": manda avanti
+					while((! tmp.matches("[0-9]")) && (chSaltati > MAX_CHARS_AFTER_CIG))
+					{
+						ch = strToSearch.charAt(index + (++i));
+						tmp = ch + "";
+						chSaltati++;
+					}
+					
+					//legge il cig
+					while(i < cigLength + 4 + chSaltati)
 					{
 						cig += ch;
 						ch = strToSearch.charAt(index + (++i));
 					}
-
+					
+					//toglie eventuali ) o spazi alla fine (non dovrebbe servire)
+					cig = cig.replaceAll("[) ]", "");
+ 
 					// controlla se l'ipotetico CIG appena ottenuto rispetta
 					// il pattern
 					if(!cig.matches(cigPattern))

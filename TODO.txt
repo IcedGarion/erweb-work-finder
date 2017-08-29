@@ -1,14 +1,3 @@
-sostituire, in tutti i repository, entityManager.createQuery..... con: JPAManager.read(query)
-
-expregs?
-
-da aggiungere il rollback a tutte le eccezioni in JPAManager?
-
-MIGLIORAMENTI
-Prima di notifica: invece che prendere tutti i bandi e matchare le date uno per uno,
-metodo prendi tutti gli ultimi bandi: cerca utente con dtnotifica più vecchia e prende tutti i bandi più nuovi di quella data
-poi tenta match con expregs solo fra quelli
-
 ----------------------------------------------
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
