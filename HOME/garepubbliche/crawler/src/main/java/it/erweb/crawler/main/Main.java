@@ -10,6 +10,7 @@ import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.NotificaRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
 import it.erweb.crawler.expregMatcher.Matcher;
@@ -25,16 +26,28 @@ import it.erweb.crawler.weka.BandoObjValidator;
 public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
-
-	public static void main(String[] args) throws JPAException, FileNotFoundException
+	
+	public static void main(String[] args) throws JPAException
+	{
+		List<Notifica> notifies;
+		
+		init();
+		
+		//mostra tutte le notifiche
+		notifies = NotificaRepository.getAllNotifications();
+		Notifier.sendNotificationsMails(notifies);
+	}
+	
+	public static void vin(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
 		int i = 0, j = 0, length, length2;
 		List<Pubblicazione> publications = new ArrayList<Pubblicazione>();
 		List<String> publicationsHtml = new ArrayList<String>();
-		List<Bando> bans = new ArrayList<Bando>();
-		List<Utente> users = new ArrayList<Utente>();
+		List<Bando> bans;
+		List<Utente> users;
 		boolean newAvailable, notify;
+		Date lastBanDate;
 		
 		//inizializza configurazioni
 		logger.info("Starting Crawler...");
@@ -153,7 +166,7 @@ public class Main
 				i = 0;
 				length = users.size();
 				length2 = bans.size();
-				Date lastBanDate = bans.get(0).getDtInserimento();
+				lastBanDate = bans.get(0).getDtInserimento();
 				logger.info("Matching all RegExps...");
 				for(Utente usr : users)
 				{
@@ -169,11 +182,11 @@ public class Main
 						{
 							//prova con il match
 							logger.info("Searching Ban n. " + (++j) + " of " + length2 + ";\n\t(User " + i + " of " + length + ")...");
-							notify = Matcher.tryMatch(usr, ban);
+							notify = Matcher.tryMatchUserExpreg(usr, ban);
 						
 							if(notify)
 							{
-								Notifier.notifyUser(usr, ban);
+								NotificaRepository.insertNotify(usr, ban);
 								logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
 							}
 						}
@@ -190,6 +203,7 @@ public class Main
 			}
 			else
 				logger.info("There is no new ban that needs to be checked");
+			
 			
 			logger.info("Crawler has finished.");
 		}

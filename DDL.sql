@@ -1,26 +1,13 @@
--- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Creato il: Ago 29, 2017 alle 09:26
--- Versione del server: 10.1.21-MariaDB
--- Versione PHP: 5.6.30
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Database: `erweb`
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 CREATE DATABASE IF NOT EXISTS `erweb` DEFAULT CHARACTER SET utf8 COLLATE utf8_roman_ci;
 USE `erweb`;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `bando`
---
 
 CREATE TABLE `bando` (
   `CD_BANDO` bigint(20) NOT NULL COMMENT 'Identificativo del bando,  generato in automatico ',
@@ -38,12 +25,6 @@ CREATE TABLE `bando` (
   `DT_INSERIMENTO` datetime NOT NULL COMMENT 'Data di inserimento del bando nel database, che corrisponde alla data di inserimento della pubblicazione '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `expreg`
---
-
 CREATE TABLE `expreg` (
   `CD_EXPREG` bigint(20) NOT NULL COMMENT 'Identificativo dell''espressione, assegnato in automatico. ',
   `CD_UTENTE` bigint(20) NOT NULL COMMENT 'Rappresenta la relazione fra EXPREG e UTENTE ',
@@ -51,11 +32,12 @@ CREATE TABLE `expreg` (
   `EXPMINUS` varchar(1000) COLLATE utf8_roman_ci NOT NULL COMMENT 'L''espressione regolare vera e propria, di tipo MINUS'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `pubblicazione`
---
+CREATE TABLE `notifica` (
+  `DT_NOTIFICA` datetime NOT NULL COMMENT 'Data dell''inserimento della notifica',
+  `CD_UTENTE` bigint(20) NOT NULL COMMENT 'Rappresenta la relazione fra UTENTE e NOTIFICA',
+  `CD_BANDO` bigint(20) NOT NULL COMMENT 'Rappresenta la relazione fra BANDO e NOTIFICA',
+  `STATO` enum('DA_INVIARE','INVIATO','','') COLLATE utf8_roman_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
 CREATE TABLE `pubblicazione` (
   `CD_PUBBLICAZIONE` bigint(20) NOT NULL COMMENT 'Identificativo della pubblicazione. Popolato  automaticamente ',
@@ -65,12 +47,6 @@ CREATE TABLE `pubblicazione` (
   `URL` varchar(1000) COLLATE utf8_roman_ci NOT NULL COMMENT 'Indirizzo URL della pubblicazione '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `utente`
---
-
 CREATE TABLE `utente` (
   `CD_UTENTE` bigint(20) NOT NULL COMMENT 'Identificativo dell''utente, assegnato in automatico. ',
   `USERNAME` varchar(50) COLLATE utf8_roman_ci NOT NULL COMMENT 'Pseudonimo (univoco) dell''utente, scelto dallo stesso in fase di registrazione ',
@@ -79,76 +55,50 @@ CREATE TABLE `utente` (
   `DT_NOTIFICA` datetime NOT NULL COMMENT 'Data in cui è avvenuta l''ultima notifica di nuovo bando'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
---
--- Indici per le tabelle scaricate
---
 
---
--- Indici per le tabelle `bando`
---
 ALTER TABLE `bando`
   ADD PRIMARY KEY (`CD_BANDO`),
   ADD UNIQUE KEY `CD_ESTERNO` (`CD_ESTERNO`),
   ADD KEY `CD_PUBBLICAZIONE` (`CD_PUBBLICAZIONE`);
 
---
--- Indici per le tabelle `expreg`
---
 ALTER TABLE `expreg`
   ADD PRIMARY KEY (`CD_EXPREG`),
   ADD KEY `CD_UTENTE` (`CD_UTENTE`);
 
---
--- Indici per le tabelle `pubblicazione`
---
+ALTER TABLE `notifica`
+  ADD PRIMARY KEY (`CD_UTENTE`,`CD_BANDO`),
+  ADD KEY `CD_UTENTE` (`CD_UTENTE`,`CD_BANDO`),
+  ADD KEY `CD_BANDO` (`CD_BANDO`);
+
 ALTER TABLE `pubblicazione`
   ADD PRIMARY KEY (`CD_PUBBLICAZIONE`);
 
---
--- Indici per le tabelle `utente`
---
 ALTER TABLE `utente`
   ADD PRIMARY KEY (`CD_UTENTE`),
   ADD UNIQUE KEY `USERNAME` (`USERNAME`);
 
---
--- AUTO_INCREMENT per le tabelle scaricate
---
 
---
--- AUTO_INCREMENT per la tabella `bando`
---
 ALTER TABLE `bando`
-  MODIFY `CD_BANDO` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo del bando,  generato in automatico ', AUTO_INCREMENT=6604;
---
--- AUTO_INCREMENT per la tabella `expreg`
---
+  MODIFY `CD_BANDO` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo del bando,  generato in automatico ', AUTO_INCREMENT=7951;
 ALTER TABLE `expreg`
   MODIFY `CD_EXPREG` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo dell''espressione, assegnato in automatico. ', AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT per la tabella `pubblicazione`
---
 ALTER TABLE `pubblicazione`
-  MODIFY `CD_PUBBLICAZIONE` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo della pubblicazione. Popolato  automaticamente ', AUTO_INCREMENT=81;
---
--- AUTO_INCREMENT per la tabella `utente`
---
+  MODIFY `CD_PUBBLICAZIONE` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo della pubblicazione. Popolato  automaticamente ', AUTO_INCREMENT=96;
 ALTER TABLE `utente`
   MODIFY `CD_UTENTE` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Identificativo dell''utente, assegnato in automatico. ', AUTO_INCREMENT=3;
---
--- Limiti per le tabelle scaricate
---
 
---
--- Limiti per la tabella `bando`
---
 ALTER TABLE `bando`
   ADD CONSTRAINT `FKd4fhf2qke4l7da42a3n66pt21` FOREIGN KEY (`CD_PUBBLICAZIONE`) REFERENCES `pubblicazione` (`CD_PUBBLICAZIONE`),
   ADD CONSTRAINT `bando_foreign_key_pub` FOREIGN KEY (`CD_PUBBLICAZIONE`) REFERENCES `pubblicazione` (`CD_PUBBLICAZIONE`);
 
---
--- Limiti per la tabella `expreg`
---
 ALTER TABLE `expreg`
   ADD CONSTRAINT `FKej636i71sjaq705khlueb8bgg` FOREIGN KEY (`CD_UTENTE`) REFERENCES `utente` (`CD_UTENTE`),
   ADD CONSTRAINT `expreg_foreign_key_utente` FOREIGN KEY (`CD_UTENTE`) REFERENCES `utente` (`CD_UTENTE`);
+
+ALTER TABLE `notifica`
+  ADD CONSTRAINT `notifica_ibfk_1` FOREIGN KEY (`CD_UTENTE`) REFERENCES `utente` (`CD_UTENTE`),
+  ADD CONSTRAINT `notifica_ibfk_2` FOREIGN KEY (`CD_BANDO`) REFERENCES `bando` (`CD_BANDO`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

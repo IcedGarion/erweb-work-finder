@@ -5,6 +5,8 @@
 		<class>it.erweb.crawler.model.Expreg</class>
 		<class>it.erweb.crawler.model.Pubblicazione</class>
 		<class>it.erweb.crawler.model.Utente</class>
+		<class>it.erweb.crawler.model.Notifica</class>
+		<class>it.erweb.crawler.model.NotificaPK</class>
 		
 	        <properties>
 	            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />

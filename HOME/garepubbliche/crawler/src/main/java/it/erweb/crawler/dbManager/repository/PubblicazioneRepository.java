@@ -23,14 +23,7 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	{
 		List<Pubblicazione> result;
 		
-		try
-		{
-			result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'");
-		}
-		catch(Exception e)
-		{
-			throw new JPAException("Error in query read:\n" + e.getMessage());
-		}
+		result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'");
 		
 		return result;
 	}

@@ -33,7 +33,7 @@ public class Matcher
 	 * @return		true if all the regular expressions produce a positive match, false otherwise
 	 * @throws Exception
 	 */
-	public static boolean tryMatch(Utente usr, Bando ban)
+	public static boolean tryMatchUserExpreg(Utente usr, Bando ban)
 	{
 		String expPlus, expMinus, banObj, banTxt;
 		Expreg expregs;

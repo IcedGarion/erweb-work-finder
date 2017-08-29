@@ -46,14 +46,7 @@ public class BandoRepository extends JPAManager<Bando>
 	{
 		List<Bando> result;
 		
-		try
-		{
-			result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento");
-		}
-		catch(Exception e)
-		{
-			throw new JPAException("Error in query read:\n" + e.getMessage());
-		}
+		result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento");		
 		
 		return result;
 	}

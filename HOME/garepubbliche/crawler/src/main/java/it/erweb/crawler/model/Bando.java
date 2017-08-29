@@ -15,7 +15,7 @@ public class Bando extends AbstractModel implements Serializable
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "CD_BANDO")
-	private String cdBando;
+	private long cdBando;
 
 	@Column(name = "CD_ESTERNO")
 	private String cdEsterno;
@@ -54,12 +54,12 @@ public class Bando extends AbstractModel implements Serializable
 	{
 	}
 
-	public String getCdBando()
+	public long getCdBando()
 	{
 		return this.cdBando;
 	}
 
-	public void setCdBando(String cdBando)
+	public void setCdBando(long cdBando)
 	{
 		this.cdBando = cdBando;
 	}

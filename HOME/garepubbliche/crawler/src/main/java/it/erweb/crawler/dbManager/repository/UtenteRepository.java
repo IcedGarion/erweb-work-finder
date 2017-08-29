@@ -23,15 +23,8 @@ public class UtenteRepository extends JPAManager<Utente>
 	{
 		List<Utente> result;
 		
-		try
-		{
-			result = JPAManager.read("SELECT u FROM Utente u");
-		}
-		catch(Exception e)
-		{
-			throw new JPAException("Error:\n" + e.getMessage());
-		}
-		
+		result = JPAManager.read("SELECT u FROM Utente u");
+
 		return result;
 	}
 

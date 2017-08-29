@@ -1,7 +1,10 @@
 package it.erweb.crawler.httpClientUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.erweb.crawler.model.Bando;
-import it.erweb.crawler.model.Utente;
+import it.erweb.crawler.model.Notifica;
 
 /**
  * Functions to send notifications via HTTP messages
@@ -26,16 +29,43 @@ public class Notifier
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 *	Temporary: once a ban has matched with a user's expregs, notifies the user in some way (Prints for now)
-	 *
-	 * @param usr	the user that wants to be notified
-	 * @param ban	the ban to be notified
-	 * @throws Exception
+	 *  For every user in the list, send a mail containing all the user's bans to be notified
+	 * 
+	 * @param notifications		A list of notifications to be sent
 	 */
-	public static void notifyUser(Utente usr, Bando ban) throws Exception
+	public static void sendNotificationsMails(List<Notifica> notifications)
 	{
-		System.out.println("\nUtente: " + usr.getUsername() + " match con bando : " + ban.getCdEsterno());
+		//parses the list in order to split the users
+		List<Bando> bansToNotify;
+		long cdUtente = 0;
+		
+		//BASATO SULL'ORDERBY
+		//continua ad aggiungere bandi alla lista finche' non cambia utente:
+		//quando succede, invia tutti i bandi letti ei ricomincia
+		for(Notifica note : notifications)
+		{
+			//prima volta
+			if(cdUtente == 0)
+			{
+				cdUtente = note.getId().getCdUtente();
+				bansToNotify = new ArrayList<>();
+			}
+			//utente e' sempre lo stesso
+			else if(note.getId().getCdUtente() == cdUtente)
+			{
+				
+			}
+			//cambio utente
+			else
+			{
+				//invia per mail quanto letto finora
+				
+				bansToNotify = new ArrayList<>();
+			}
+		}
+		
+		return;
 	}
 }

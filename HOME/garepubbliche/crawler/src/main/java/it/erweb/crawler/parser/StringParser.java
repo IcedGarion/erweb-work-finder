@@ -45,7 +45,7 @@ public class StringParser
 					
 					String tmp = ch + "";
 					//cig potrebbe essere fra parentesi o dopo "n.": manda avanti
-					while((! tmp.matches("[0-9]")) && (chSaltati > MAX_CHARS_AFTER_CIG))
+					while((! tmp.matches("[0-9]")) && (chSaltati < MAX_CHARS_AFTER_CIG))
 					{
 						ch = strToSearch.charAt(index + (++i));
 						tmp = ch + "";

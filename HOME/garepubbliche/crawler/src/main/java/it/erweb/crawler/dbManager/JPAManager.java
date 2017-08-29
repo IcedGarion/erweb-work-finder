@@ -55,6 +55,7 @@ public abstract class JPAManager<T>
 		
 		try
 		{
+			//result = entityManager.createQuery(query).getResultList();
 			result = entityManager.createQuery(query).getResultList();
 		}
 		catch(Exception e)
