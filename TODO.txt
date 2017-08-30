@@ -16,7 +16,7 @@ DA FARE:
 
 -Da migliorare tutto il logging... insieme al test
 
--MODIFICA ANALISI FUNZIONALE! 
+-MODIFICA ANALISI FUNZIONALE! (e tesi)
 	DB: relazione utente-expreg non è 1:n; poi bisogna aggiungere la nuova tabella notifica
 	PROCESSI: c'e' un nuovo "componente" che ogni tot legge la tabella delle notifiche e manda le mail	
 	

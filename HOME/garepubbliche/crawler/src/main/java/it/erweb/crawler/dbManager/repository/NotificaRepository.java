@@ -68,6 +68,7 @@ public class NotificaRepository extends JPAManager<Notifica>
 		
 		updateNote = new Notifica();
 		updateNote.setStato("INVIATO");
+		updateNote.setDtNotifica(new Date());
 		//chiave primaria composta da utente + bando
 		key = new NotificaPK();
 		key.setCdBando(cdBando);

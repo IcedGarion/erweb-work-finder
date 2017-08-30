@@ -82,7 +82,7 @@ public class Notifier
 				else if(cdUtente != exCdUtente)
 				{
 					//invia per mail quanto letto finora: a cdUtente invia tutta la lista
-					cookMail(cdUtente, bansToNotify);
+					cookMailAndUpdate(cdUtente, bansToNotify);
 					
 					exCdUtente = cdUtente;
 					bansToNotify = new ArrayList<>();
@@ -93,7 +93,7 @@ public class Notifier
 			}
 			
 			//infine invia i rimanenti bandi all'ultimo utente della lista
-			cookMail(cdUtente, bansToNotify);
+			cookMailAndUpdate(cdUtente, bansToNotify);
 		}
 		
 		return;
@@ -102,11 +102,12 @@ public class Notifier
 	/*
 	 * Extracts the list of bans'cds and prepares the email: every user's got a list of bans to be sent
 	 */
-	private static void cookMail(long cdUtente, List<Long> bansCd) throws JPAException
+	private static void cookMailAndUpdate(long cdUtente, List<Long> bansCd) throws JPAException
 	{
 		String userEmailAddr, emailTxt, emailObj;
 		Utente usr;
 		Bando ban;
+		boolean sent = false;
 		
 		//prepara la mail inserendo indirizzo destinatario e altri dati
 		usr = UtenteRepository.getById(cdUtente);
@@ -123,12 +124,15 @@ public class Notifier
 		emailTxt += PropertiesManager.EMAIL_NOTIFICATIONBAN_TAIL;
 		
 		//infine invia la mail
-		sendMail(userEmailAddr, emailObj, emailTxt);
+		sent = sendMail(userEmailAddr, emailObj, emailTxt);
 		
-		//aggiorna o stato di tutte le notifiche pedite a "INVIATO"
-		for(long cd : bansCd)
+		//se e' riuscito a inviare, aggiorna o stato di tutte le notifiche spedite a "INVIATO"
+		if(sent)
 		{
-			NotificaRepository.updateState(cdUtente, cd);
+			for(long cd : bansCd)
+			{
+				NotificaRepository.updateState(cdUtente, cd);
+			}
 		}
 		
 		return;
@@ -141,11 +145,12 @@ public class Notifier
 	 * @param subject	subject of the current mail
 	 * @param text		mail's body content
 	 */
-	public static void sendMail(String dest, String subject, String text)
+	public static boolean sendMail(String dest, String subject, String text)
 	{
 		String sourceAddr, smtpHost, sourceUser, sourcePass;
 		Properties properties;
 		Session session;
+		boolean ret = false;
 		
 		//configure parameters
 		sourceAddr = PropertiesManager.EMAIL_SOURCE_ADDRESS;
@@ -181,12 +186,13 @@ public class Notifier
 
 			Transport.send(message);
 			logger.info("Mail sent:\nDestination: " + dest + "\nSubject: " + subject + "Text: " + text);
+			ret = true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 
-		return;
+		return ret;
 	}
 }

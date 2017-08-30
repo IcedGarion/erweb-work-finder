@@ -40,9 +40,8 @@ public class Main
 		Date lastBanDate;
 		
 		//inizializza configurazioni
-		logger.info("Starting Crawler...");
+		logger.info("Starting Crawler...\n");
 		init();
-		logger.info("OK\n");
 		
 		try
 		{	
@@ -57,9 +56,9 @@ public class Main
 			logger.info("OK\n");
 			
 			if(! (newAvailable))
-				logger.info("There are no new publications!\n\tSearching for old unfinished work...");
+				logger.info("There are no new publications!\n\tSearching for old unfinished work...\n");
 			else
-				logger.info("New publications available!");
+				logger.info("New publications available!\n");
 			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving any publication to be downloaded...");
@@ -77,7 +76,7 @@ public class Main
 				logger.info("Downloading all publications...");
 				for(Pubblicazione pub : publications)
 				{
-					logger.info("Downloading Publication " + (++i) + " of " + length + "\n\tConnecting to: " + pub.getUrl() + "...");
+					logger.info("\tDownloading Publication " + (++i) + " of " + length + "\n\tConnecting to: " + pub.getUrl() + "...");
 					Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 					publicationsHtml.add(HttpGetter.get(pub.getUrl()));	
 				}
@@ -89,14 +88,14 @@ public class Main
 				logger.info("Parsing all publications...");
 				for(String pub : publicationsHtml)
 				{
-					logger.info("Parsing publication n. " + (i + 1) + " of " + length + "...");
+					logger.info("\tParsing publication n. " + (i + 1) + " of " + length + "...");
 					//passa anche la Pubblicaziome, per collegare i bandi alla relativa pubblicazione
 					HtmlParser.getPublicationBans(pub, publications.get(i++));	
 				}
 				logger.info("OK\n");
 			}
 			else
-				logger.info("There are no old publications to be downloaded");
+				logger.info("There are no old publications to be downloaded\n");
 			
 			//carica dal DB tutti i bandi appena inseriti ("DA_PARSIFICARE")
 			//oppure potrebbero essercene di avanzati
@@ -112,7 +111,7 @@ public class Main
 				logger.info("Downloading all bans...\n");
 				for(Bando ban : bans)
 				{
-					logger.info("Downloading ban n. " + (++i) + " of " + length + "\n\tConnecting to: " + ban.getUrl() + "...");
+					logger.info("\tDownloading ban n. " + (++i) + " of " + length + "\n\tConnecting to: " + ban.getUrl() + "...");
 					Thread.sleep(PropertiesManager.SYS_HTTP_GET_FREQUENCY);
 					html = HttpGetter.get(ban.getUrl());
 					
@@ -127,13 +126,13 @@ public class Main
 				logger.info("Parsing all bans...");
 				for(Bando ban : bans)
 				{				
-					logger.info("Parsing ban n. " + (++i) + " of " + length + "...");
+					logger.info("\tParsing ban n. " + (++i) + " of " + length + "...");
 					HtmlParser.parseBan(ban);
 				}
 				logger.info("OK\n");
 			}
 			else
-				logger.info("There is no new ban that needs to be downloaded");
+				logger.info("There are no old bans that need to be downloaded\n");
 			
 			
 			//processa tutti gli utenti e per ognuno
@@ -141,12 +140,12 @@ public class Main
 			//può farlo anche se non c'è nessun nuovo bando
 		
 			//recupera tutti gli utenti
-			logger.info("Retrieving all Users...");
+			logger.info("Bans - Users Matching:\nRetrieving all Users...");
 			users = UtenteRepository.getAllUsers();
 			logger.info("OK\n");
 			
 			//recupera tutti i bandi parsificati
-			logger.info("Retrieving all Bans...");
+			logger.info("Retrieving all newest Bans...");
 			bans = BandoRepository.getLatestParsificato();
 			logger.info("OK\n");
 
@@ -161,7 +160,7 @@ public class Main
 				for(Utente usr : users)
 				{
 					j = 0;
-					logger.info("Processing User n. " + (++i) + " of " + length + "...");
+					logger.info("\tProcessing User n. " + (++i) + " of " + length + "...");
 					for(Bando ban : bans)
 					{
 						//tiene conto della data dell'ultimo bando
@@ -171,14 +170,14 @@ public class Main
 						if(ExpregRepository.checkDate(usr, ban))
 						{
 							//prova con il match
-							logger.info("Searching Ban n. " + (++j) + " of " + length2 + ";\n\t(User " + i + " of " + length + ")...");
+							logger.info("\tSearching Ban n. " + (++j) + " of " + length2 + ";\n\t\t(User " + i + " of " + length + ")...");
 							notify = ExpregRepository.tryMatchUserExpreg(usr, ban);
 						
 							if(notify)
 							{
 								//se unbando fa match, lo inserisce nella tabella notifiche
 								NotificaRepository.insertNotifica(usr, ban);
-								logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
+								logger.info("\tMatch: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
 							}
 						}
 					}
@@ -193,7 +192,7 @@ public class Main
 				logger.info("OK\n");
 			}
 			else
-				logger.info("There is no new ban that needs to be checked");
+				logger.info("There is no new ban that needs to be matched\n");
 			
 			
 			//Cerca fra tutte le notifiche in attea e le invia
@@ -208,7 +207,7 @@ public class Main
 				logger.info("OK\n");
 			}
 			else
-				logger.info("There are no pending notifications");
+				logger.info("There are no pending notifications\n");
 			
 			
 			logger.info("Crawler has finished.");
@@ -228,15 +227,22 @@ public class Main
 	private static void init()
 	{		
 		try
-		{
+		{			
 			//legge il file di configurazione e salva le configs in PropertiesManager
+			logger.info("Loading configurations...");
 			PropertiesManager.loadProperties();
+			logger.info("OK\n");
 			
 			//carica il file di train e configura il validatore oggetti
+			logger.info("Training WEKA BandoValidator...");
 			BandoObjValidator.train();
+			logger.info("OK\n");
 			
 			//inizializza repository JPA db (e anche tutti gli implementers)
+			logger.info("Connecting to DATABASE...");
 			JPAManager.init();
+			logger.info("OK\n");
+			
 		}
 		catch(JPAException ex)
 		{
