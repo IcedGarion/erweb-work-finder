@@ -15,7 +15,8 @@ public class PropertiesManager
 	public static String PUBLICATION_NUMBER_PATTERN;		//pattern per trovare numero pubblicazione (in home page pub)
 	public static String PUBLICATION_DETAIL_PATTERN;		//pattern per trovare url singole pubblicazioni
 	public static String PUBLICATION_BAN_DIVID_PATTERN;		//div id del bando all'interno di una pubblicazione
-	public static String BAN_CD_ESTERNO_PATTERN;			//pattern per trovare codice esterno bando, all'interno di pubblicazi
+	public static String BAN_CD_ESTERNO_PATTERN;			//pattern per trovare codice esterno bando, all'interno di pubblicazione
+																//lol (?!(IS)) => negative lookahead: lol not followed by IS
 	public static String BAN_CIG_PATTERN;					//pattern per trovare cig all'interno di pubblicazione
 	public static int BAN_CIG_LENGTH;						//lunghezza pattern
 	public static String BAN_CIG_REGEX;						//regex per matchare cig
@@ -28,10 +29,17 @@ public class PropertiesManager
 	public static int BAN_OBJ_MAX_TITLE_CHARS;				//stima massima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_MIN_TITLE_CHARS;				//stima minima del totale caratteri del titolo di un bando
 	public static int BAN_OBJ_PADDING_LINES;				//stima linee lette in eccesso per trovare ogg, che si possono elimin
-	public static String BAN_OBJ_JUNK_HEAD;					//regex di parole che si possono togliere dall'oggetto del bando
-	public static String BAN_OBJ_JUNK_BODY;					///
+	public static String BAN_OBJ_JUNK_HEAD;					//regex di parole che si possono togliere in testa all'oggetto del bando
+	public static String BAN_OBJ_JUNK_BODY;					//regex di parole che si possono togliere dall'oggetto del bando
 	public static char GAZZETTA_URL_TERMINATOR;				//terminatore degli url: (" oppure ')
 	public static int PUBLICATIONS_URL_LENGTH;				//lunghezza massima url di una pubblicazione
+	public static String EMAIL_SOURCE_ADDRESS;				//indirizzo di posta che invia le notifiche
+	public static String EMAIL_SMTP_HOST;					//default smtp server
+	public static String EMAIL_AUTH_USERNAME;				//username autenticazione con smtp
+	public static String EMAIL_AUTH_PASSWORD;				//password autenticazione cin smtp
+	public static String EMAIL_NOTIFICATIONBAN_SUBJECT;		//oggetto della mail
+	public static String EMAIL_NOTIFICATIONBAN_HEAD;		//prime righe della mail
+	public static String EMAIL_NOTIFICATIONBAN_TAIL;		//ultime righe della mail
 	
 	/**
 	 * Loads all properties contained in the configuration file
@@ -75,5 +83,12 @@ public class PropertiesManager
 		BAN_OBJ_JUNK_BODY = prop.getProperty("BAN_OBJ_JUNK_BODY");
 		GAZZETTA_URL_TERMINATOR = prop.getProperty("GAZZETTA_URL_TERMINATOR").charAt(0);
 		PUBLICATIONS_URL_LENGTH = Integer.parseInt(prop.getProperty("PUBLICATIONS_URL_LENGTH"));
+		EMAIL_SOURCE_ADDRESS = prop.getProperty("EMAIL_SOURCE_ADDRESS");
+		EMAIL_SMTP_HOST = prop.getProperty("EMAIL_SMTP_HOST");
+		EMAIL_AUTH_USERNAME= prop.getProperty("EMAIL_AUTH_USERNAME");
+		EMAIL_AUTH_PASSWORD = prop.getProperty("EMAIL_AUTH_PASSWORD");
+		EMAIL_NOTIFICATIONBAN_SUBJECT = prop.getProperty("EMAIL_OBJECT");
+		EMAIL_NOTIFICATIONBAN_HEAD = prop.getProperty("EMAIL_HEAD");
+		EMAIL_NOTIFICATIONBAN_TAIL = prop.getProperty("EMAIL_TAIL");
 	}
 }

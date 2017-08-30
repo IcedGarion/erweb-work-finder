@@ -21,17 +21,19 @@ public class NotificaRepository extends JPAManager<Notifica>
 	 */
 	public static void insertNotifica(Utente usr, Bando ban) throws JPAException
 	{
-		Notifica notify;
+		Notifica newNote;
 		NotificaPK key;
 		
-		notify = new Notifica();
+		newNote = new Notifica();
+		newNote.setDtNotifica(new Date());
+		newNote.setStato("DA_INVIARE");
+		//chiave primaria composta da utente + bando
 		key = new NotificaPK();
 		key.setCdBando(ban.getCdBando());
 		key.setCdUtente(usr.getCdUtente());
-		notify.setId(key);
-		notify.setDtNotifica(new Date());
-		notify.setStato("DA_INVIARE");
-		create(notify);
+		newNote.setId(key);
+		
+		create(newNote);
 		
 		return;
 	}
@@ -49,5 +51,31 @@ public class NotificaRepository extends JPAManager<Notifica>
 		notifies = read("SELECT n FROM Notifica n where n.stato = 'DA_INVIARE' ORDER BY n.id.cdUtente");
 	
 		return notifies;
+	}
+
+	/**
+	 *  Updates a Notifica's state from "DA_INVIARE" to "INVIATO".
+	 *  A Notifica's unique identifier is composed by both cdUtente and cdBando
+	 * 
+	 * @param cdUtente		Utente's identifier
+	 * @param cdBando		Bando's identifier			
+	 * @throws JPAException 
+	 */
+	public static void updateState(long cdUtente, long cdBando) throws JPAException
+	{
+		Notifica updateNote;
+		NotificaPK key;
+		
+		updateNote = new Notifica();
+		updateNote.setStato("INVIATO");
+		//chiave primaria composta da utente + bando
+		key = new NotificaPK();
+		key.setCdBando(cdBando);
+		key.setCdUtente(cdUtente);
+		updateNote.setId(key);
+		
+		update(updateNote);
+		
+		return;
 	}
 }

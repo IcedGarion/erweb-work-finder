@@ -3,6 +3,7 @@ package it.erweb.crawler.httpClientUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -11,8 +12,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.NotificaRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
 import it.erweb.crawler.model.Bando;
 import it.erweb.crawler.model.Notifica;
@@ -23,6 +26,8 @@ import it.erweb.crawler.model.Utente;
  */
 public class Notifier
 {
+	private static Logger logger = Logger.getLogger(Notifier.class.getName());
+	
 	/**
 	 * Notifies the developers something has gone wrong
 	 * 
@@ -34,7 +39,8 @@ public class Notifier
 		try
 		{
 			throw new Exception("Not yet implemented");
-			//sendMail(developerMail, msg);
+			//sendMail(developerMail, "problema", msg);
+			//logger.info...
 		}
 		catch(Exception e)
 		{
@@ -98,13 +104,15 @@ public class Notifier
 	 */
 	private static void cookMail(long cdUtente, List<Long> bansCd) throws JPAException
 	{
-		String email, emailTxt = "Nuovi Bandi!\n";
+		String userEmailAddr, emailTxt, emailObj;
 		Utente usr;
 		Bando ban;
 		
-		//prepara la mail inserendo indirizzo destinatario,
+		//prepara la mail inserendo indirizzo destinatario e altri dati
 		usr = UtenteRepository.getById(cdUtente);
-		email = usr.getEmail();
+		userEmailAddr = usr.getEmail();
+		emailTxt = PropertiesManager.EMAIL_NOTIFICATIONBAN_HEAD + "\n";
+		emailObj = PropertiesManager.EMAIL_NOTIFICATIONBAN_SUBJECT;
 		
 		//e, per ogni bando da inviare, aggiunge l'url alla mail
 		for(long cd : bansCd)
@@ -112,52 +120,67 @@ public class Notifier
 			ban = BandoRepository.getById(cd);
 			emailTxt += ban.getUrl() + "\n";
 		}
+		emailTxt += PropertiesManager.EMAIL_NOTIFICATIONBAN_TAIL;
 		
 		//infine invia la mail
-		sendMail(email, emailTxt);
+		sendMail(userEmailAddr, emailObj, emailTxt);
+		
+		//aggiorna o stato di tutte le notifiche pedite a "INVIATO"
+		for(long cd : bansCd)
+		{
+			NotificaRepository.updateState(cdUtente, cd);
+		}
 		
 		return;
 	}
 	
-	/*
-	 * Sends a mail to dest with the body text
+	/**
+	 * Sends a new Mail to the specified destinatary, with the specified subject and email text
+	 * 
+	 * @param dest		Recipient's email address
+	 * @param subject	subject of the current mail
+	 * @param text		mail's body content
 	 */
-	public static void sendMail(String dest, String text)
+	public static void sendMail(String dest, String subject, String text)
 	{
-		String from;
+		String sourceAddr, smtpHost, sourceUser, sourcePass;
 		Properties properties;
 		Session session;
 		
-		//configures parameters
-		from = "insertUser@insertDomain.com";
+		//configure parameters
+		sourceAddr = PropertiesManager.EMAIL_SOURCE_ADDRESS;
+		smtpHost = PropertiesManager.EMAIL_SMTP_HOST;
+		sourceUser = PropertiesManager.EMAIL_AUTH_USERNAME;
+		sourcePass = PropertiesManager.EMAIL_AUTH_PASSWORD;		
 		
-		//System properties
+		//Session properties
 		properties = new Properties();
-		properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+		properties.setProperty("mail.smtp.host", smtpHost);
 		properties.setProperty("mail.smtp.socketFactory.port", "465");
 		properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		properties.setProperty("mail.smtp.auth", "true");
 		properties.setProperty("mail.smtp.port", "465");
 
-		session = Session.getDefaultInstance(properties,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("usrname (from)","password (from)");
-				}
-			});
-		
-		//Default Session object
-		//session = Session.getDefaultInstance(properties);
+		//set up authentication
+		session = Session.getDefaultInstance(properties, new javax.mail.Authenticator()
+		{
+			protected PasswordAuthentication getPasswordAuthentication()
+			{
+				return new PasswordAuthentication(sourceUser, sourcePass);
+			}
+		});
 
+		//configure message and send
 		try
 		{
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
+			message.setFrom(new InternetAddress(sourceAddr));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(dest));
-			message.setSubject("ERWEB Garepubbliche - Nuovi bandi");
+			message.setSubject(subject);
 			message.setText(text);
 
 			Transport.send(message);
+			logger.info("Mail sent:\nDestination: " + dest + "\nSubject: " + subject + "Text: " + text);
 		}
 		catch(Exception e)
 		{

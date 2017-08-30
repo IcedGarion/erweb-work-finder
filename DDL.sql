@@ -36,7 +36,7 @@ CREATE TABLE `notifica` (
   `DT_NOTIFICA` datetime NOT NULL COMMENT 'Data dell''inserimento della notifica',
   `CD_UTENTE` bigint(20) NOT NULL COMMENT 'Rappresenta la relazione fra UTENTE e NOTIFICA',
   `CD_BANDO` bigint(20) NOT NULL COMMENT 'Rappresenta la relazione fra BANDO e NOTIFICA',
-  `STATO` enum('DA_INVIARE','INVIATO','','') COLLATE utf8_roman_ci NOT NULL
+  `STATO` enum('DA_INVIARE','INVIATO') COLLATE utf8_roman_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_roman_ci;
 
 CREATE TABLE `pubblicazione` (

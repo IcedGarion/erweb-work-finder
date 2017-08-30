@@ -1,20 +1,29 @@
+DA CHIEDERE:
+
 -DATI MAIL? user pass mittente?
 
--PROCESSO a parte che fa sempre:
-	notifies = NotificaRepository.getAllPendingNotifications();
+???
+-THREAD a parte che fa sempre:
+	notifies = NotificaRepository.getAllPendingNotifications();						per ora viene fatto alla fine di crawler
 	Notifier.sendNotificationsMails(notifies);
+???
 
-	?
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+DA FARE:
 
+-TEST MAIL con nuovi bandi e nuove expregs serie: TEST COMPLETO e significativo!
+
+-Da migliorare tutto il logging... insieme al test
 
 -MODIFICA ANALISI FUNZIONALE! 
 	DB: relazione utente-expreg non è 1:n; poi bisogna aggiungere la nuova tabella notifica
-	PROCESSI: c'e' un nuovo "componente" che ogni tot legge la tabella delle notifiche e manda le mail
+	PROCESSI: c'e' un nuovo "componente" che ogni tot legge la tabella delle notifiche e manda le mail	
 	
-	
-	
-----------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTRO
+
+
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
 

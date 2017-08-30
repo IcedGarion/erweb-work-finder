@@ -27,23 +27,7 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 	
-	public static void main(String[] args) throws JPAException
-	{
-		List<Notifica> notifies;
-		
-		//init();
-		
-		/*mostra tutte le notifiche e invia: PROCESSO A PARTE?
-		notifies = NotificaRepository.getAllPendingNotifications();
-		Notifier.sendNotificationsMails(notifies);
-		*/
-		
-		Notifier.sendMail("dest@lol.com", "prova");
-		
-		//JPAManager.close();
-	}
-	
-	public static void realMain(String[] args) throws JPAException, FileNotFoundException
+	public static void main(String[] args) throws JPAException, FileNotFoundException
 	{
 		String html = "";
 		int i = 0, j = 0, length, length2;
@@ -51,6 +35,7 @@ public class Main
 		List<String> publicationsHtml = new ArrayList<String>();
 		List<Bando> bans;
 		List<Utente> users;
+		List<Notifica> notifications;
 		boolean newAvailable, notify;
 		Date lastBanDate;
 		
@@ -191,17 +176,18 @@ public class Main
 						
 							if(notify)
 							{
+								//se unbando fa match, lo inserisce nella tabella notifiche
 								NotificaRepository.insertNotifica(usr, ban);
 								logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
 							}
 						}
 					}
 					
-					//in ogni caso, finito il blocco di bandi nuovi, aggiorna data ultima notifica utente 
-					//mettendo data bandi (simile per tutto il blocco) + 1 sec
+					//in ogni caso, finito il blocco di bandi nuovi, aggiorna data ultima notifica utente:
+					//mette data bando (simile per tutto il blocco) + 1 sec
 					//(anche se non è stato veramente notificato,
 					//serve per ricordarsi che l'utente non deve più essere potenzialmente notificato per bandi
-					//più vecchi di quello corrente, perchè ormai già controllati
+					//più vecchi di quello corrente, perchè ormai già controllati)
 					UtenteRepository.updateDtNotifica(usr, lastBanDate, 1);
 				}
 				logger.info("OK\n");
@@ -210,9 +196,19 @@ public class Main
 				logger.info("There is no new ban that needs to be checked");
 			
 			
-			//Invia le mail?
-			//notifies = NotificaRepository.getAllPendingNotifications();
-			//Notifier.sendNotificationsMails(notifies);
+			//Cerca fra tutte le notifiche in attea e le invia
+			logger.info("Searching for pending notifications...");
+			notifications = NotificaRepository.getAllPendingNotifications();
+			
+			if(notifications.size() > 0)
+			{
+				//legge tutta la tabella e processa le notifiche pendenti
+				logger.info("Sending mails...");
+				Notifier.sendNotificationsMails(notifications);
+				logger.info("OK\n");
+			}
+			else
+				logger.info("There are no pending notifications");
 			
 			
 			logger.info("Crawler has finished.");
