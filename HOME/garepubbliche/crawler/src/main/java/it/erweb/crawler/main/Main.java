@@ -10,10 +10,10 @@ import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
+import it.erweb.crawler.dbManager.repository.ExpregRepository;
 import it.erweb.crawler.dbManager.repository.NotificaRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.dbManager.repository.UtenteRepository;
-import it.erweb.crawler.expregMatcher.Matcher;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.httpClientUtil.Notifier;
 import it.erweb.crawler.model.*;
@@ -179,15 +179,15 @@ public class Main
 						lastBanDate = ban.getDtInserimento().after(lastBanDate) ? ban.getDtInserimento() : lastBanDate;
 								
 						//prima controlla la data: magari utente e' gia' stato notificato per quel bando
-						if(Matcher.checkDate(usr, ban))
+						if(ExpregRepository.checkDate(usr, ban))
 						{
 							//prova con il match
 							logger.info("Searching Ban n. " + (++j) + " of " + length2 + ";\n\t(User " + i + " of " + length + ")...");
-							notify = Matcher.tryMatchUserExpreg(usr, ban);
+							notify = ExpregRepository.tryMatchUserExpreg(usr, ban);
 						
 							if(notify)
 							{
-								NotificaRepository.insertNotify(usr, ban);
+								NotificaRepository.insertNotifica(usr, ban);
 								logger.info("Match: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
 							}
 						}

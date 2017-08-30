@@ -23,7 +23,7 @@ public class UtenteRepository extends JPAManager<Utente>
 	{
 		List<Utente> result;
 		
-		result = JPAManager.read("SELECT u FROM Utente u");
+		result = read("SELECT u FROM Utente u");
 
 		return result;
 	}
@@ -50,12 +50,12 @@ public class UtenteRepository extends JPAManager<Utente>
 		if(newDate.after(exNotifica))
 		{
 			usr.setDtNotifica(newDate);
-			JPAManager.update(usr);
+			update(usr);
 		}
 	}
 
 	/**
-	 *  Returns the whole entity identified by the ID 
+	 *  Returns the entity identified by the ID 
 	 * 
 	 * @param cdUtente	ID of the entity
 	 * @return			Utente odentified by ID
@@ -65,7 +65,7 @@ public class UtenteRepository extends JPAManager<Utente>
 	{
 		List<Utente> result;
 		
-		result = JPAManager.read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente);
+		result = read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente);
 
 		return result.get(0);
 	}

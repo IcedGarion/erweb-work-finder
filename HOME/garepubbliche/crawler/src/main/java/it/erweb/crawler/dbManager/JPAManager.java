@@ -11,7 +11,7 @@ import it.erweb.crawler.model.AbstractModel;
 /**
  * Contains general CRUD methods for JPA and db intraction
  */
-public abstract class JPAManager<T>
+public class JPAManager<T>
 {
 	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
 	protected static EntityManagerFactory entityManagerFactory;
@@ -34,7 +34,7 @@ public abstract class JPAManager<T>
 		}
 	}
 		
-	public static <T extends AbstractModel> void create(T obj)
+	protected static <T extends AbstractModel> void create(T obj)
 	{	
 		try
 		{
@@ -49,13 +49,13 @@ public abstract class JPAManager<T>
 		}
 	}
 
-	public static <T> List<T> read(String query) throws JPAException
+	@SuppressWarnings("unchecked")
+	protected static <T> List<T> read(String query) throws JPAException
 	{
 		List<T> result;
 		
 		try
 		{
-			//result = entityManager.createQuery(query).getResultList();
 			result = entityManager.createQuery(query).getResultList();
 		}
 		catch(Exception e)
@@ -66,7 +66,7 @@ public abstract class JPAManager<T>
 		return result;
 	}
 
-	public static <T extends AbstractModel> void update(T entity) throws JPAException
+	protected static <T extends AbstractModel> void update(T entity) throws JPAException
 	{
 		try
 		{
@@ -82,7 +82,7 @@ public abstract class JPAManager<T>
 		return;
 	}
 	
-	public static int update(String query) throws JPAException
+	protected static int update(String query) throws JPAException
 	{
 		int result;
 		
@@ -100,7 +100,7 @@ public abstract class JPAManager<T>
 		return result;
 	}
 
-	public static <T extends AbstractModel> void delete(T obj) throws JPAException
+	protected static <T extends AbstractModel> void delete(T obj) throws JPAException
 	{
 		try
 		{

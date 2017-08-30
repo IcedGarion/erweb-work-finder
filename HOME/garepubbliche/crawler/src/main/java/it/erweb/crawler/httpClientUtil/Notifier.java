@@ -68,7 +68,7 @@ public class Notifier
 				else if(cdUtente != exCdUtente)
 				{
 					//invia per mail quanto letto finora: a cdUtente invia tutta la lista
-					sendBansMail(cdUtente, bansToNotify);
+					cookMail(cdUtente, bansToNotify);
 					
 					exCdUtente = cdUtente;
 					bansToNotify = new ArrayList<>();
@@ -79,16 +79,16 @@ public class Notifier
 			}
 			
 			//infine invia i rimanenti bandi all'ultimo utente della lista
-			sendBansMail(cdUtente, bansToNotify);
+			cookMail(cdUtente, bansToNotify);
 		}
 		
 		return;
 	}
 	
 	/*
-	 * Extracts the list of bans'cd and prepares the email: every user's got a list of bans to be sent
+	 * Extracts the list of bans'cds and prepares the email: every user's got a list of bans to be sent
 	 */
-	private static void sendBansMail(long cdUtente, List<Long> bansCd) throws JPAException
+	private static void cookMail(long cdUtente, List<Long> bansCd) throws JPAException
 	{
 		String email, emailTxt = "Nuovi Bandi!\n";
 		Utente usr;

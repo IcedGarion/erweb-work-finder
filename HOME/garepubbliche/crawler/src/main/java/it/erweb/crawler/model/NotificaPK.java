@@ -47,11 +47,11 @@ public class NotificaPK implements Serializable {
 	}
 
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;/*
+		/*final int prime = 31;
+		int hash = 17;
 		hash = hash * prime + this.cdUtente.hashCode();
 		hash = hash * prime + this.cdBando.hashCode();
 		*/
-		return hash;
+		return 1;
 	}
 }

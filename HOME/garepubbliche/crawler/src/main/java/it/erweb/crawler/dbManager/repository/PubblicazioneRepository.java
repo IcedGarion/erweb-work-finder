@@ -23,7 +23,7 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	{
 		List<Pubblicazione> result;
 		
-		result = JPAManager.read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'");
+		result = read("SELECT p FROM Pubblicazione p WHERE p.stato = 'DA_SCARICARE'");
 		
 		return result;
 	}
@@ -38,7 +38,7 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	public static void updateState(Pubblicazione pubblicazione, String newState) throws JPAException
 	{
 		pubblicazione.setStato(newState);
-		JPAManager.update(pubblicazione);		
+		update(pubblicazione);		
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	{
 		Date ret;
 		
-		List<Date> lastDate = JPAManager.read(
+		List<Date> lastDate = read(
 				"SELECT p.dtInserimento FROM Pubblicazione p WHERE p.dtInserimento >= ALL ("
 				+ "SELECT p1.dtInserimento from Pubblicazione p1 WHERE p1.stato = 'SCARICATA') ");
 		
@@ -63,5 +63,17 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 			ret = (Date) lastDate.get(0);
 		
 		return ret;
+	}
+	
+	/**
+	 *  Inserts a new entry of Pubblicazione
+	 * 
+	 * @param pub	the given Pubblicazione to be inserted
+	 */
+	public static void insertPubblicazione(Pubblicazione pub)
+	{
+		create(pub);
+		
+		return;
 	}
 }

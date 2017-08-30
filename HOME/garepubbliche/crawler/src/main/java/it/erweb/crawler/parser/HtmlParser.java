@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 
 import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
 import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
@@ -122,8 +121,8 @@ public class HtmlParser
 				pub.setStato("DA_SCARICARE");								//STATO
 				pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
 						
-				//SALVA NEL DB
-				JPAManager.create(pub);
+				//SALVA NEL DB nuova pubblicazione
+				PubblicazioneRepository.insertPubblicazione(pub);
 			}
 			
 			//ricomincia il ciclo per trovare altre pubblicazioni
@@ -259,7 +258,7 @@ public class HtmlParser
 			try
 			{
 				//SALVA NEL DB
-				JPAManager.create(b);
+				BandoRepository.insertBando(b);
 			}
 			catch(Exception e)
 			{	

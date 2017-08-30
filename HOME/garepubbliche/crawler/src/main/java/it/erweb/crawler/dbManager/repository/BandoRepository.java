@@ -46,7 +46,7 @@ public class BandoRepository extends JPAManager<Bando>
 	{
 		List<Bando> result;
 		
-		result = JPAManager.read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento");		
+		result = read("SELECT b FROM Bando b WHERE b.stato = '" + state + "' order by b.dtInserimento");		
 		
 		return result;
 	}
@@ -61,7 +61,7 @@ public class BandoRepository extends JPAManager<Bando>
 	public static void updateText(Bando ban, String newTesto) throws JPAException
 	{
 		ban.setTesto(newTesto);
-		JPAManager.update(ban);			
+		update(ban);			
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class BandoRepository extends JPAManager<Bando>
 	public static void updateCig(Bando ban, String newCig) throws JPAException
 	{
 		ban.setCig(newCig);
-		JPAManager.update(ban);				
+		update(ban);				
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class BandoRepository extends JPAManager<Bando>
 	public static void updateObject(Bando ban, String newOggetto) throws JPAException
 	{
 		ban.setOggetto(newOggetto);
-		JPAManager.update(ban);
+		update(ban);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class BandoRepository extends JPAManager<Bando>
 	public static void updateState(Bando ban, String newStato) throws JPAException
 	{
 		ban.setStato(newStato);
-		JPAManager.update(ban);			
+		update(ban);			
 	}
 	
 	/**
@@ -113,7 +113,7 @@ public class BandoRepository extends JPAManager<Bando>
 	public static void updateDtInserimento(Bando ban, Date newDate) throws JPAException
 	{
 		ban.setDtInserimento(newDate);
-		JPAManager.update(ban);			
+		update(ban);			
 	}
 
 	/**
@@ -128,10 +128,10 @@ public class BandoRepository extends JPAManager<Bando>
 		Date firstNotify;
 
 		//prende la data di notifica piu' vecchia fra tutti gli utenti	
-		firstNotify = (Date) JPAManager.read("SELECT MIN(u.dtNotifica) FROM Utente u").get(0);
+		firstNotify = (Date) read("SELECT MIN(u.dtNotifica) FROM Utente u").get(0);
 		
 		//prende solo i bandi "parsificato" con data posteriore alla notifica piu' vecchia
-		result = JPAManager.read(
+		result = read(
 				"SELECT b FROM Bando b WHERE b.stato = 'PARSIFICATO' "
 				+ "AND b.dtInserimento > '" + firstNotify + "' order by b.dtInserimento");
 		
@@ -149,8 +149,21 @@ public class BandoRepository extends JPAManager<Bando>
 	{
 		List<Bando> result;
 		
-		result = JPAManager.read("SELECT b FROM Bando b WHERE b.cdBando = " + cdBando);
+		result = read("SELECT b FROM Bando b WHERE b.cdBando = " + cdBando);
 
 		return result.get(0);
+	}
+
+	/**
+	 *  Inserts a new entry of Bando 
+	 * 
+	 * @param ban	the new Bando to be created
+	 */
+	public static void insertBando(Bando ban)
+	{
+		create(ban);
+		
+		return;
+		
 	}
 }

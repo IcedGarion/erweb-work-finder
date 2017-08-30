@@ -19,7 +19,7 @@ public class NotificaRepository extends JPAManager<Notifica>
 	 * @param ban		the ban to notify
 	 * @throws JPAException
 	 */
-	public static void insertNotify(Utente usr, Bando ban) throws JPAException
+	public static void insertNotifica(Utente usr, Bando ban) throws JPAException
 	{
 		Notifica notify;
 		NotificaPK key;
@@ -31,7 +31,7 @@ public class NotificaRepository extends JPAManager<Notifica>
 		notify.setId(key);
 		notify.setDtNotifica(new Date());
 		notify.setStato("DA_INVIARE");
-		JPAManager.create(notify);
+		create(notify);
 		
 		return;
 	}
@@ -46,7 +46,7 @@ public class NotificaRepository extends JPAManager<Notifica>
 	{
 		List<Notifica> notifies;
 
-		notifies = JPAManager.read("SELECT n FROM Notifica n where n.stato = 'DA_INVIARE' ORDER BY n.id.cdUtente");
+		notifies = read("SELECT n FROM Notifica n where n.stato = 'DA_INVIARE' ORDER BY n.id.cdUtente");
 	
 		return notifies;
 	}
