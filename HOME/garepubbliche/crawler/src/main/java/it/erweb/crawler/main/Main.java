@@ -31,12 +31,16 @@ public class Main
 	{
 		List<Notifica> notifies;
 		
-		init();
+		//init();
 		
-		//mostra tutte le notifiche
+		/*mostra tutte le notifiche e invia: PROCESSO A PARTE?
 		notifies = NotificaRepository.getAllPendingNotifications();
 		Notifier.sendNotificationsMails(notifies);
-		JPAManager.close();
+		*/
+		
+		Notifier.sendMail("dest@lol.com", "prova");
+		
+		//JPAManager.close();
 	}
 	
 	public static void realMain(String[] args) throws JPAException, FileNotFoundException

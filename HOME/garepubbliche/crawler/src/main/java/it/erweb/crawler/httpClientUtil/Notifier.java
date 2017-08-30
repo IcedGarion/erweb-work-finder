@@ -2,6 +2,14 @@ package it.erweb.crawler.httpClientUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import it.erweb.crawler.dbManager.JPAException;
 import it.erweb.crawler.dbManager.repository.BandoRepository;
@@ -114,10 +122,48 @@ public class Notifier
 	/*
 	 * Sends a mail to dest with the body text
 	 */
-	private static void sendMail(String dest, String text)
+	public static void sendMail(String dest, String text)
 	{
-		//invia mail
+		String from;
+		Properties properties;
+		Session session;
 		
+		//configures parameters
+		from = "insertUser@insertDomain.com";
+		
+		//System properties
+		properties = new Properties();
+		properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+		properties.setProperty("mail.smtp.socketFactory.port", "465");
+		properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		properties.setProperty("mail.smtp.auth", "true");
+		properties.setProperty("mail.smtp.port", "465");
+
+		session = Session.getDefaultInstance(properties,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("usrname (from)","password (from)");
+				}
+			});
+		
+		//Default Session object
+		//session = Session.getDefaultInstance(properties);
+
+		try
+		{
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(dest));
+			message.setSubject("ERWEB Garepubbliche - Nuovi bandi");
+			message.setText(text);
+
+			Transport.send(message);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
 		return;
 	}
 }
