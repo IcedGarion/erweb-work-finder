@@ -2,15 +2,12 @@ DA CHIEDERE:
 
 -DATI MAIL? user pass mittente?
 
-???
--"processo" a parte che fa sempre:						per ora fatto alla fine del main
-	cerca notifiche
-	invia mail
-???
-
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
+
+-SPRING:
+	mancano delle dipendenze (spring-boot...) vedi firefox
 
 -TESI:
 	uml class diagram
