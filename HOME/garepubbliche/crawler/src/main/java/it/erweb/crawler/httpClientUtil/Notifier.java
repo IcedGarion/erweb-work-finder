@@ -101,6 +101,7 @@ public class Notifier
 	
 	/*
 	 * Extracts the list of bans'cds and prepares the email: every user's got a list of bans to be sent
+	 * then updates all sent Notificas' state
 	 */
 	private static void cookMailAndUpdate(long cdUtente, List<Long> bansCd) throws JPAException
 	{

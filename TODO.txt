@@ -3,7 +3,7 @@ DA CHIEDERE:
 -DATI MAIL? user pass mittente?
 
 ???
--THREAD a parte che fa sempre:						per ora fatto alla fine del main
+-"processo" a parte che fa sempre:						per ora fatto alla fine del main
 	cerca notifiche
 	invia mail
 ???
@@ -11,6 +11,10 @@ DA CHIEDERE:
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
+
+-TESI:
+	uml class diagram
+	sommario
 
 -MODIFICA ANALISI FUNZIONALE! (e tesi)
 	DB: relazione utente-expreg non è 1:n; poi bisogna aggiungere la nuova tabella notifica

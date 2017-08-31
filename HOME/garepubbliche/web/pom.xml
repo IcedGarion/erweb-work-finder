@@ -10,15 +10,17 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-
-
 	<artifactId>garepubbliche-web</artifactId>
 	<packaging>war</packaging>
 	<name>garepubbliche-web</name>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-webmvc</artifactId>
+    		<version>4.3.10.RELEASE</version>
+		</dependency>
 
+	</dependencies>
 	
-	<modules>
-		<module>garepubbliche-crawler</module>
-	</modules>
-
 </project>

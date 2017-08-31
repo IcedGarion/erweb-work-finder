@@ -24,6 +24,7 @@
 	</dependencies>
 
 	<modules>
+		<module>garepubbliche-crawler</module>
 		<module>garepubbliche-web</module>
 	</modules>
 
