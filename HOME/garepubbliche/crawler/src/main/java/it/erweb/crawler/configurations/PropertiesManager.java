@@ -12,7 +12,8 @@ public class PropertiesManager
 	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
-	public static String PUBLICATION_NUMBER_PATTERN;		//pattern per trovare numero pubblicazione (in home page pub)
+	public static String PUBLICATION_DOUBLE_NUMBER_PATTERN;	//pattern per trovare numero pubblicazione (a 2 cifre) (in home page pub)
+	public static String PUBLICATION_TRIPLE_NUMBER_PATTERN;	//a 3 cifre
 	public static String PUBLICATION_DETAIL_PATTERN;		//pattern per trovare url singole pubblicazioni
 	public static String PUBLICATION_BAN_DIVID_PATTERN;		//div id del bando all'interno di una pubblicazione
 	public static String BAN_CD_ESTERNO_PATTERN;			//pattern per trovare codice esterno bando, all'interno di pubblicazione
@@ -65,7 +66,8 @@ public class PropertiesManager
 		PUBLICATIONS_HOME_URL = prop.getProperty("PUBLICATIONS_HOME_URL");
 		PUBLICATION_BAN_DIVID_PATTERN = prop.getProperty("PUBLICATION_BAN_DIVID_PATTERN");
 		PUBLICATION_DETAIL_PATTERN = prop.getProperty("PUBLICATION_DETAIL_PATTERN");
-		PUBLICATION_NUMBER_PATTERN = prop.getProperty("PUBLICATION_NUMBER_PATTERN");
+		PUBLICATION_DOUBLE_NUMBER_PATTERN = prop.getProperty("PUBLICATION_DOUBLE_NUMBER_PATTERN");
+		PUBLICATION_TRIPLE_NUMBER_PATTERN = prop.getProperty("PUBLICATION_TRIPLE_NUMBER_PATTERN");
 		BAN_CD_ESTERNO_PATTERN = prop.getProperty("BAN_CD_ESTERNO_PATTERN");
 		BAN_CIG_PATTERN = prop.getProperty("BAN_CIG_PATTERN");
 		BAN_CIG_LENGTH = Integer.parseInt(prop.getProperty("BAN_CIG_LENGTH"));

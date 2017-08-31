@@ -3,18 +3,14 @@ DA CHIEDERE:
 -DATI MAIL? user pass mittente?
 
 ???
--THREAD a parte che fa sempre:
-	notifies = NotificaRepository.getAllPendingNotifications();						per ora viene fatto alla fine di crawler
-	Notifier.sendNotificationsMails(notifies);
+-THREAD a parte che fa sempre:						per ora fatto alla fine del main
+	cerca notifiche
+	invia mail
 ???
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
-
--TEST MAIL con nuovi bandi e nuove expregs serie: TEST COMPLETO e significativo!
-
--Da migliorare tutto il logging... insieme al test
 
 -MODIFICA ANALISI FUNZIONALE! (e tesi)
 	DB: relazione utente-expreg non è 1:n; poi bisogna aggiungere la nuova tabella notifica
@@ -32,7 +28,7 @@ DA CHIEDERE
 	(e anche NOTIFICA_UTENTE)
 
 
-OPZIONALE (DOVREBBE GIA' ANDARE, BASTA TESTARE)
+DA FARE POI
 	-File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
 
 

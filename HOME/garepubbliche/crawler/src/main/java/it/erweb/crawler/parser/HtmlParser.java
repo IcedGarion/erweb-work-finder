@@ -67,8 +67,20 @@ public class HtmlParser
 			}
 			
 			//scorre ancora un po' avanti per trovare relativo numero di pubblicazione (che è sempre presente)
-			nmIndex = html.indexOf(PropertiesManager.PUBLICATION_NUMBER_PATTERN, startIndex)
-					 + PropertiesManager.PUBLICATION_NUMBER_PATTERN.length();
+			nmIndex = html.indexOf(PropertiesManager.PUBLICATION_DOUBLE_NUMBER_PATTERN, startIndex)
+					 + PropertiesManager.PUBLICATION_DOUBLE_NUMBER_PATTERN.length();
+			
+			//il numero di pubblicazione potrebbe essere a doppia o tripla cifra: il pattern cambia
+			if(nmIndex <= startIndex)
+				nmIndex = html.indexOf(PropertiesManager.PUBLICATION_TRIPLE_NUMBER_PATTERN, startIndex)
+				 + PropertiesManager.PUBLICATION_TRIPLE_NUMBER_PATTERN.length();
+			
+			
+			/*CASO CIFRA SINGOLA? BISOGNA ASPETTARE A GENNAIO e cercare nel sorgente della
+			 * gazzetta quale sara' il nuovo "pattern" per il numero pub! 
+			 * (PUBLICATION_SINGLE_NUMBER_PATTERN)*/
+			
+				
 			current = html.charAt(nmIndex);
 			
 			//aggiunge numero pubblicazione

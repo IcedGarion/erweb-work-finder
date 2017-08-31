@@ -195,14 +195,14 @@ public class Main
 				logger.info("There is no new ban that needs to be matched\n");
 			
 			
-			//Cerca fra tutte le notifiche in attea e le invia
+			//Cerca fra tutte le notifiche in attesa e le invia per mail
 			logger.info("Searching for pending notifications...");
 			notifications = NotificaRepository.getAllPendingNotifications();
 			
 			if(notifications.size() > 0)
 			{
 				//legge tutta la tabella e processa le notifiche pendenti
-				logger.info("Sending mails...");
+				logger.info("\tSending mails...");
 				Notifier.sendNotificationsMails(notifications);
 				logger.info("OK\n");
 			}
@@ -238,7 +238,7 @@ public class Main
 			BandoObjValidator.train();
 			logger.info("OK\n");
 			
-			//inizializza repository JPA db (e anche tutti gli implementers)
+			//inizializza repository JPA db (e anche tutti gli implementors)
 			logger.info("Connecting to DATABASE...");
 			JPAManager.init();
 			logger.info("OK\n");
