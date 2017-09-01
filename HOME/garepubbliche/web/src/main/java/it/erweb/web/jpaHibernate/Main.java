@@ -16,7 +16,7 @@ public class Main
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring.xml");
 /*
-		UtenteManager userManager = (UtenteManager) context.getBean("UtenteManager");
+		UtenteManager userManager = (UtenteManager) context.getBean("utenteManager");
 
 		List<Utente> list = userManager.getAllUsers();
 
@@ -29,6 +29,6 @@ public class Main
 		System.out.println("User inserted!");
 
 		list = userManager.getAllUsers();
-		*/
+*/
 	}
 }

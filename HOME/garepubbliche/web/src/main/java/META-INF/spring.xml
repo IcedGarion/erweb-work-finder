@@ -13,20 +13,26 @@
 
   <tx:annotation-driven />
 
-  <context:component-scan base-package="it.erweb.web.repository.dbManager" />
+  <context:component-scan base-package="it.erweb.web.repository.dbManager.services" />
 
-  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-    destroy-method="close">
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!-- destroy-method="close"  --> 
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="url" value="jdbc:mysql://localhost/erweb" />
     <property name="username" value="erweb" />
     <property name="password" value="garepubbliche" />
   </bean>
 
-  <bean id="entityManagerFactory"
-    class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  	<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
     <property name="persistenceUnitName" value="garepubbliche-web" />
     <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <property name="showSql" value="true"/>
+    <property name="generateDdl" value="true"/>
+    <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
   </bean>
 
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
