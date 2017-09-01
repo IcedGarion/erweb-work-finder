@@ -5,9 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.model.Utente;
@@ -20,7 +18,7 @@ public class UtenteService
 	
 	public EntityManager getEm()
 	{
-		return em;
+		return this.em;
 	}
 
 	public void setEm(EntityManager em)
@@ -40,6 +38,7 @@ public class UtenteService
 	 * @return	a list of users
 	 * @throws JPAException
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Utente> getAllUsers() throws JPAException
 	{
 		List<Utente> result;

@@ -20,24 +20,24 @@ public class RegisterUtente
 	@ManagedProperty("#{UtenteService}")
 	private UtenteService usrServ;
 
-	private Utente usr= new Utente();
+	public Utente usr= new Utente();
 
-	public UtenteService getUtenteService()
+	public UtenteService getusrServ()
 	{
 		return this.usrServ;
 	}
 
-	public void setUtenteService(UtenteService usrServ)
+	public void setusrServ(UtenteService usrServ)
 	{
 		this.usrServ = usrServ;
 	}
 
-	public Utente getEmployee()
+	public Utente getUtente()
 	{
 		return this.usr;
 	}
 
-	public void setEmployee(Utente usr)
+	public void setUtente(Utente usr)
 	{
 		this.usr = usr;
 	}
@@ -47,6 +47,7 @@ public class RegisterUtente
 		// Calling Business Service
 		this.usr.setDtNotifica(new Date());
 		this.usrServ.createUtente(this.usr);
+		
 		// Add message
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("The Employee " + this.usr.getUsername() + " Is Registered Successfully"));
