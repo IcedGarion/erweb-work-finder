@@ -3,14 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-
 	<groupId>it.erweb</groupId>
 	<artifactId>garepubbliche-parent</artifactId>
 	<version>0.0.1</version>
 	<name>garepubbliche</name>
 	<packaging>pom</packaging>
 
-<dependencies>
+	<properties>
+  		<spring.version>3.2.5.RELEASE</spring.version>
+  	</properties>
+
+	<dependencies>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

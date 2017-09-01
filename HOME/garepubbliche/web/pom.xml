@@ -14,14 +14,30 @@
 	<packaging>war</packaging>
 	<name>garepubbliche-web</name>
 	
+	<dependencies>			
+		
+		<!-- Spring Core -->	
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+				
+		<!-- Spring Web -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-web</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
 	
-	<dependencies>
-	
-		<!-- Spring MVC -->
+		<!-- Spring Web MVC -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<dependency>
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-webmvc</artifactId>
-    		<version>4.3.10.RELEASE</version>
+    		<version>${spring.version}</version>
 		</dependency>
 		
 		<!-- Spring ORM -->
@@ -29,16 +45,49 @@
 		<dependency>
     		<groupId>org.springframework</groupId>
     		<artifactId>spring-orm</artifactId>
-    		<version>4.3.10.RELEASE</version>
+    		<version>${spring.version}</version>
 		</dependency>
 		
-		<!-- Required By Hibernate -->
+		<!-- Spring Transaction -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+				
+		<!-- Spring Context -->				
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<!-- 
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-
+		 -->
+		
+		<!-- In alternativa: -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+		<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-dbcp2</artifactId>
+    		<version>2.1.1</version>
+		</dependency>
+		
+		<!-- Serve anche: -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-pool2</artifactId>
+		    <version>2.4.2</version>
+		</dependency>
+		
 		<!-- Servlet Api -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 		<dependency>
@@ -46,6 +95,20 @@
     		<artifactId>servlet-api</artifactId>
     		<version>2.5</version>
     		<scope>provided</scope>
+		</dependency>
+		
+		<!-- JSP Library -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		
+		<!-- JSTL Library -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 		
 		<!-- Faces Implementation -->
@@ -69,13 +132,27 @@
 			<version>5.0</version>
 		</dependency>
 		
-		<!-- JSP Library -->
+		<!-- Hibernate 4.3.6 core library library -->
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.6.Final</version>
 		</dependency>
-
+		
+		<!-- Hibernate 4.3.6 JPA support -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.6.Final</version>
+		</dependency>
+		
+		<!-- Dependencies for Eclipse JPA Persistence API -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>2.5.0-RC1</version>
+		</dependency>
+		
 	</dependencies>
 	
 	
@@ -92,6 +169,12 @@
                     	<target>1.8</target>
                 	</configuration>
             	</plugin>
+            	
+            	<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+			
         	</plugins>
     	</pluginManagement>
     	

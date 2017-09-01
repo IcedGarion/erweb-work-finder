@@ -15,7 +15,7 @@ public class Main
 	public static void main(String[] args) throws JPAException
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring.xml");
-
+/*
 		UtenteManager userManager = (UtenteManager) context.getBean("UtenteManager");
 
 		List<Utente> list = userManager.getAllUsers();
@@ -29,5 +29,6 @@ public class Main
 		System.out.println("User inserted!");
 
 		list = userManager.getAllUsers();
+		*/
 	}
 }
