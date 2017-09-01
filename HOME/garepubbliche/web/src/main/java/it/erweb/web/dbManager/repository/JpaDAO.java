@@ -14,7 +14,7 @@ import it.erweb.web.model.AbstractModel;
  * Contains general CRUD methods for JPA and db intraction
  */
 @Repository
-public class JpaDAORepository
+public class JpaDAO
 {
 	@PersistenceContext
 	private EntityManager entityManager;
