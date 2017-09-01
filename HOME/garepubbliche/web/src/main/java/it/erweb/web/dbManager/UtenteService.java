@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.erweb.web.model.Utente;
 
 @Component
-public class UtenteManager
+public class UtenteService
 {
 	@PersistenceContext
 	private EntityManager em;

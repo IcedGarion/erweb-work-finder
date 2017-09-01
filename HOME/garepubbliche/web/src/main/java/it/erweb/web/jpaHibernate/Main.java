@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import it.erweb.web.dbManager.JPAException;
-import it.erweb.web.dbManager.UtenteManager;
+import it.erweb.web.dbManager.UtenteService;
 import it.erweb.web.model.Utente;
 
 public class Main

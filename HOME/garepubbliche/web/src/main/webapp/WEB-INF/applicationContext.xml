@@ -11,6 +11,8 @@
 	
 	<!-- Scan for all of Spring components such as Spring Service -->
 	<context:component-scan base-package="it.erweb.web.repository.dbManager" />
+	<context:component-scan base-package="it.erweb.web.repository.dbManager.repository" />
+	
 
 	<!-- Necessary to get the entity manager injected into the factory bean -->
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	

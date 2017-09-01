@@ -1,45 +1,56 @@
 package it.erweb.web.beans;
 
+import java.util.Date;
+
 import javax.faces.application.FacesMessage;
 
 import javax.faces.context.FacesContext;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import it.erweb.web.dbManager.UtenteService;
+import it.erweb.web.model.Utente;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class RegisterUtente {
-/*
-	@ManagedProperty("#{employeeService}")
-	private EmployeeService employeeService;
+public class RegisterUtente
+{
+	@ManagedProperty("#{UtenteService}")
+	private UtenteService usrServ;
 
-	private Employee employee = new Employee();
+	private Utente usr= new Utente();
 
-	public EmployeeService getEmployeeService() {
-		return employeeService;
+	public UtenteService getUtenteService()
+	{
+		return this.usrServ;
 	}
 
-	public void setEmployeeService(EmployeeService employeeService) {
-		this.employeeService = employeeService;
+	public void setUtenteService(UtenteService usrServ)
+	{
+		this.usrServ = usrServ;
 	}
 
-	public Employee getEmployee() {
-		return employee;
+	public Utente getEmployee()
+	{
+		return this.usr;
 	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setEmployee(Utente usr)
+	{
+		this.usr = usr;
 	}
 
-	public String register() {
+	public String register()
+	{
 		// Calling Business Service
-		employeeService.register(employee);
+		this.usr.setDtNotifica(new Date());
+		this.usrServ.createUtente(this.usr);
 		// Add message
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("The Employee "+this.employee.getEmployeeName()+" Is Registered Successfully"));
+				new FacesMessage("The Employee " + this.usr.getUsername() + " Is Registered Successfully"));
 		return "";
 	}
-	*/
+
 }
