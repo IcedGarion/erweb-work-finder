@@ -7,12 +7,5 @@
 	<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
-
  
-	<managed-bean>
-    	<managed-bean-name>RegisterUtente</managed-bean-name>
-    	<managed-bean-class>it.erweb.web.beans.RegisterUtente</managed-bean-class>
-    	<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
 </faces-config>

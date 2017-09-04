@@ -2,15 +2,8 @@ package it.erweb.web.services;
 
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import it.erweb.web.model.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
@@ -36,8 +29,6 @@ public class UtenteService
 	
 	public void createUtente(Utente usr)
 	{
-		//System.out.println("JPADAO:\n" + jpaDao);
-		//this.em.persist(usr);
 		try
 		{
 			jpaDao.<Utente>create(usr);
