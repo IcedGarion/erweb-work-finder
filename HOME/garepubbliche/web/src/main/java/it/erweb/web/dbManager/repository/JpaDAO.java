@@ -13,7 +13,7 @@ import it.erweb.web.model.AbstractModel;
 /**
  * Contains general CRUD methods for JPA and db intraction
  */
-@Repository
+@Repository("dao")
 public class JpaDAO
 {
 	@PersistenceContext

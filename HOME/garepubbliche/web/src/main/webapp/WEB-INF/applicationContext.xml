@@ -12,6 +12,7 @@
 	<!-- Scan for all of Spring components such as Spring Service -->
 	<context:component-scan base-package="it.erweb.web.repository.dbManager" />
 	<context:component-scan base-package="it.erweb.web.repository.dbManager.repository" />
+	<context:component-scan base-package="it.erweb.web.repository.dbManager.beans" />
 	
 
 	<!-- Necessary to get the entity manager injected into the factory bean -->
@@ -21,16 +22,6 @@
 	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 	</bean>	
-
-	<!-- IN ALTERNATIVA A HIBERNATE: Define EclipseLink JPA Vendor Adapter
-	<bean id="jpaVendorAdapter"
-		class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-		<property name="databasePlatform"
-			value="org.eclipse.persistence.platform.database.MySQLPlatform" />
-		<property name="generateDdl" value="false" />
-		<property name="showSql" value="true" />
-	</bean>
-	 -->
 
 	<!-- Entity Manager Factory -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">

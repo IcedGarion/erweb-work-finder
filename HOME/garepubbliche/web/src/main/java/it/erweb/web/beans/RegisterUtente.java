@@ -6,6 +6,8 @@ import javax.faces.application.FacesMessage;
 
 import javax.faces.context.FacesContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import it.erweb.web.dbManager.UtenteService;
 import it.erweb.web.model.Utente;
 
@@ -17,40 +19,53 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class RegisterUtente
 {
-	@ManagedProperty("#{UtenteService}")
+	@Autowired
+	//@ManagedProperty("#{utenteService}")
 	private UtenteService utenteService;
 
 	public Utente utente = new Utente();
-
+	
 	public UtenteService getUtenteService()
 	{
-		return this.utenteService;
+		return utenteService;
 	}
 
 	public void setUtenteService(UtenteService usrServ)
 	{
-		this.utenteService = usrServ;
+		utenteService = usrServ;
 	}
 
 	public Utente getUtente()
 	{
-		return this.utente;
+		return utente;
 	}
 
 	public void setUtente(Utente usr)
 	{
-		this.utente = usr;
+		utente = usr;
 	}
 
 	public String register()
 	{
-		// Calling Business Service
-		this.utente.setDtNotifica(new Date());
-		this.utenteService.createUtente(this.utente);
-		
-		// Add message
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("The Employee " + this.utente.getUsername() + " Is Registered Successfully"));
+
+		try
+		{
+			// Calling Business Service
+			utente.setDtNotifica(new Date());
+			System.out.println("UtenteService:\n" + utenteService);
+			System.out.println("EM:\n" + utenteService.getEm());
+			System.out.println("UTENTE:\n" + utente.toString());
+
+			utenteService.createUtente(utente);
+
+			// Add message
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("The Employee " + utente.getUsername() + " Is Registered Successfully"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		return "";
 	}
 

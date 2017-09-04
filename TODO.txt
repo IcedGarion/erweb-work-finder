@@ -6,9 +6,6 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
--SPRING:
-	mancano delle dipendenze (spring-boot...) vedi firefox
-
 -TESI:
 	uml class diagram
 	sommario

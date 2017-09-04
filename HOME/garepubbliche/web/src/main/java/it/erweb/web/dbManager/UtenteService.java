@@ -5,14 +5,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.erweb.web.dbManager.repository.JpaDAO;
 import it.erweb.web.model.Utente;
 
-@Component
+@Service
+//@Component
 public class UtenteService
 {
+	//usare DAO? (se em non va)
+	@Autowired
+	private JpaDAO dao;
+	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -29,6 +37,7 @@ public class UtenteService
 	@Transactional
 	public void createUtente(Utente usr)
 	{
+		//dovresti usare DAO, (se em non va)
 		this.em.persist(usr);
 	}
 	

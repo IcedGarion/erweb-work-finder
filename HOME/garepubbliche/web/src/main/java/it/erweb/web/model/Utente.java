@@ -99,7 +99,7 @@ public class Utente extends AbstractModel implements Serializable
 	@Override
 	public String toString()
 	{
-		return this.cdUtente + ", " + this.username + ", " + this.password + ", " + this.email;
+		return this.cdUtente + ", " + this.username + ", " + this.password + ", " + this.email + ", " + this.dtNotifica;
 	}
 
 }
