@@ -18,39 +18,39 @@ import javax.faces.bean.SessionScoped;
 public class RegisterUtente
 {
 	@ManagedProperty("#{UtenteService}")
-	private UtenteService usrServ;
+	private UtenteService utenteService;
 
-	public Utente usr= new Utente();
+	public Utente utente = new Utente();
 
-	public UtenteService getusrServ()
+	public UtenteService getUtenteService()
 	{
-		return this.usrServ;
+		return this.utenteService;
 	}
 
-	public void setusrServ(UtenteService usrServ)
+	public void setUtenteService(UtenteService usrServ)
 	{
-		this.usrServ = usrServ;
+		this.utenteService = usrServ;
 	}
 
 	public Utente getUtente()
 	{
-		return this.usr;
+		return this.utente;
 	}
 
 	public void setUtente(Utente usr)
 	{
-		this.usr = usr;
+		this.utente = usr;
 	}
 
 	public String register()
 	{
 		// Calling Business Service
-		this.usr.setDtNotifica(new Date());
-		this.usrServ.createUtente(this.usr);
+		this.utente.setDtNotifica(new Date());
+		this.utenteService.createUtente(this.utente);
 		
 		// Add message
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("The Employee " + this.usr.getUsername() + " Is Registered Successfully"));
+				new FacesMessage("The Employee " + this.utente.getUsername() + " Is Registered Successfully"));
 		return "";
 	}
 
