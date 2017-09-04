@@ -23,17 +23,7 @@ public class JpaDAO
 	@Transactional
 	public <T extends AbstractModel> void create(T obj)
 	{	
-		try
-		{
-			//this.entityManager.getTransaction().begin();
-			this.entityManager.persist(obj);
-			//this.entityManager.getTransaction().commit();
-		}
-		catch(Exception e)
-		{
-			//se non riesce a inserire (magari perche' esiste gia') ignora e potra' ripetere
-			this.entityManager.getTransaction().rollback();
-		}
+		this.entityManager.persist(obj);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,13 +43,12 @@ public class JpaDAO
 		return result;
 	}
 
+	@Transactional
 	public <T extends AbstractModel> void update(T entity) throws JPAException
 	{
 		try
 		{
-			this.entityManager.getTransaction().begin();
 			this.entityManager.merge(entity);
-			this.entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
 		{
@@ -69,15 +58,14 @@ public class JpaDAO
 		return;
 	}
 	
+	@Transactional
 	public int update(String query) throws JPAException
 	{
 		int result;
 		
 		try
 		{
-			this.entityManager.getTransaction().begin();
 			result = this.entityManager.createQuery(query).executeUpdate();
-			this.entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
 		{
@@ -87,13 +75,12 @@ public class JpaDAO
 		return result;
 	}
 
+	@Transactional
 	public <T extends AbstractModel> void delete(T obj) throws JPAException
 	{
 		try
 		{
-			this.entityManager.getTransaction().begin();
 			this.entityManager.remove(obj);
-			this.entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
 		{
