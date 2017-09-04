@@ -9,11 +9,8 @@
 	<!-- Enable Spring Annotation Configuration -->
 	<context:annotation-config />
 	
-	<!-- Scan for all of Spring components such as Spring Service -->
-	<context:component-scan base-package="it.erweb.web.repository.dbManager" />
-	<context:component-scan base-package="it.erweb.web.repository.dbManager.repository" />
-	<context:component-scan base-package="it.erweb.web.repository.dbManager.beans" />
-	
+	<!-- Scan&inject all of Spring components such as Spring Service -->
+	<context:component-scan base-package="it.erweb.web.dbManager" />
 
 	<!-- Necessary to get the entity manager injected into the factory bean -->
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	

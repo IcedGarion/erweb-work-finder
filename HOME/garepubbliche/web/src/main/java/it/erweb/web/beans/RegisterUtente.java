@@ -19,17 +19,17 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class RegisterUtente
 {
-	@Autowired
-	//@ManagedProperty("#{utenteService}")
+	@ManagedProperty("#{utenteService}")
 	private UtenteService utenteService;
 
 	public Utente utente = new Utente();
-	
+	    		
 	public UtenteService getUtenteService()
 	{
 		return utenteService;
 	}
 
+	@Autowired
 	public void setUtenteService(UtenteService usrServ)
 	{
 		utenteService = usrServ;
@@ -47,15 +47,11 @@ public class RegisterUtente
 
 	public String register()
 	{
-
 		try
 		{
-			// Calling Business Service
+			//A questo punto il form ha gia' settato le proprieta' di utente (ajax)
 			utente.setDtNotifica(new Date());
-			System.out.println("UtenteService:\n" + utenteService);
-			System.out.println("EM:\n" + utenteService.getEm());
-			System.out.println("UTENTE:\n" + utente.toString());
-
+			//crea utente chiamando il servizio
 			utenteService.createUtente(utente);
 
 			// Add message

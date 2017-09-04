@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.erweb.web.dbManager.repository.JpaDAO;
 import it.erweb.web.model.Utente;
 
-@Service
-//@Component
+@Component
 public class UtenteService
 {
 	//usare DAO? (se em non va)
