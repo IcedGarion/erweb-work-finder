@@ -1,7 +1,8 @@
-package it.erweb.web.dbManager;
+package it.erweb.web.services;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -10,34 +11,41 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.erweb.web.dbManager.repository.JpaDAO;
 import it.erweb.web.model.Utente;
+import it.erweb.web.repository.JPAException;
+import it.erweb.web.repository.JpaDAO;
 
+/**
+ *  Operations on Utente
+ */
 @Component
 public class UtenteService
-{
-	//usare DAO? (se em non va)
+{	
 	@Autowired
-	private JpaDAO dao;
+	private JpaDAO jpaDao;
 	
-	@PersistenceContext
-	private EntityManager em;
-	
-	public EntityManager getEm()
+	public void setJpaDAO(JpaDAO jpaDao)
 	{
-		return this.em;
-	}
-
-	public void setEm(EntityManager em)
-	{
-		this.em = em;
+		this.jpaDao = jpaDao;
 	}
 	
-	@Transactional
+	public JpaDAO getJpaDAO()
+	{
+		return this.jpaDao;
+	}
+	
 	public void createUtente(Utente usr)
 	{
-		//dovresti usare DAO, (se em non va)
-		this.em.persist(usr);
+		//System.out.println("JPADAO:\n" + jpaDao);
+		//this.em.persist(usr);
+		try
+		{
+			jpaDao.<Utente>create(usr);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -46,12 +54,11 @@ public class UtenteService
 	 * @return	a list of users
 	 * @throws JPAException
 	 */
-	@SuppressWarnings("unchecked")
 	public List<Utente> getAllUsers() throws JPAException
 	{
 		List<Utente> result;
 		
-		result = this.em.createQuery("SELECT u FROM Utente u").getResultList();
+		result = jpaDao.<Utente>read("SELECT u FROM Utente u");
 
 		return result;
 	}

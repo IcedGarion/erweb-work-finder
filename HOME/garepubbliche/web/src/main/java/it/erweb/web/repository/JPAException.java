@@ -1,4 +1,4 @@
-package it.erweb.web.dbManager;
+package it.erweb.web.repository;
 
 /**
  *  Exception representing a problem with database interaction

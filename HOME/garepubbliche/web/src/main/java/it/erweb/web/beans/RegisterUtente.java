@@ -8,13 +8,16 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import it.erweb.web.dbManager.UtenteService;
 import it.erweb.web.model.Utente;
+import it.erweb.web.services.UtenteService;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+/**
+ *  Faces Bean for user interaction
+ */
 @ManagedBean
 @SessionScoped
 public class RegisterUtente
@@ -29,7 +32,6 @@ public class RegisterUtente
 		return utenteService;
 	}
 
-	@Autowired
 	public void setUtenteService(UtenteService usrServ)
 	{
 		utenteService = usrServ;

@@ -1,31 +1,33 @@
-package it.erweb.web.dbManager.repository;
+package it.erweb.web.repository;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import it.erweb.web.dbManager.JPAException;
 import it.erweb.web.model.AbstractModel;
 
 /**
  * Contains general CRUD methods for JPA and db intraction
  */
-@Repository("dao")
-public class JpaDAO
+@Component
+public class JpaDAO	
 {
 	@PersistenceContext
 	private EntityManager entityManager;
 		
+	@Transactional
 	public <T extends AbstractModel> void create(T obj)
 	{	
 		try
 		{
-			this.entityManager.getTransaction().begin();
+			//this.entityManager.getTransaction().begin();
 			this.entityManager.persist(obj);
-			this.entityManager.getTransaction().commit();
+			//this.entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
 		{
