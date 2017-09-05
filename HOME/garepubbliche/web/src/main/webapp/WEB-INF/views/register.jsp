@@ -1,8 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<html>
 
 <h:head>
 	<script name="jquery/jquery.js" library="primefaces"></script>
@@ -12,7 +8,7 @@
 <body>
 
 	<h1>Registra nuovo utente</h1>
-	
+
 	<h:form>
 		<p:growl id="messages"></p:growl>
 		<p:panelGrid columns="2">
@@ -27,7 +23,9 @@
 			update="messages"></p:commandButton>
 	</h:form>
 
-	<h2><a href="listaBandi">Lista Bandi</a></h2>
+	<h2>
+		<a href="listaBandi">Lista Bandi</a>
+	</h2>
 
 </body>
 </html>

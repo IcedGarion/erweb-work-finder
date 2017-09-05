@@ -13,6 +13,9 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 	
+	<!-- import MVC setup file -->
+	<import resource="appconfig-mvc.xml"/>
+	
 	<!-- Enable Spring Annotation Configuration -->
 	<context:annotation-config />
 
