@@ -16,7 +16,7 @@ import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
 
 /**
- *  Operations on Utente
+ *  Backend Service for Operations on Utente
  */
 @Component
 public class UtenteService
