@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     
     
-    <!-- Mapping MVC: attiva il dispatcher;
+    <!-- Mapping MVC: attiva il disp atcher;
 		dice che i controller ritornano il nome di una view che si trova in /WEB-INF/views
 		e aggiunge .jsp alla stringa ritornata dai controller  -->
     <context:component-scan base-package="eu.barbucha.trackAnniversaries.webLayer"/>
