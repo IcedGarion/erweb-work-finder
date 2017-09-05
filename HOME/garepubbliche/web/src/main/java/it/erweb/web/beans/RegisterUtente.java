@@ -9,7 +9,7 @@ import it.erweb.web.model.Utente;
 import it.erweb.web.services.UtenteService;
 
 import javax.faces.context.FacesContext;
-
+import javax.faces.event.ActionEvent;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -46,7 +46,7 @@ public class RegisterUtente
 		utente = usr;
 	}
 
-	public String register()
+	public String registerForm()
 	{
 		try
 		{
@@ -63,7 +63,7 @@ public class RegisterUtente
 		{
 			e.printStackTrace();
 		}
-		return "";
+		
+		return "faces/register";
 	}
-
 }

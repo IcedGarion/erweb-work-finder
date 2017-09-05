@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class RootController
 {
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, value={"index", "/"})
 	public String index()
 	{
 		//ritorna nome della view! (senza estensione)
