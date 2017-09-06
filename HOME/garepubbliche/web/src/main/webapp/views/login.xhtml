@@ -22,7 +22,7 @@
 				<p:outputLabel value="Username:"></p:outputLabel>
 				<p:inputText value="#{userView.username}" required="true"></p:inputText>
 				
-				<h:outputLabel for="pwd" value="Password: *" />
+				<h:outputLabel for="pwd" value="Password:" />
 				<p:password id="pwd" value="#{userView.password}" label="Password" required="true" />
 			</p:panelGrid>
 			<p:commandButton value="Login" action="#{userView.login}" update="messages"></p:commandButton>

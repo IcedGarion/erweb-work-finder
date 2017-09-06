@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import it.erweb.web.data.Bando;
+import it.erweb.web.repository.JPAException;
 import it.erweb.web.services.BandiService;
 
 @ManagedBean

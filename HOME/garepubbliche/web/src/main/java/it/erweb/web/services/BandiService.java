@@ -3,8 +3,8 @@ package it.erweb.web.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,24 +31,29 @@ public class BandiService
 		return this.jpaDao;
 	}
 	
-	//bisogna ottenere username / cdUtente (in session?)
 	public List<Bando> createUserBans()
 	{
 		List<Bando> ret = new ArrayList<>();
-		long cdUtente = 2;
-		String query = 
-				"SELECT b FROM Bando b, Notifica n " + 
-				"WHERE n.id.cdBando = b.cdBando " +
-				"AND n.id.cdUtente = '" + cdUtente + "'" +
-				"ORDER BY b.dtInserimento";
+		long cdUtente;
+		String query;
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		
-		try
+		//recupera cdUtente da session (se loggato)
+		if(session.getAttribute("cdUtente") != null)
 		{
-			ret = jpaDao.read(query);
-		}
-		catch(JPAException e)
-		{
-			e.printStackTrace();
+			cdUtente = (long) session.getAttribute("cdUtente");
+			query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = '"
+					+ cdUtente + "' " + "ORDER BY b.dtInserimento";
+
+			try
+			{
+				ret = jpaDao.read(query);
+			}
+			catch(JPAException e)
+			{
+				//se per caso capita un'eccezione, la lista rimane vuota
+			}
 		}
 		
 		return ret;

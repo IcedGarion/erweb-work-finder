@@ -33,8 +33,6 @@ public class UtenteService
 	
 	public void createUtente(Utente usr)
 	{
-		//System.out.println("JPADAO:\n" + jpaDao);
-		//this.em.persist(usr);
 		try
 		{
 			jpaDao.<Utente>create(usr);

@@ -94,8 +94,6 @@ public class UserView
 	
 	public String login() throws JPAException
 	{
-		//RequestContext context = RequestContext.getCurrentInstance();
-		//boolean loggedIn = false;
 		FacesMessage message = null;
 			
 		//se verifica i dati nel db
@@ -107,7 +105,6 @@ public class UserView
 		//altrimenti rimane sulla stessa pagina con messaggio
 		message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Username o password non corretti", "Invalid credentials");
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		//context.addCallbackParam("loggedIn", loggedIn);
 		
 		return "";
 	}
@@ -121,5 +118,4 @@ public class UserView
 			
 		return "/views/login.xhtml";
 	}
-
 }

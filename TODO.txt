@@ -6,6 +6,17 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+-BANDI:
+	URL come URL clickabile?
+	
+	java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: it.erweb.web.services.BandiService
+        at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1539)
+		
+		funziona lo stesso ma non e' bello....
+
+
+-PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
+
 -MODIFICA NOMI: in crawler repository nono e' bello
 -GLOBAL CATCHER WEB
 
