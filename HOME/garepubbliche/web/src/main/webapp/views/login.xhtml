@@ -21,8 +21,9 @@
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Username:"></p:outputLabel>
 				<p:inputText value="#{userView.username}" required="true"></p:inputText>
-				<p:outputLabel value="Password:"></p:outputLabel>
-				<p:inputText value="#{userView.password}" required="true"></p:inputText>
+				
+				<h:outputLabel for="pwd" value="Password: *" />
+				<p:password id="pwd" value="#{userView.password}" label="Password" required="true" />
 			</p:panelGrid>
 			<p:commandButton value="Login" action="#{userView.login}" update="messages"></p:commandButton>
 		</h:form>
