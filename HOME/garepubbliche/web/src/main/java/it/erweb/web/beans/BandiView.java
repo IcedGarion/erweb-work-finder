@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import it.erweb.web.model.Bando;
+import it.erweb.web.data.Bando;
 import it.erweb.web.services.BandiService;
 
 @ManagedBean

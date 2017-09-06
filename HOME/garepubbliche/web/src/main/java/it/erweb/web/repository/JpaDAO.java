@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.erweb.web.model.AbstractModel;
+import it.erweb.web.data.AbstractModel;
 
 /**
  * Contains general CRUD methods for JPA and db intraction

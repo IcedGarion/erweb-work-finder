@@ -1,4 +1,4 @@
-package it.erweb.web.model;
+package it.erweb.web.data;
 
 /**
  *	Represents the whole set of persistent entities available in the database

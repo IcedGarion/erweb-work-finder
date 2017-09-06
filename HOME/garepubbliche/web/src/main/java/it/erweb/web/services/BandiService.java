@@ -9,7 +9,7 @@ import javax.faces.bean.ManagedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.erweb.web.model.Bando;
+import it.erweb.web.data.Bando;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
 
@@ -35,12 +35,12 @@ public class BandiService
 	public List<Bando> createUserBans()
 	{
 		List<Bando> ret = new ArrayList<>();
-		long cdUtente = 0;
+		long cdUtente = 2;
 		String query = 
 				"SELECT b FROM Bando b, Notifica n " + 
-				"WHERE n.id.cdBando = b.cdBando ";
-				//"WHERE n.id.cdUtente = '" + 2 + "' " + " AND b.cdBando = 7951 " + 
-				//"ORDER BY b.dtInserimento";
+				"WHERE n.id.cdBando = b.cdBando " +
+				"AND n.id.cdUtente = '" + cdUtente + "'" +
+				"ORDER BY b.dtInserimento";
 		
 		try
 		{

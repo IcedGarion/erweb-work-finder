@@ -1,4 +1,4 @@
-package it.erweb.web.model;
+package it.erweb.web.data;
 
 import java.io.Serializable;
 import javax.persistence.*;

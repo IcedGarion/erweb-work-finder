@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import it.erweb.web.model.Utente;
+import it.erweb.web.data.Utente;
 import it.erweb.web.services.UtenteService;
 
 import javax.faces.bean.ManagedBean;
@@ -20,7 +20,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class RegisterUtente
+public class UserRegisterView
 {
 	@ManagedProperty("#{utenteService}")
 	private UtenteService utenteService;
@@ -64,6 +64,7 @@ public class RegisterUtente
 		{
 			e.printStackTrace();
 		}
+		
 		return "";
 	}
 

@@ -2,16 +2,13 @@ package it.erweb.web.services;
 
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import it.erweb.web.model.Utente;
+import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
 
@@ -48,18 +45,31 @@ public class UtenteService
 		}
 	}
 	
-	/**
-	 * 	Returns a list of all users stored in the database
-	 * 
-	 * @return	a list of users
-	 * @throws JPAException
-	 */
-	public List<Utente> getAllUsers() throws JPAException
+	public boolean loginCheck(String username, String password) throws JPAException
 	{
-		List<Utente> result;
-		
-		result = jpaDao.<Utente>read("SELECT u FROM Utente u");
+		long cdUtente;
+		String query = "SELECT u.cdUtente FROM Utente u WHERE u.username = '" + username +  "' AND u.password = '" + password +  "'";
+		List<Long> cdUtenti;
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 
-		return result;
+		//cerca se esiste gia' l'oggetto in session (=> gia' loggato)
+		if(session.getAttribute("cdUtente") != null)
+		{
+			return false;
+		}
+		
+		//nuova login
+		cdUtenti = jpaDao.read(query);
+		if(cdUtenti.size() != 1)
+		{
+			return false;
+		}
+		
+		//se trova una corrispondenza nel db, salva cdUtente in session
+		cdUtente = cdUtenti.get(0);
+		session.setAttribute("cdUtente", cdUtente);
+
+		return true;
 	}
 }
