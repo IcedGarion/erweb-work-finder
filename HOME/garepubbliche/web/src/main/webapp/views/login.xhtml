@@ -20,11 +20,11 @@
 			<p:growl id="messages"></p:growl>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Username:"></p:outputLabel>
-				<p:inputText value="#{userLoginView.username}" required="true"></p:inputText>
+				<p:inputText value="#{userView.username}" required="true"></p:inputText>
 				<p:outputLabel value="Password:"></p:outputLabel>
-				<p:inputText value="#{userLoginView.password}" required="true"></p:inputText>
+				<p:inputText value="#{userView.password}" required="true"></p:inputText>
 			</p:panelGrid>
-			<p:commandButton value="Login" action="#{userLoginView.login}" update="messages"></p:commandButton>
+			<p:commandButton value="Login" action="#{userView.login}" update="messages"></p:commandButton>
 		</h:form>
 		
 		<h2>OPPURE</h2>

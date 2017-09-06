@@ -18,13 +18,13 @@
 		<p:growl id="messages"></p:growl>
 		<p:panelGrid columns="2">
 			<p:outputLabel value="Username:"></p:outputLabel>
-			<p:inputText value="#{userRegisterView.utente.username}"></p:inputText>
+			<p:inputText value="#{userView.utente.username}"></p:inputText>
 			<p:outputLabel value="Email:"></p:outputLabel>
-			<p:inputText value="#{userRegisterView.utente.email}"></p:inputText>
+			<p:inputText value="#{userView.utente.email}"></p:inputText>
 			<p:outputLabel value="Password:"></p:outputLabel>
-			<p:inputText value="#{userRegisterView.utente.password}"></p:inputText>
+			<p:inputText value="#{userView.utente.password}"></p:inputText>
 		</p:panelGrid>
-		<p:commandButton value="Register" action="#{userRegisterView.register}"
+		<p:commandButton value="Register" action="#{userView.register}"
 			update="messages"></p:commandButton>
 	</h:form>
 
