@@ -26,13 +26,17 @@
 			</p:panelGrid>
 			<p:commandButton value="Login" action="#{userLoginView.login}" update="messages"></p:commandButton>
 		</h:form>
+		
+		<h2>OPPURE</h2>
+		<p:button outcome="/views/register.xhtml" value="Registra" />
+		
 		</c:when>
 		<c:otherwise>
 			<h1>Login gia' effettuata!</h1>
 			
 			<!-- Redirect to index -->
 			<script type="text/javascript">
-				window.location.replace("/views/index.xhtml");
+				window.location.replace("#{request.contextPath}/views/index.xhtml");
 			</script>
 			
 		</c:otherwise>

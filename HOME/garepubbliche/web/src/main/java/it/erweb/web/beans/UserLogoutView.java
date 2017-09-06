@@ -33,6 +33,6 @@ public class UserLogoutView
 		
 		session.removeAttribute("cdUtente");
 			
-		return "/views/login.xhtml?faces-redirect=true";
+		return "/views/login.xhtml";
 	}
 }

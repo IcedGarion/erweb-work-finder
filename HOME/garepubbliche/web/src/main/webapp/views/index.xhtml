@@ -14,20 +14,18 @@
 	<h1>Index</h1>
 
 <div>
-	
-			<h2>Links</h2>
 
-			<ul>
-				<li><a href="#{root}views/register.xhtml">Registra nuovo utente</a></li>
-				<li><a href="#{root}views/login.xhtml">Login</a></li>
-				<li><a href="#{root}views/preferences.xhtml">Modifica preferenze</a></li>
-				<li><a href="#{root}views/bans.xhtml">Lista bandi di interesse</a></li>
-			</ul>
-			
-			<h:form>
-				<p:commandButton value="logout" id="logout" actionListener="#{userLogoutView.logout}" />
-			</h:form>
-		
-</div>
+		<h2>Links</h2>
+
+		<ul>
+			<li><a href="#{root}views/preferences.xhtml">Modifica preferenze</a></li>
+			<li><a href="#{root}views/bans.xhtml">Lista bandi di interesse</a></li>
+		</ul>
+
+		<h:form>
+			<p:commandButton value="logout" id="logout" action="#{userLogoutView.logout}" />
+		</h:form>
+
+	</div>
 </body>
 </html>
