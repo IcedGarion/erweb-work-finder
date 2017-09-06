@@ -1,27 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
 
 <c:set var="root" value="#{request.contextPath}/" />
 
-<head>
-	<title>Login?</title>
-</head>
+<h:head>
+	<title>Index</title>
+</h:head>
 
 <body>
 
-	<h1>Login?</h1>
-	
-	<div>
-		<h2>Links</h2>
-				
-		<ul>
-			<li><a href="#{root}views/register.xhtml">Registra nuovo utente</a></li>
-			<li><a href="#{root}views/login.xhtml">Login</a></li>
-			<li><a href="#{root}views/logout.xhtml">Logout</a></li>
-			<li><a href="#{root}views/preferences.xhtml">Modifica preferenze</a></li>
-			<li><a href="#{root}views/bans.xhtml">Lista bandi di interesse</a></li>
-		</ul>
-	</div>
+	<h1>Index</h1>
 
+<div>
+	
+			<h2>Links</h2>
+
+			<ul>
+				<li><a href="#{root}views/register.xhtml">Registra nuovo utente</a></li>
+				<li><a href="#{root}views/login.xhtml">Login</a></li>
+				<li><a href="#{root}views/preferences.xhtml">Modifica preferenze</a></li>
+				<li><a href="#{root}views/bans.xhtml">Lista bandi di interesse</a></li>
+			</ul>
+			
+			<h:form>
+				<p:commandButton value="logout" id="logout" actionListener="#{userLogoutView.logout}" />
+			</h:form>
+		
+</div>
 </body>
 </html>

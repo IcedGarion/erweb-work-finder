@@ -5,9 +5,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-
-import org.primefaces.context.RequestContext;
 
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.services.UtenteService;
@@ -58,16 +55,15 @@ public class UserLoginView
 		//RequestContext context = RequestContext.getCurrentInstance();
 		//boolean loggedIn = false;
 		FacesMessage message = null;
-				
+			
+		//se verifica i dati nel db
 		if(utenteService.loginCheck(username, password))
 		{
-			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);
+			return "/views/index.xhtml";
 		}
-		else
-		{
-			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Username o password non corretti", "Invalid credentials");
-		}
-
+		
+		//altrimenti rimane sulla stessa pagina con messaggio
+		message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Username o password non corretti", "Invalid credentials");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		//context.addCallbackParam("loggedIn", loggedIn);
 		

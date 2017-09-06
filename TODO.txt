@@ -6,6 +6,9 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+-MODIFICA NOMI: in crawler repository nono e' bello
+-GLOBAL CATCHER WEB
+
 -TESI:
 	uml class diagram
 	sommario

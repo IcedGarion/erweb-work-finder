@@ -7,7 +7,7 @@
 	
 	<!-- Welcome File list -->
 	<welcome-file-list>  
-   		<welcome-file>views/index.xhtml</welcome-file>    
+   		<welcome-file>views/login.xhtml</welcome-file>    
   	</welcome-file-list>  
 	
 	<!-- Servlet Setup -->
