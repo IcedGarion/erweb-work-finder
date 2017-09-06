@@ -44,7 +44,7 @@ public class Main
 		init();
 		
 		try
-		{	
+		{		
 			//si connette alla pagina delle pubblicazioni
 			logger.info("Connecting to publications page: " + PropertiesManager.PUBLICATIONS_HOME_URL + "...");
 			html = HttpGetter.get(PropertiesManager.PUBLICATIONS_HOME_URL);

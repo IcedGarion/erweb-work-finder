@@ -1,11 +1,21 @@
 package it.erweb.web.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import it.erweb.web.model.Bando;
+import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
 
 @Component
+//@ManagedBean(name = "bandiService")
+//@ApplicationScoped
 public class BandiService
 {
 	@Autowired
@@ -21,5 +31,26 @@ public class BandiService
 		return this.jpaDao;
 	}
 	
-	//getUsersBans
+	//bisogna ottenere username / cdUtente (in session?)
+	public List<Bando> createUserBans()
+	{
+		List<Bando> ret = new ArrayList<>();
+		long cdUtente = 0;
+		String query = 
+				"SELECT b FROM Bando b, Notifica n " + 
+				"WHERE n.id.cdBando = b.cdBando ";
+				//"WHERE n.id.cdUtente = '" + 2 + "' " + " AND b.cdBando = 7951 " + 
+				//"ORDER BY b.dtInserimento";
+		
+		try
+		{
+			ret = jpaDao.read(query);
+		}
+		catch(JPAException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return ret;
+	}
 }

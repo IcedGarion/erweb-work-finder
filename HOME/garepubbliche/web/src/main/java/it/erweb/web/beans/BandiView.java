@@ -1,7 +1,9 @@
 package it.erweb.web.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -11,12 +13,18 @@ import it.erweb.web.services.BandiService;
 
 @ManagedBean
 @SessionScoped
-public class ListBandi
+public class BandiView implements Serializable
 {
 	@ManagedProperty("#{bandiService}")
 	private BandiService bandiService;
 	
-	public List<Bando> banList;
+	private List<Bando> userBans;
+	
+	@PostConstruct
+    public void init()
+	{
+        userBans = bandiService.createUserBans();
+    }
 	
 	public void setBandiService(BandiService banServ)
 	{
@@ -28,14 +36,14 @@ public class ListBandi
 		return this.bandiService;
 	}
 	
-	public void setBanList(List<Bando> bList)
+	public void setuserBans(List<Bando> bList)
 	{
-		this.banList = bList;
+		this.userBans = bList;
 	}
 	
-	public List<Bando> getBanList()
+	public List<Bando> getuserBans()
 	{
-		return this.banList;
+		return this.userBans;
 	}
 	
 	//getUsersBans

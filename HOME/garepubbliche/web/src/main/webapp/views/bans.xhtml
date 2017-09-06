@@ -11,6 +11,47 @@
 
 <body>
 	<h1>Lista Bandi</h1>
+	
+	<!-- Tabella bandi utente -->
+	<div>
+		<p:dataTable var="ban" value="#{bandiView.userBans}">
+			<p:column headerText="cig">
+				<h:outputText value="#{ban.cig}" />
+			</p:column>
+
+			<p:column headerText="date">
+				<h:outputText value="#{ban.dtInserimento}" />
+			</p:column>
+
+			<p:column headerText="tipoRichiedente">
+				<h:outputText value="#{ban.tiporichiedente}" />
+			</p:column>
+
+			<p:column headerText="richiedente">
+				<h:outputText value="#{ban.nmRichiedente}" />
+			</p:column>
+			
+			<p:column headerText="scadenza">
+				<h:outputText value="#{ban.scadenza}" />
+			</p:column>
+			
+			<p:column headerText="tipo">
+				<h:outputText value="#{ban.tipo}" />
+			</p:column>
+			
+			<p:column headerText="url">
+				<h:outputText value="#{ban.url}" />
+			</p:column>
+			
+			<p:column headerText="oggetto">
+				<h:outputText value="#{ban.oggetto}" />
+			</p:column>
+			
+			<p:column headerText="testo">
+				<h:outputText value="#{ban.testo}" />
+			</p:column>
+		</p:dataTable>
+	</div>
 </body>
 
 </html>
