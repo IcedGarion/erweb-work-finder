@@ -15,7 +15,7 @@ import it.erweb.web.repository.JPAException;
  * Contains general CRUD methods for JPA and db intraction
  */
 @Component
-public class JpaDao	
+public class JpaDAO	
 {
 	@PersistenceContext
 	private EntityManager entityManager;

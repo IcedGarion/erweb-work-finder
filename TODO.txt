@@ -24,9 +24,6 @@ DA FARE:
 
 
 
--COMMENTI e JAVADOC
-
-
 
 -TESI:
 	uml class diagram

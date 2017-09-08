@@ -1,5 +1,6 @@
 package it.erweb.web.services;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,23 +12,23 @@ import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.repository.JPAException;
-import it.erweb.web.repository.JpaDao;
+import it.erweb.web.repository.JpaDAO;
 
 /**
  *  Backend service managing backend operations with Bando entities
  */
 @Component
-public class BandiService
+public class BandiService implements Serializable
 {
 	@Autowired
-	private JpaDao jpaDao;
+	private JpaDAO jpaDao;
 	
-	public void setJpaDAO(JpaDao jpaDao)
+	public void setJpaDAO(JpaDAO jpaDao)
 	{
 		this.jpaDao = jpaDao;
 	}
 	
-	public JpaDao getJpaDAO()
+	public JpaDAO getJpaDAO()
 	{
 		return this.jpaDao;
 	}
