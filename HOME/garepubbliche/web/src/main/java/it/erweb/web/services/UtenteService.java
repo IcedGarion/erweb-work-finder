@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
-import it.erweb.web.repository.JpaDAO;
+import it.erweb.web.repository.JpaDao;
 import it.erweb.web.util.PasswordUtil;
 
 /**
@@ -21,14 +21,14 @@ import it.erweb.web.util.PasswordUtil;
 public class UtenteService
 {	
 	@Autowired
-	private JpaDAO jpaDao;
+	private JpaDao jpaDao;
 	
-	public void setJpaDAO(JpaDAO jpaDao)
+	public void setJpaDAO(JpaDao jpaDao)
 	{
 		this.jpaDao = jpaDao;
 	}
 	
-	public JpaDAO getJpaDAO()
+	public JpaDao getJpaDAO()
 	{
 		return this.jpaDao;
 	}

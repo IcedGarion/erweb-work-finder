@@ -1,5 +1,6 @@
 package it.erweb.web.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,7 +16,7 @@ import it.erweb.web.repository.JPAException;
  * Contains general CRUD methods for JPA and db intraction
  */
 @Component
-public class JpaDAO	
+public class JpaDao	implements Serializable
 {
 	@PersistenceContext
 	private EntityManager entityManager;

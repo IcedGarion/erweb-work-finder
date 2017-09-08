@@ -6,27 +6,47 @@
 
 <h:head>
 	<script name="jquery/jquery.js" library="primefaces"></script>
-	<title>Preferenze</title>
+	<title>Configurazioni</title>
 </h:head>
 
 <body>
-	<h1>Preferenze</h1>
+	<h1>Configurazioni</h1> <br />
 	
-	<!-- Tabella espressioni regolari -->	
+	<!-- Espressioni regolari -->	
+	<div>
+		<h2>Espressioni da cercare nei bandi</h2>
+		<br />
+		
+		<!-- PLUS -->
+		<h:form>
+			<p:growl id="messages"></p:growl>
+			<h3>Espressione PLUS corrente: </h3>
+			<br />
+    		<p:inputTextarea rows="6" cols="16" value="#{expregView.expregPlus}" />
+    		<br />
+    		<p:commandButton value="Modifica" actionListener="#{expregView.updatePlus}"
+				update="messages"></p:commandButton>
+		</h:form>
+		<br />
+		
+		<!-- MINUS -->
+		<h:form>
+			<p:growl id="messages"></p:growl>
+			<h3>Espressione MINUS corrente: </h3>
+			<br />
+    		<p:inputTextarea rows="6" cols="16" value="#{expregView.expregMinus}" />
+    		<br />
+    		<p:commandButton value="Modifica" actionListener="#{expregView.updateMinus}"
+				update="messages"></p:commandButton>
+		</h:form>
+	</div>
 	
 	
-	<!-- Form modifica espressioni -->
-	<h:form>
-		<p:growl id="messages"></p:growl>
-		<p:panelGrid columns="2">
-			<p:outputLabel value="Username:"></p:outputLabel>
-			<p:inputText value="#{registerUtente.utente.username}"></p:inputText>
-			<p:outputLabel value="Email:"></p:outputLabel>
-			<p:inputText value="#{registerUtente.utente.email}"></p:inputText>
-		</p:panelGrid>
-		<p:commandButton value="Register" action="#{registerUtente.register}"
-			update="messages"></p:commandButton>
-	</h:form>
+	<!-- Form email pass -->
+	 <div>
+	 
+	 </div>
+	
 </body>
 
 </html>

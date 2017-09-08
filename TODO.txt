@@ -10,17 +10,17 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
--PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
+-SESSION cdUtente: va bene cosi'???
+	comunque, metti "session.getAttribute("cdUtente")" in una costante e/o in file di configurazione
 
-	
--PROBLEMA	ON STARTUP:
-	java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: it.erweb.web.services.BandiService
-        at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1539)
-		
-		funziona lo stesso ma non e' bello....
-		
 
--SICUREZZA! <security-constraint>?
+-SICUREZZA! <security-constraint>? 
+	per ora le pagine non sono protette
+
+
+-CAMBIO ANCHE USERNAME? -> casino
+
+-JAVASCRIPT per azzerare textarea quando ci clicchi
 
 
 
