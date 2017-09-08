@@ -11,6 +11,9 @@ import javax.faces.bean.SessionScoped;
 import it.erweb.web.data.Bando;
 import it.erweb.web.services.BandiService;
 
+/**
+ * View Bean handling any frontend operation on a Bando
+ */
 @ManagedBean
 @SessionScoped
 public class BandiView implements Serializable
@@ -20,6 +23,9 @@ public class BandiView implements Serializable
 	
 	private List<Bando> userBans;
 	
+	/**
+	 *  Creates the list of current logged-in user's Bans that needs to be notified 
+	 */
 	@PostConstruct
     public void init()
 	{
@@ -41,10 +47,13 @@ public class BandiView implements Serializable
 		this.userBans = bList;
 	}
 	
+	/**
+	 *  Returns to the view the whole list of bans, created in PostConstruct
+	 * 
+	 * @return	A list of bans
+	 */
 	public List<Bando> getuserBans()
 	{
 		return this.userBans;
 	}
-	
-	//getUsersBans
 }

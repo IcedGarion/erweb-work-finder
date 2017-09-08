@@ -11,28 +11,34 @@ import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
-import it.erweb.web.repository.JpaDAO;
+import it.erweb.web.repository.JpaDao;
 import it.erweb.web.util.PasswordUtil;
 
 /**
- *  Backend Service for Operations on Utente
+ *  Backend Service for operations on Utente etities
  */
 @Component
 public class UtenteService
 {	
 	@Autowired
-	private JpaDAO jpaDao;
+	private JpaDao jpaDao;
 	
-	public void setJpaDAO(JpaDAO jpaDao)
+	public void setJpaDAO(JpaDao jpaDao)
 	{
 		this.jpaDao = jpaDao;
 	}
 	
-	public JpaDAO getJpaDAO()
+	public JpaDao getJpaDAO()
 	{
 		return this.jpaDao;
 	}
 	
+	/**
+	 *  Inserts the newly created User into the database
+	 * 
+	 * @param usr	new user who wants to register
+	 * @return		true if the registration succeded, false if current username already exists in the database
+	 */
 	public boolean createUtente(Utente usr)
 	{
 		String md5, query = "SELECT u FROM Utente u where u.username = '" + usr.getUsername() + "'";
@@ -71,6 +77,14 @@ public class UtenteService
 		}
 	}
 	
+	/**
+	 *  Checks for username + password presence in the database
+	 * 
+	 * @param username		user who wants to log-in's username
+	 * @param password		user's corresponding password
+	 * @return				true if username + password exists in the database, false otherwise
+	 * @throws JPAException
+	 */
 	public boolean loginCheck(String username, String password) throws JPAException
 	{
 		long cdUtente;

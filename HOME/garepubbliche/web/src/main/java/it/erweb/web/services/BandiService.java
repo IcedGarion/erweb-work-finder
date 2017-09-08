@@ -11,26 +11,32 @@ import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.repository.JPAException;
-import it.erweb.web.repository.JpaDAO;
+import it.erweb.web.repository.JpaDao;
 
+/**
+ *  Backend service managing backend operations with Bando entities
+ */
 @Component
-//@ManagedBean(name = "bandiService")
-//@ApplicationScoped
 public class BandiService
 {
 	@Autowired
-	private JpaDAO jpaDao;
+	private JpaDao jpaDao;
 	
-	public void setJpaDAO(JpaDAO jpaDao)
+	public void setJpaDAO(JpaDao jpaDao)
 	{
 		this.jpaDao = jpaDao;
 	}
 	
-	public JpaDAO getJpaDAO()
+	public JpaDao getJpaDAO()
 	{
 		return this.jpaDao;
 	}
 	
+	/**
+	 *  Searches the database and creates a list of Bans that need to be notified to the user
+	 * 
+	 * @return  a list of Bans
+	 */
 	public List<Bando> createUserBans()
 	{
 		List<Bando> ret = new ArrayList<>();

@@ -12,7 +12,7 @@ import it.erweb.web.repository.JPAException;
 import it.erweb.web.services.UtenteService;
 
 /**
- *  Faces Bean for user interaction
+ *  Faces Bean for managing all User's frontend operations: login, logout, create
  */
 @ManagedBean
 @SessionScoped
@@ -69,6 +69,12 @@ public class UserView
 		utente = usr;
 	}
 
+	/**
+	 *  Creates a new User and inserts it in the database
+	 * 
+	 * @return A string representing the next view page to be displayed:
+	 * 			index (if the registration succeded) or the current page (register) if not
+	 */
 	public String register()
 	{
 		boolean creato;
@@ -100,6 +106,12 @@ public class UserView
 		}
 	}
 	
+	/**
+	 *  Checks for the form credentials and inserts some data in session if the check succeded
+	 * 
+	 * @return	A string representing a mapping fo the next page to be displayed: index on login success, login page if not
+	 * @throws JPAException
+	 */
 	public String login() throws JPAException
 	{
 		FacesMessage message = null;
@@ -117,6 +129,12 @@ public class UserView
 		return "";
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 * @throws JPAException
+	 */
 	public String logout() throws JPAException
 	{		
 		FacesContext context = FacesContext.getCurrentInstance();

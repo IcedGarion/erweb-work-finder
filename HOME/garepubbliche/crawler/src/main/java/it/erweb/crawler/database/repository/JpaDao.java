@@ -16,11 +16,12 @@ public class JpaDao<T>
 	protected static final String PERSISTANCE_UNIT_NAME = "garepubbliche-crawler";
 	protected static EntityManagerFactory entityManagerFactory;
 	protected static EntityManager entityManager;
-	
-	//join
-	//result = db.read("select u.username, e.expplus from Utente u join Expreg e on u.cdUtente = e.utente");
-	//reads: ritorna un elemento lista per ogni riga; ogni elemento è array Obj: una cella per colonna
-	
+
+	/**
+	 *  Initialize the class, creating the entityManager
+	 * 
+	 * @throws JpaException
+	 */
 	public static void init() throws JpaException
 	{
 		try
@@ -34,12 +35,17 @@ public class JpaDao<T>
 		}
 	}
 		
-	protected static <T extends AbstractModel> void create(T obj)
+	/**
+	 * Inserts into the database the specified generic entity
+	 * 
+	 * @param entity  the new entity to be created
+	 */
+	protected static <T extends AbstractModel> void create(T entity)
 	{	
 		try
 		{
 			entityManager.getTransaction().begin();
-			entityManager.persist(obj);
+			entityManager.persist(entity);
 			entityManager.getTransaction().commit();
 		}
 		catch(Exception e)
@@ -49,6 +55,13 @@ public class JpaDao<T>
 		}
 	}
 
+	/**
+	 *  Performs a custom read query (SELECT)
+	 * 
+	 * @param query		the custom query to be executed
+	 * @return			a list containing the the query result
+	 * @throws JpaException
+	 */
 	@SuppressWarnings("unchecked")
 	protected static <T> List<T> read(String query) throws JpaException
 	{
@@ -66,6 +79,12 @@ public class JpaDao<T>
 		return result;
 	}
 
+	/**
+	 *  Updates the specified entity: tries to find it in the database and overwrites it
+	 * 
+	 * @param entity		the entity to be updated
+	 * @throws JpaException
+	 */
 	protected static <T extends AbstractModel> void update(T entity) throws JpaException
 	{
 		try
@@ -82,6 +101,13 @@ public class JpaDao<T>
 		return;
 	}
 	
+	/**
+	 * Updates the database executing the query UPDATE specified
+	 * 
+	 * @param query		the update query to be executed
+	 * @return			number of rows modified
+	 * @throws JpaException
+	 */
 	protected static int update(String query) throws JpaException
 	{
 		int result;
@@ -100,12 +126,18 @@ public class JpaDao<T>
 		return result;
 	}
 
-	protected static <T extends AbstractModel> void delete(T obj) throws JpaException
+	/**
+	 * Searches the database for the specified entity and removes it
+	 * 
+	 * @param entity			the entity to be removed
+	 * @throws JpaException
+	 */
+	protected static <T extends AbstractModel> void delete(T entity) throws JpaException
 	{
 		try
 		{
 			entityManager.getTransaction().begin();
-			entityManager.remove(obj);
+			entityManager.remove(entity);
 			entityManager.getTransaction().commit();
 		}
 		catch(Exception e)

@@ -3,21 +3,26 @@ DA CHIEDERE:
 -DATI MAIL? user pass mittente?
 
 
+-NOTIFICHE: se invii mail appena gira crawler, non ci sara' mai nessun bando "DA_INVIARE":
+	quindi nella tabella bandi cosa si espone di preciso? bandi di data piu' recente di, esempio, un mese?
+	
+	Comunque basta cambiare una query (BandiService.createUserBans())
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
 -PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
 
 	
-	ON STARTUP:
+-PROBLEMA	ON STARTUP:
 	java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: it.erweb.web.services.BandiService
         at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1539)
 		
 		funziona lo stesso ma non e' bello....
+		
 
 -SICUREZZA! <security-constraint>?
 
--GLOBAL CATCHER WEB
+
 
 -COMMENTI e JAVADOC
 
