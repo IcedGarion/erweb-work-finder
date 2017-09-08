@@ -1,7 +1,5 @@
 package it.erweb.web.beans;
 
-import java.util.Date;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -73,23 +71,33 @@ public class UserView
 
 	public String register()
 	{
+		boolean creato;
+		
 		try
-		{
-			//A questo punto il form ha gia' settato le proprieta' di utente (ajax)
-			utente.setDtNotifica(new Date());
+		{	
 			//crea utente chiamando il servizio
-			utenteService.createUtente(utente);
+			creato = utenteService.createUtente(utente);
 
-			// Add message
+			//se utente e' stato creato, manda alla index
+			if(creato)
+			{
+				return "/views/index.xhtml";	
+			}
+			
+			//altrimenti rimanda alla create con messaggio di errore
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Utente " + utente.getUsername() + " Registrato!"));
+					new FacesMessage("Username gia' esistente!"));
+			
+			return "";
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Errore"));
+			return "";
 		}
-		
-		return "";
 	}
 	
 	public String login() throws JPAException

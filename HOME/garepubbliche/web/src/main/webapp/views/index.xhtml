@@ -3,7 +3,7 @@
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:p="http://primefaces.org/ui">
 
-<c:set var="root" value="#{request.contextPath}/" />
+<c:set var="root" value="#{request.contextPath}/views" />
 
 <h:head>
 	<title>Index</title>
@@ -16,10 +16,10 @@
 <div>
 
 		<h2>Links</h2>
-
+		
 		<ul>
-			<li><a href="#{root}views/preferences.xhtml">Modifica preferenze</a></li>
-			<li><a href="#{root}views/bans.xhtml">Lista bandi di interesse</a></li>
+			<li><a href="#{root}/preferences.xhtml">Modifica preferenze</a></li>
+			<li><a href="#{root}/bans.xhtml">Lista bandi di interesse</a></li>
 		</ul>
 
 		<h:form>

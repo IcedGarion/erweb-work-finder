@@ -43,8 +43,9 @@ public class BandiService
 		if(session.getAttribute("cdUtente") != null)
 		{
 			cdUtente = (long) session.getAttribute("cdUtente");
-			query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = '"
-					+ cdUtente + "' " + "ORDER BY b.dtInserimento";
+			//prende tutti i bandi da notificare a quell'utente
+			query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
+					+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";
 
 			try
 			{

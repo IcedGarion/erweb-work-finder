@@ -1,5 +1,6 @@
 package it.erweb.web.services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDAO;
+import it.erweb.web.util.PasswordUtil;
 
 /**
  *  Backend Service for Operations on Utente
@@ -31,22 +33,48 @@ public class UtenteService
 		return this.jpaDao;
 	}
 	
-	public void createUtente(Utente usr)
+	public boolean createUtente(Utente usr)
 	{
+		String md5, query = "SELECT u FROM Utente u where u.username = '" + usr.getUsername() + "'";
+		String exPassword = usr.getPassword();
+		List<Utente> duplicati;
+		
 		try
 		{
+			//per prima cosa controlla che l'utente non esista gia'
+			duplicati = jpaDao.<Utente>read(query);
+			if(duplicati.size() != 0)
+			{
+				return false;
+			}
+			
+			//calcola md5 e lo setta come password
+			md5 = PasswordUtil.computeHash(exPassword);
+			usr.setPassword(md5);
+			
+			//setta altri campi...
+			usr.setDtNotifica(new Date());
+			
+			//poi crea in db
 			jpaDao.<Utente>create(usr);
+			
+			//infine chiama la loginCheck (con la ex password in chiaro), cosi' salva le cose in session
+			loginCheck(usr.getUsername(), exPassword);
+			
+			return true;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			
+			return false;
 		}
 	}
 	
 	public boolean loginCheck(String username, String password) throws JPAException
 	{
 		long cdUtente;
-		String query = "SELECT u.cdUtente FROM Utente u WHERE u.username = '" + username +  "' AND u.password = '" + password +  "'";
+		String query, md5Pass;
 		List<Long> cdUtenti;
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
@@ -58,6 +86,11 @@ public class UtenteService
 		}
 		
 		//nuova login
+		//prima calcola md5
+		md5Pass = PasswordUtil.computeHash(password);
+		
+		//poi fa la query
+		query = "SELECT u.cdUtente FROM Utente u WHERE u.username = '" + username +  "' AND u.password = '" + md5Pass +  "'";
 		cdUtenti = jpaDao.read(query);
 		if(cdUtenti.size() != 1)
 		{

@@ -6,19 +6,31 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+-aspetta un po' e poi prova DEBUG QUERY BANDI
+
+-MD5!!!
+
+
+-PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
+
+
 -BANDI:
-	URL come URL clickabile?
+	URL come URL clickabile?   --> a href
 	
+	
+	ON STARTUP:
 	java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: it.erweb.web.services.BandiService
         at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1539)
 		
 		funziona lo stesso ma non e' bello....
 
+-SICUREZZA! <security-constraint>?
 
--PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
-
--MODIFICA NOMI: in crawler repository nono e' bello
 -GLOBAL CATCHER WEB
+
+-MODIFICA NOMI: in crawler, "repository" non e' bello
+
+
 
 -TESI:
 	uml class diagram
