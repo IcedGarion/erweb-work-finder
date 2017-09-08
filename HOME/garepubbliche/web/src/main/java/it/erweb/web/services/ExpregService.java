@@ -52,7 +52,7 @@ public class ExpregService implements Serializable
 	//Summarize the 2 functions above: a call with 'true' parameter results in searching for expplus
 	private String getRegex(boolean isPlus)
 	{
-		String ret = "<ERRORE>";
+		String ret = "<VUOTA>";
 		String type = isPlus? "expplus" : "expminus";
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
@@ -66,8 +66,8 @@ public class ExpregService implements Serializable
 		}
 		catch(Exception e)
 		{
-			//ret rimane a 'errore'
-			e.printStackTrace();
+			//ret rimane 'vuota'
+			//e.printStackTrace();
 		}
 		
 		if(ret.equals(""))

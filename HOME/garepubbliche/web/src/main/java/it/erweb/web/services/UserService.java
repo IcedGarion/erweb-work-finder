@@ -18,7 +18,7 @@ import it.erweb.web.util.PasswordUtil;
  *  Backend Service for operations on Utente etities
  */
 @Component
-public class UtenteService
+public class UserService
 {	
 	@Autowired
 	private JpaDao jpaDao;
@@ -99,7 +99,7 @@ public class UtenteService
 			return false;
 		}
 		
-		//nuova login
+		//nuova log7in
 		//prima calcola md5
 		md5Pass = PasswordUtil.computeHash(password);
 		
@@ -116,5 +116,48 @@ public class UtenteService
 		session.setAttribute("cdUtente", cdUtente);
 
 		return true;
+	}
+	
+	public void updateMail(String newMail)
+	{
+		update("email", newMail);
+	}
+	
+	public void updatePassword(String newPass)
+	{
+		update("password", newPass);
+	}
+	
+	private void update(String key, String value)
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		long cdUtente;
+		
+		try
+		{
+			cdUtente = (long) session.getAttribute("cdUtente");
+			
+			//prende i dati del vecchio utente
+			Utente old = jpaDao.<Utente>read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente).get(0);
+			
+			//cerca il campo da modificare
+			switch(key)
+			{
+				case "password":
+					old.setPassword(value);
+					break;
+				case "email":
+					old.setEmail(value);
+					break;
+			}
+						
+			//poi aggiorna
+			jpaDao.<Utente>update(old);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

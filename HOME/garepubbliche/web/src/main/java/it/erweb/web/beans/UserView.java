@@ -5,11 +5,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
-import it.erweb.web.services.UtenteService;
+import it.erweb.web.services.UserService;
 
 /**
  *  Faces Bean for managing all User's frontend operations: login, logout, create
@@ -18,8 +19,8 @@ import it.erweb.web.services.UtenteService;
 @SessionScoped
 public class UserView
 {
-	@ManagedProperty("#{utenteService}")
-	private UtenteService utenteService;
+	@ManagedProperty("#{userService}")
+	private UserService utenteService;
 
 	//per la register
 	public Utente utente = new Utente();
@@ -49,12 +50,12 @@ public class UserView
 		this.password = password;
 	}
 	    		
-	public UtenteService getUtenteService()
+	public UserService getUtenteService()
 	{
 		return utenteService;
 	}
 
-	public void setUtenteService(UtenteService usrServ)
+	public void setUtenteService(UserService usrServ)
 	{
 		utenteService = usrServ;
 	}
@@ -130,9 +131,9 @@ public class UserView
 	}
 	
 	/**
+	 *  Removes session data and redirects to login page
 	 * 
-	 * 
-	 * @return
+	 * @return		A string representing the mapping to login page
 	 * @throws JPAException
 	 */
 	public String logout() throws JPAException
@@ -143,5 +144,19 @@ public class UserView
 		session.removeAttribute("cdUtente");
 			
 		return "/views/login.xhtml";
+	}
+	
+	public void updateMail(ActionEvent actionEvent)
+	{
+		utenteService.updateMail(utente.getEmail());
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Email aggiornata", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void updatePassword(ActionEvent actionEvent)
+	{
+		utenteService.updatePassword(utente.getPassword());
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Password aggiornata", null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 }

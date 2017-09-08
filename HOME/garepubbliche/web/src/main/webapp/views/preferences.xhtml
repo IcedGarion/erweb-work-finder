@@ -12,7 +12,7 @@
 <body>
 	<h1>Configurazioni</h1> <br />
 	
-	<!-- Espressioni regolari -->	
+	<!-- Espressioni regolari --> <!--  FORM AJAX! -->	
 	<div>
 		<h2>Espressioni da cercare nei bandi</h2>
 		<br />
@@ -43,9 +43,31 @@
 	
 	
 	<!-- Form email pass -->
-	 <div>
-	 
-	 </div>
+	<h2>Modifica informazioni utente</h2>
+	<div>
+		<h:form>
+			<p:growl id="messages"></p:growl>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Email: *"></p:outputLabel>
+				<p:inputText value="#{userView.utente.email}"></p:inputText>
+			</p:panelGrid>
+			<p:commandButton value="Aggiorna Email" actionListener="#{userView.updateMail}"
+				update="messages"></p:commandButton>
+		</h:form>
+		
+		<h:form>
+		<p:growl id="messages"></p:growl>
+		<p:panelGrid columns="2">
+			<h:outputLabel for="pwd1" value="Password: *" />
+			<p:password id="pwd1" value="#{userView.utente.password}" match="pwd2" label="Password 1" required="true" />
+			
+			<h:outputLabel for="pwd2" value="Conferma Password: *" />
+			<p:password id="pwd2" value="#{userView.utente.password}" label="Password 2" required="true" />
+		</p:panelGrid>
+		<p:commandButton value="Aggiorna Password" actionListener="#{userView.updatePassword}"
+			update="messages"></p:commandButton>
+	</h:form>
+	</div>
 	
 </body>
 
