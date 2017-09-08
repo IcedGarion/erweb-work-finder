@@ -1,25 +1,25 @@
-package it.erweb.crawler.dbManager.repository;
+package it.erweb.crawler.database.services;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Utente;
+import it.erweb.crawler.database.model.Utente;
+import it.erweb.crawler.database.repository.JpaDao;
+import it.erweb.crawler.database.repository.JpaException;
 
 /**
  *	Contains the methods for manipulating a Utente object in the database
  */
-public class UtenteRepository extends JPAManager<Utente>
+public class UtenteService extends JpaDao<Utente>
 {
 	/**
 	 * 	Returns a list of all users stored in the database
 	 * 
 	 * @return	a list of users
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Utente> getAllUsers() throws JPAException
+	public static List<Utente> getAllUsers() throws JpaException
 	{
 		List<Utente> result;
 		
@@ -34,9 +34,9 @@ public class UtenteRepository extends JPAManager<Utente>
 	 * @param usr		the user to be updated
 	 * @param bandoDate new date to insert
 	 * @param secOffset offset (seconds) to be added to the new date
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateDtNotifica(Utente usr, Date bandoDate, int secOffset) throws JPAException
+	public static void updateDtNotifica(Utente usr, Date bandoDate, int secOffset) throws JpaException
 	{
 		Date exNotifica = usr.getDtNotifica(), newDate = bandoDate;
 		
@@ -59,9 +59,9 @@ public class UtenteRepository extends JPAManager<Utente>
 	 * 
 	 * @param cdUtente	ID of the entity
 	 * @return			Utente odentified by ID
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static Utente getById(long cdUtente) throws JPAException
+	public static Utente getById(long cdUtente) throws JpaException
 	{
 		List<Utente> result;
 		

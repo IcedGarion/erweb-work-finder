@@ -7,16 +7,19 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.dbManager.repository.BandoRepository;
-import it.erweb.crawler.dbManager.repository.ExpregRepository;
-import it.erweb.crawler.dbManager.repository.NotificaRepository;
-import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
-import it.erweb.crawler.dbManager.repository.UtenteRepository;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.model.Notifica;
+import it.erweb.crawler.database.model.Pubblicazione;
+import it.erweb.crawler.database.model.Utente;
+import it.erweb.crawler.database.repository.JpaDao;
+import it.erweb.crawler.database.repository.JpaException;
+import it.erweb.crawler.database.services.BandoService;
+import it.erweb.crawler.database.services.ExpregService;
+import it.erweb.crawler.database.services.NotificaService;
+import it.erweb.crawler.database.services.PubblicazioneService;
+import it.erweb.crawler.database.services.UtenteService;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.httpClientUtil.Notifier;
-import it.erweb.crawler.model.*;
 import it.erweb.crawler.parser.HtmlParser;
 import it.erweb.crawler.weka.BandoObjValidator;
 
@@ -27,7 +30,7 @@ public class Main
 {
 	private static Logger logger = Logger.getLogger(Main.class.getName());
 	
-	public static void main(String[] args) throws JPAException, FileNotFoundException
+	public static void main(String[] args) throws JpaException, FileNotFoundException
 	{
 		String html = "";
 		int i = 0, j = 0, length, length2;
@@ -62,7 +65,7 @@ public class Main
 			
 			//carica dal DB tutte le pubblicazioni appena inserite ("DA_SCARICARE")
 			logger.info("Retrieving any publication to be downloaded...");
-			publications = PubblicazioneRepository.getAllDaScaricare();
+			publications = PubblicazioneService.getAllDaScaricare();
 			logger.info("OK\n");
 
 			//soltanto se ci sono delle pubblicazioni "DA_SCARICARE" nel db,
@@ -100,7 +103,7 @@ public class Main
 			//carica dal DB tutti i bandi appena inseriti ("DA_PARSIFICARE")
 			//oppure potrebbero essercene di avanzati
 			logger.info("Retrieving all bans to be parsed...");
-			bans = BandoRepository.getAllDaParsificare();
+			bans = BandoService.getAllDaParsificare();
 			logger.info("OK\n");
 
 			//scarica tutti i bandi appena recuperati e aggiorna il DB con il testo
@@ -116,7 +119,7 @@ public class Main
 					html = HttpGetter.get(ban.getUrl());
 					
 					//Inizialmente salva tutto l'html del bando come testo
-					BandoRepository.updateText(ban, html);	
+					BandoService.updateText(ban, html);	
 				}
 				logger.info("OK\n");
 				
@@ -141,12 +144,12 @@ public class Main
 		
 			//recupera tutti gli utenti
 			logger.info("Bans - Users Matching:\nRetrieving all Users...");
-			users = UtenteRepository.getAllUsers();
+			users = UtenteService.getAllUsers();
 			logger.info("OK\n");
 			
 			//recupera tutti i bandi parsificati
 			logger.info("Retrieving all newest Bans...");
-			bans = BandoRepository.getLatestParsificato();
+			bans = BandoService.getLatestParsificato();
 			logger.info("OK\n");
 
 			if(bans.size() > 0)
@@ -167,16 +170,16 @@ public class Main
 						lastBanDate = ban.getDtInserimento().after(lastBanDate) ? ban.getDtInserimento() : lastBanDate;
 								
 						//prima controlla la data: magari utente e' gia' stato notificato per quel bando
-						if(ExpregRepository.checkDate(usr, ban))
+						if(ExpregService.checkDate(usr, ban))
 						{
 							//prova con il match
 							logger.info("\tSearching Ban n. " + (++j) + " of " + length2 + ";\n\t\t(User " + i + " of " + length + ")...");
-							notify = ExpregRepository.tryMatchUserExpreg(usr, ban);
+							notify = ExpregService.tryMatchUserExpreg(usr, ban);
 						
 							if(notify)
 							{
 								//se unbando fa match, lo inserisce nella tabella notifiche
-								NotificaRepository.insertNotifica(usr, ban);
+								NotificaService.insertNotifica(usr, ban);
 								logger.info("\tMatch: ban " + ban.getCdEsterno() + " with user " + usr.getUsername());
 							}
 						}
@@ -187,7 +190,7 @@ public class Main
 					//(anche se non è stato veramente notificato,
 					//serve per ricordarsi che l'utente non deve più essere potenzialmente notificato per bandi
 					//più vecchi di quello corrente, perchè ormai già controllati)
-					UtenteRepository.updateDtNotifica(usr, lastBanDate, 1);
+					UtenteService.updateDtNotifica(usr, lastBanDate, 1);
 				}
 				logger.info("OK\n");
 			}
@@ -197,7 +200,7 @@ public class Main
 			
 			//Cerca fra tutte le notifiche in attesa e le invia per mail
 			logger.info("Searching for pending notifications...");
-			notifications = NotificaRepository.getAllPendingNotifications();
+			notifications = NotificaService.getAllPendingNotifications();
 			
 			if(notifications.size() > 0)
 			{
@@ -218,7 +221,7 @@ public class Main
 		}
 		finally
 		{
-			JPAManager.close();
+			JpaDao.close();
 		}
 		
 		return;
@@ -240,11 +243,11 @@ public class Main
 			
 			//inizializza repository JPA db (e anche tutti gli implementors)
 			logger.info("Connecting to DATABASE...");
-			JPAManager.init();
+			JpaDao.init();
 			logger.info("OK\n");
 			
 		}
-		catch(JPAException ex)
+		catch(JpaException ex)
 		{
 			logger.severe(ex.getMessage());
 			System.exit(3);

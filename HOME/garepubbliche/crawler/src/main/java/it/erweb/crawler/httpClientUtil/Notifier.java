@@ -13,13 +13,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.repository.BandoRepository;
-import it.erweb.crawler.dbManager.repository.NotificaRepository;
-import it.erweb.crawler.dbManager.repository.UtenteRepository;
-import it.erweb.crawler.model.Bando;
-import it.erweb.crawler.model.Notifica;
-import it.erweb.crawler.model.Utente;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.model.Notifica;
+import it.erweb.crawler.database.model.Utente;
+import it.erweb.crawler.database.repository.JpaException;
+import it.erweb.crawler.database.services.BandoService;
+import it.erweb.crawler.database.services.NotificaService;
+import it.erweb.crawler.database.services.UtenteService;
 
 /**
  * Functions to send notifications via HTTP messages
@@ -54,9 +54,9 @@ public class Notifier
 	 *  	and sends a mail with these bans for the specific user
 	 * 
 	 * @param notifications		A list of notifications (user + ban) to be sent
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void sendNotificationsMails(List<Notifica> notifications) throws JPAException
+	public static void sendNotificationsMails(List<Notifica> notifications) throws JpaException
 	{
 		//parses the list in order to split the users
 		List<Long> bansToNotify = null;
@@ -103,7 +103,7 @@ public class Notifier
 	 * Extracts the list of bans'cds and prepares the email: every user's got a list of bans to be sent
 	 * then updates all sent Notificas' state
 	 */
-	private static void cookMailAndUpdate(long cdUtente, List<Long> bansCd) throws JPAException
+	private static void cookMailAndUpdate(long cdUtente, List<Long> bansCd) throws JpaException
 	{
 		String userEmailAddr, emailTxt, emailObj;
 		Utente usr;
@@ -111,7 +111,7 @@ public class Notifier
 		boolean sent = false;
 		
 		//prepara la mail inserendo indirizzo destinatario e altri dati
-		usr = UtenteRepository.getById(cdUtente);
+		usr = UtenteService.getById(cdUtente);
 		userEmailAddr = usr.getEmail();
 		emailTxt = PropertiesManager.EMAIL_NOTIFICATIONBAN_HEAD + "\n";
 		emailObj = PropertiesManager.EMAIL_NOTIFICATIONBAN_SUBJECT;
@@ -119,7 +119,7 @@ public class Notifier
 		//e, per ogni bando da inviare, aggiunge l'url alla mail
 		for(long cd : bansCd)
 		{
-			ban = BandoRepository.getById(cd);
+			ban = BandoService.getById(cd);
 			emailTxt += ban.getUrl() + "\n";
 		}
 		emailTxt += PropertiesManager.EMAIL_NOTIFICATIONBAN_TAIL;
@@ -132,7 +132,7 @@ public class Notifier
 		{
 			for(long cd : bansCd)
 			{
-				NotificaRepository.updateState(cdUtente, cd);
+				NotificaService.updateState(cdUtente, cd);
 			}
 		}
 		

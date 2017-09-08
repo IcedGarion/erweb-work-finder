@@ -1,25 +1,25 @@
-package it.erweb.crawler.dbManager.repository;
+package it.erweb.crawler.database.services;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Pubblicazione;
+import it.erweb.crawler.database.model.Pubblicazione;
+import it.erweb.crawler.database.repository.JpaDao;
+import it.erweb.crawler.database.repository.JpaException;
 
 /**
  *	Contains the methods for manipulating a Pubblicazione object in the database
  */
-public class PubblicazioneRepository extends JPAManager<Pubblicazione>
+public class PubblicazioneService extends JpaDao<Pubblicazione>
 {
 	/**
 	 * 	Returns a list of all Publications whose State is "DA_SCARICARE"
 	 * 
 	 * @return	A list of publications
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Pubblicazione> getAllDaScaricare() throws JPAException
+	public static List<Pubblicazione> getAllDaScaricare() throws JpaException
 	{
 		List<Pubblicazione> result;
 		
@@ -33,9 +33,9 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	 * 
 	 * @param pubblicazione		the publication to be updated
 	 * @param newState			the new state
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateState(Pubblicazione pubblicazione, String newState) throws JPAException
+	public static void updateState(Pubblicazione pubblicazione, String newState) throws JpaException
 	{
 		pubblicazione.setStato(newState);
 		update(pubblicazione);		
@@ -45,9 +45,9 @@ public class PubblicazioneRepository extends JPAManager<Pubblicazione>
 	 * 	Gets the most recent date from all the Publications' insertions dates
 	 * 
 	 * @return	the most recent date, or EPOCH if no valid date found
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static Date getLastDate() throws JPAException
+	public static Date getLastDate() throws JpaException
 	{
 		Date ret;
 		

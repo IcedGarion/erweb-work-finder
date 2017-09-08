@@ -1,25 +1,25 @@
-package it.erweb.crawler.dbManager.repository;
+package it.erweb.crawler.database.services;
 
 import java.util.Date;
 import java.util.List;
 
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Bando;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.repository.JpaDao;
+import it.erweb.crawler.database.repository.JpaException;
 
 
 /**
  *	Contains the methods for manipulating a Bando object in the database
  */
-public class BandoRepository extends JPAManager<Bando>
+public class BandoService extends JpaDao<Bando>
 {		
 	/**
 	 * Gets a list of all Bans with Stato "DA_PARSIFICARE"
 	 * 
 	 * @return	A list of Bans
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Bando> getAllDaParsificare() throws JPAException
+	public static List<Bando> getAllDaParsificare() throws JpaException
 	{
 		return getByState("DA_PARSIFICARE");
 	}
@@ -28,9 +28,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * Gets a list of all Bans with Stato "PARSIFICATO"
 	 * 
 	 * @return	A list of Bans
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Bando> getAllParsificato() throws JPAException
+	public static List<Bando> getAllParsificato() throws JpaException
 	{
 		return getByState("PARSIFICATO");
 	}
@@ -40,9 +40,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param state	"DA_PARSIFICARE" "PARSIFICATO"
 	 * @return	A list of bans matching the state
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	private static List<Bando> getByState(String state) throws JPAException
+	private static List<Bando> getByState(String state) throws JpaException
 	{
 		List<Bando> result;
 		
@@ -56,9 +56,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newTesto	the new TESTO property value
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateText(Bando ban, String newTesto) throws JPAException
+	public static void updateText(Bando ban, String newTesto) throws JpaException
 	{
 		ban.setTesto(newTesto);
 		update(ban);			
@@ -69,9 +69,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newCig	the new value of CIG property
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateCig(Bando ban, String newCig) throws JPAException
+	public static void updateCig(Bando ban, String newCig) throws JpaException
 	{
 		ban.setCig(newCig);
 		update(ban);				
@@ -82,9 +82,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param ban	the Ban to be updated
 	 * @param newOggetto	the new value of the OGGETTO Ban's property
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateObject(Bando ban, String newOggetto) throws JPAException
+	public static void updateObject(Bando ban, String newOggetto) throws JpaException
 	{
 		ban.setOggetto(newOggetto);
 		update(ban);
@@ -95,9 +95,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param ban	the Ban to be modified
 	 * @param newStato	the new value of STATO
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateState(Bando ban, String newStato) throws JPAException
+	public static void updateState(Bando ban, String newStato) throws JpaException
 	{
 		ban.setStato(newStato);
 		update(ban);			
@@ -108,9 +108,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param ban		the Ban to be modified
 	 * @param newDate	the new value of DT_INSERIMENTO
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateDtInserimento(Bando ban, Date newDate) throws JPAException
+	public static void updateDtInserimento(Bando ban, Date newDate) throws JpaException
 	{
 		ban.setDtInserimento(newDate);
 		update(ban);			
@@ -120,9 +120,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * Returns only the bans having DT_INSERIMENTO after the least recent users' DT_NOTIFICA
 	 * 
 	 * @return				A List of PARSIFICATO bans
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Bando> getLatestParsificato() throws JPAException
+	public static List<Bando> getLatestParsificato() throws JpaException
 	{
 		List<Bando> result;
 		Date firstNotify;
@@ -143,9 +143,9 @@ public class BandoRepository extends JPAManager<Bando>
 	 * 
 	 * @param cdBando	the ID	
 	 * @return			the entity Bando
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static Bando getById(long cdBando) throws JPAException
+	public static Bando getById(long cdBando) throws JpaException
 	{
 		List<Bando> result;
 		

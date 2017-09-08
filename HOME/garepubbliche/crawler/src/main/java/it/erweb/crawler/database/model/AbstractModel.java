@@ -1,4 +1,4 @@
-package it.erweb.crawler.model;
+package it.erweb.crawler.database.model;
 
 /**
  *	Represents the whole set of persistent entities available in the database

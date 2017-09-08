@@ -1,25 +1,25 @@
-package it.erweb.crawler.dbManager.repository;
+package it.erweb.crawler.database.services;
 
 import java.util.Date;
 import java.util.List;
 
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Bando;
-import it.erweb.crawler.model.Notifica;
-import it.erweb.crawler.model.NotificaPK;
-import it.erweb.crawler.model.Utente;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.model.Notifica;
+import it.erweb.crawler.database.model.NotificaPK;
+import it.erweb.crawler.database.model.Utente;
+import it.erweb.crawler.database.repository.JpaDao;
+import it.erweb.crawler.database.repository.JpaException;
 
-public class NotificaRepository extends JPAManager<Notifica>
+public class NotificaService extends JpaDao<Notifica>
 {
 	/**
 	 * 	Adds a new notification for a specific user and a specific ban
 	 * 
 	 * @param usr		the user to be notified
 	 * @param ban		the ban to notify
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static void insertNotifica(Utente usr, Bando ban) throws JPAException
+	public static void insertNotifica(Utente usr, Bando ban) throws JpaException
 	{
 		Notifica newNote;
 		NotificaPK key;
@@ -42,9 +42,9 @@ public class NotificaRepository extends JPAManager<Notifica>
 	 *  Displays all pending notifications that wait to be sent
 	 * 
 	 * @return	A list of notifications
-	 * @throws JPAException
+	 * @throws JpaException
 	 */
-	public static List<Notifica> getAllPendingNotifications() throws JPAException
+	public static List<Notifica> getAllPendingNotifications() throws JpaException
 	{
 		List<Notifica> notifies;
 
@@ -59,9 +59,9 @@ public class NotificaRepository extends JPAManager<Notifica>
 	 * 
 	 * @param cdUtente		Utente's identifier
 	 * @param cdBando		Bando's identifier			
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void updateState(long cdUtente, long cdBando) throws JPAException
+	public static void updateState(long cdUtente, long cdBando) throws JpaException
 	{
 		Notifica updateNote;
 		NotificaPK key;

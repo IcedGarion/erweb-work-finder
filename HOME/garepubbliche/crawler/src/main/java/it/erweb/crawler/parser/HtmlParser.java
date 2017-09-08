@@ -11,14 +11,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import it.erweb.crawler.configurations.PropertiesManager;
-import it.erweb.crawler.dbManager.JPAException;
-import it.erweb.crawler.dbManager.repository.BandoRepository;
-import it.erweb.crawler.dbManager.repository.PubblicazioneRepository;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.model.Pubblicazione;
+import it.erweb.crawler.database.repository.JpaException;
+import it.erweb.crawler.database.services.BandoService;
+import it.erweb.crawler.database.services.PubblicazioneService;
 import it.erweb.crawler.httpClientUtil.HttpGetter;
 import it.erweb.crawler.httpClientUtil.Notifier;
 import it.erweb.crawler.main.Main;
-import it.erweb.crawler.model.Bando;
-import it.erweb.crawler.model.Pubblicazione;
 
 /**
  * Searches htmls for specific infos 
@@ -33,16 +33,16 @@ public class HtmlParser
 	 * @param html	publications page
 	 * @return		True if a new publication is available
 	 * @throws ParseException 
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static boolean getPublications(String html) throws ParseException, JPAException
+	public static boolean getPublications(String html) throws ParseException, JpaException
 	{
 		boolean ret = false;
 		int startIndex = 0, offset = 0, nmIndex = 0, numPub = -1, i = 0;
 		char current;
 		String url, strNumPub, strDate;
 		Pubblicazione pub;
-		Date pubDate, lastPubDate = PubblicazioneRepository.getLastDate();
+		Date pubDate, lastPubDate = PubblicazioneService.getLastDate();
 		
 		//va alla prima occorrenza dell'url pattern
 		startIndex = html.indexOf(PropertiesManager.PUBLICATION_DETAIL_PATTERN);
@@ -134,7 +134,7 @@ public class HtmlParser
 				pub.setUrl(PropertiesManager.GAZZETTA_HOME_URL + url);		//URL
 						
 				//SALVA NEL DB nuova pubblicazione
-				PubblicazioneRepository.insertPubblicazione(pub);
+				PubblicazioneService.insertPubblicazione(pub);
 			}
 			
 			//ricomincia il ciclo per trovare altre pubblicazioni
@@ -151,9 +151,9 @@ public class HtmlParser
 	 * 
 	 * @param publicationHtml	html of a publication page
 	 * @param pubblicazione 	the referenced Pubblicazione containing the Bans
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione) throws JPAException
+	public static void getPublicationBans(String publicationHtml, Pubblicazione pubblicazione) throws JpaException
 	{
 		Bando b;
 		int i = 4, dataLength;
@@ -270,7 +270,7 @@ public class HtmlParser
 			try
 			{
 				//SALVA NEL DB
-				BandoRepository.insertBando(b);
+				BandoService.insertBando(b);
 			}
 			catch(Exception e)
 			{	
@@ -281,16 +281,16 @@ public class HtmlParser
 		}	
 		
 		//ricavati tutti i bandi di una pubblicazione, aggiorna lo stato
-		PubblicazioneRepository.updateState(pubblicazione, "SCARICATA");
+		PubblicazioneService.updateState(pubblicazione, "SCARICATA");
 	}
 	
 	/**
 	 * Searches the Ban body, trying to find the Ban Object and Cig, and then updates the Ban properties in the DB
 	 * 
 	 * @param ban	html of the whole Ban page
-	 * @throws JPAException 
+	 * @throws JpaException 
 	 */
-	public static void parseBan(Bando ban) throws JPAException
+	public static void parseBan(Bando ban) throws JpaException
 	{
 		String cig = "", oggetto = "";
 		int i = 0, patternLength = PropertiesManager.BAN_OBJ_PATTERNS.length;
@@ -319,7 +319,7 @@ public class HtmlParser
 		
 		String testoBando = divBando.text();
 		//aggiorna il testo del bando con quello vero (prima era tutto l'html)
-		BandoRepository.updateText(ban, testoBando);		
+		BandoService.updateText(ban, testoBando);		
 		
 		//estrae CIG, se non e' gia' presente
 		if(ban.getCig() == null)
@@ -327,7 +327,7 @@ public class HtmlParser
 			cig = StringParser.tryGetCig(testoBando);
 			if(!cig.equals(""))
 			{
-				BandoRepository.updateCig(ban, cig);
+				BandoService.updateCig(ban, cig);
 			}
 		}
 
@@ -354,10 +354,10 @@ public class HtmlParser
 		{
 			if(oggetto != "")
 			{
-				BandoRepository.updateObject(ban, oggetto);
+				BandoService.updateObject(ban, oggetto);
 			}
 			
-			BandoRepository.updateState(ban, "PARSIFICATO");
+			BandoService.updateState(ban, "PARSIFICATO");
 		}
 		
 		return;

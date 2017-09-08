@@ -1,4 +1,4 @@
-package it.erweb.crawler.model;
+package it.erweb.crawler.database.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

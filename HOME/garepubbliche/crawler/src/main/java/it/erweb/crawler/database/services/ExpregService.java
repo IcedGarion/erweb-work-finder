@@ -1,16 +1,16 @@
-package it.erweb.crawler.dbManager.repository;
+package it.erweb.crawler.database.services;
 
 import java.util.Date;
 
-import it.erweb.crawler.dbManager.JPAManager;
-import it.erweb.crawler.model.Bando;
-import it.erweb.crawler.model.Expreg;
-import it.erweb.crawler.model.Utente;
+import it.erweb.crawler.database.model.Bando;
+import it.erweb.crawler.database.model.Expreg;
+import it.erweb.crawler.database.model.Utente;
+import it.erweb.crawler.database.repository.JpaDao;
 
 /**
  *	Contains the methods for manipulating a Expreg object in the database
  */
-public class ExpregRepository extends JPAManager<Expreg>
+public class ExpregService extends JpaDao<Expreg>
 {
 	/**
 	 * 	Checks if user's last notification date is before the ban's insertion date: this assures to avoid

@@ -6,17 +6,8 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
--aspetta un po' e poi prova DEBUG QUERY BANDI
-
--MD5!!!
-
-
 -PREFERENCES! cambio username/email/password e poi mostra e modifica EXPREGS
 
-
--BANDI:
-	URL come URL clickabile?   --> a href
-	
 	
 	ON STARTUP:
 	java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: it.erweb.web.services.BandiService
@@ -28,7 +19,7 @@ DA FARE:
 
 -GLOBAL CATCHER WEB
 
--MODIFICA NOMI: in crawler, "repository" non e' bello
+-COMMENTI e JAVADOC
 
 
 
