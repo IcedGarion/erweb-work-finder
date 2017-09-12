@@ -13,8 +13,10 @@ DA FARE:
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
 
--SICUREZZA! <security-constraint>? 
-	per ora le pagine non sono protette
+-SICUREZZA! doFilter: dovrebbe funzionare ma controlla, e poi comunque e' da modificare il filtro vero e proprio
+
+-MENU' NAV: metti anche username loggato
+
 	
 	
 -VALIDAZIONE CAMPI:

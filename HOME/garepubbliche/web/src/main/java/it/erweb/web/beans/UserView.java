@@ -152,7 +152,7 @@ public class UserView
 		
 		//utente = new Utente() ???
 			
-		return "/views/login.xhtml";
+		return "/login.xhtml";
 	}
 	
 	public void updateMail(ActionEvent actionEvent)
