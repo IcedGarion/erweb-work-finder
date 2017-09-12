@@ -11,41 +11,45 @@
 
 <body>
 	
+	<div id="login">
 	<!-- Espone il form di login solo se non si e' gia' loggati (cdUtente in session vuoto) -->
-	<c:choose>
-		<c:when test="#{empty cdUtente}">
-		<h1>Login Form</h1>
-		
-		<!-- Login Form -->
-		<h:form>
-			<p:growl id="messages"></p:growl>
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Username:"></p:outputLabel>
-				<p:inputText value="#{userView.username}" required="true"></p:inputText>
-				
-				<h:outputLabel for="pwd" value="Password:" />
-				<p:password id="pwd" value="#{userView.password}" label="Password" required="true" />
-			</p:panelGrid>
-			<p:commandButton value="Login" action="#{userView.login}" update="messages"></p:commandButton>
-		</h:form>
-		
-		<!-- Pulsante registrazione -->
-		<h2>OPPURE</h2>
-		<p:button outcome="/views/register.xhtml" value="Registra" />
-		
-		</c:when>
-		
-		<!-- Se si e' gia' loggati, ridireziona all'index -->
-		<c:otherwise>
-			<h1>Login gia' effettuata!</h1>
-			
-			<!-- Redirect to index -->
-			<script type="text/javascript">
-				window.location.replace("#{request.contextPath}/views/index.xhtml");
-			</script>
-			
-		</c:otherwise>
-	</c:choose>
+		<c:choose>
+			<c:when test="#{empty cdUtente}">
+				<h1>Login Form</h1>
 
+				<!-- Login Form -->
+				<h:form>
+					<p:growl id="messages"></p:growl>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Username:"></p:outputLabel>
+						<p:inputText value="#{userView.username}" required="true"></p:inputText>
+
+						<h:outputLabel for="pwd" value="Password:" />
+						<p:password id="pwd" value="#{userView.password}" label="Password"
+							required="true" />
+					</p:panelGrid>
+					<p:commandButton value="Login" action="#{userView.login}"
+						update="messages"></p:commandButton>
+				</h:form>
+
+				<!-- Pulsante registrazione -->
+				<h2>OPPURE</h2>
+				<p:button outcome="/views/register.xhtml" value="Registra" />
+
+			</c:when>
+
+			<!-- Se si e' gia' loggati, ridireziona all'index -->
+			<c:otherwise>
+				<h1>Login gia' effettuata!</h1>
+
+				<!-- Redirect to index -->
+				<script type="text/javascript">
+					window.location
+							.replace("#{request.contextPath}/views/index.xhtml");
+				</script>
+
+			</c:otherwise>
+		</c:choose>
+	</div>
 </body>
 </html>

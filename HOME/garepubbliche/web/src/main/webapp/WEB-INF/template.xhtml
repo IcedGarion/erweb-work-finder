@@ -17,18 +17,18 @@
         <div id="menu">
 		<ul>
 			<li><a href="#{root}/index.xhtml">Home</a></li>
+			<li><a href="#{root}/preferences.xhtml">Preferenze</a></li>
+			<li><a href="#{root}/bans.xhtml">Bandi</a></li>
 			<li>
 				<h:form>
 					<p:commandLink id="logout" action="#{userView.logout}" ajax="false">
-	    	    		<h:outputText value="Logout" />
+	    	    		<h:outputText value="Logout" styleClass="logout"/>
 				    </p:commandLink>
 		    	</h:form>
     		</li>
-			<li><a href="#{root}/preferences.xhtml">Preferenze</a></li>
-			<li><a href="#{root}/bans.xhtml">Bandi</a></li>
 		</ul>
 	</div>
         <div id="content"><ui:insert name="content">Default content</ui:insert></div>
-        <div id="footer">Footer</div>
+        <div id="footer"><br />Footer</div>
     </h:body>
 </html>

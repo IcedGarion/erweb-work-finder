@@ -15,61 +15,71 @@
 	
         <h1>Configurazioni</h1> <br />
 	
-		<!-- Espressioni regolari --> <!--  FORM AJAX! -->	
-		<div>
-			<h2>Espressioni da cercare nei bandi</h2>
-			<br />
-			
-			<!-- PLUS -->
-			<h:form>
-				<p:growl id="messages"></p:growl>
-				<h3>Espressione PLUS corrente: </h3>
+		<div id="container">
+			<div id="left">
+				<!-- Espressioni regolari -->
+				<h2>Espressioni da cercare nei bandi</h2>
 				<br />
-    			<p:inputTextarea rows="6" cols="16" value="#{expregView.expregPlus}" />
-    			<br />
-    			<p:commandButton value="Modifica" actionListener="#{expregView.updatePlus}"
-					update="messages"></p:commandButton>
-			</h:form>
-			<br />
-			
-			<!-- MINUS -->
-			<h:form>
-				<p:growl id="messages"></p:growl>
-				<h3>Espressione MINUS corrente: </h3>
-				<br />
-    			<p:inputTextarea rows="6" cols="16" value="#{expregView.expregMinus}" />
-    			<br />
-    			<p:commandButton value="Modifica" actionListener="#{expregView.updateMinus}"
-					update="messages"></p:commandButton>
-			</h:form>
-		</div>
-		
-		
-		<!-- Form email pass -->
-		<h2>Modifica informazioni utente</h2>
-		<div>
-			<h:form>
-				<p:growl id="messages"></p:growl>
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Email: *"></p:outputLabel>
-					<p:inputText value="#{userView.utente.email}"></p:inputText>
-				</p:panelGrid>
-				<p:commandButton value="Aggiorna Email" actionListener="#{userView.updateMail}"
-					update="messages"></p:commandButton>
-			</h:form>
-			
-			<h:form>
-			<p:growl id="messages"></p:growl>
-			<p:panelGrid columns="2">
-				<h:outputLabel for="pwd1" value="Password: *" />
-				<p:password id="pwd1" value="#{userView.utente.password}" match="pwd2" label="Password 1" required="true" />
 				
-				<h:outputLabel for="pwd2" value="Conferma Password: *" />
-				<p:password id="pwd2" value="#{userView.utente.password}" label="Password 2" required="true" />
-			</p:panelGrid>
-			<p:commandButton value="Aggiorna Password" actionListener="#{userView.updatePassword}"
-				update="messages"></p:commandButton>
-		</h:form>
+				<div id="container">
+					<div id="left">
+						<!-- PLUS -->
+						<h:form>
+							<p:growl id="messages"></p:growl>
+							<h3>Espressione PLUS corrente:</h3>
+							<br />
+							<p:inputTextarea rows="6" cols="16"
+								value="#{expregView.expregPlus}" />
+							<br />
+							<p:commandButton value="Modifica"
+								actionListener="#{expregView.updatePlus}" update="messages"></p:commandButton>
+						</h:form>
+					</div>
+
+					<div id="right">
+						<!-- MINUS -->
+						<h:form>
+							<p:growl id="messages"></p:growl>
+							<h3>Espressione MINUS corrente:</h3>
+							<br />
+							<p:inputTextarea rows="6" cols="16"
+								value="#{expregView.expregMinus}" />
+							<br />
+							<p:commandButton value="Modifica"
+								actionListener="#{expregView.updateMinus}" update="messages"></p:commandButton>
+						</h:form>
+					</div>
+				</div>
+			</div>
+			
+			<div id="right">
+				<!-- Form email pass -->
+				<h2>Modifica informazioni utente</h2>
+				<h:form>
+					<p:growl id="messages"></p:growl>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Email: *"></p:outputLabel>
+						<p:inputText value="#{userView.utente.email}"></p:inputText>
+					</p:panelGrid>
+					<p:commandButton value="Aggiorna Email"
+						actionListener="#{userView.updateMail}" update="messages"></p:commandButton>
+				</h:form>
+
+				<h:form>
+					<p:growl id="messages"></p:growl>
+					<p:panelGrid columns="2">
+						<h:outputLabel for="pwd1" value="Password: *" />
+						<p:password id="pwd1" value="#{userView.utente.password}"
+							match="pwd2" label="Password 1" required="true" />
+
+						<h:outputLabel for="pwd2" value="Conferma Password: *" />
+						<p:password id="pwd2" value="#{userView.utente.password}"
+							label="Password 2" required="true" />
+					</p:panelGrid>
+					<p:commandButton value="Aggiorna Password"
+						actionListener="#{userView.updatePassword}" update="messages"></p:commandButton>
+				</h:form>
+			</div>
 		</div>
     </ui:define>
 </ui:composition>
