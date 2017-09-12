@@ -10,27 +10,36 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
--PostConstruct a ogni login e registrazione? per pulire i campi in prefs
-
-
--MENU NAV
-
-
--serialversionUID...
-
--SESSION cdUtente: va bene cosi'???
-	comunque, metti "session.getAttribute("cdUtente")" in una costante e/o in file di configurazione
+-TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
 
 -SICUREZZA! <security-constraint>? 
 	per ora le pagine non sono protette
-
-
--CAMBIO ANCHE USERNAME? -> casino
-
-
+	
+	
 -VALIDAZIONE CAMPI:
-	es, login se lasci bianca password viene fuori un errore: come si scrive dentro quello che si vuole?
+es, login se lasci bianca password viene fuori un errore: come si scrive dentro quello che si vuole?
+
+
+
+~se non c'e' nessuna expreg, invitare utente a crearne
+
+~serialversionUID / classNotFound??
+
+~Se ti logghi, esci e poi registri lascia il form pieno... chiama evento
+
+
+
+
+~SESSION cdUtente: va bene cosi'???
+	comunque, metti "session.getAttribute("cdUtente")" in una costante e/o in file di configurazione
+
+
+
+
+~CAMBIO ANCHE USERNAME? -> casino
+
+
 
 
 

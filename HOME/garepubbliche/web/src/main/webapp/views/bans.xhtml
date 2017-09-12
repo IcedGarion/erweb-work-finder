@@ -1,54 +1,53 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
-	<title>Lista Bandi</title>
-</h:head>
+    <ui:define name="title">
+        Lista Bandi
+    </ui:define>
 
-<body>
-	<h1>Lista Bandi</h1>
-	
-	<!-- Tabella bandi utente -->
-	<div>
-		<p:dataTable var="ban" value="#{bandiView.userBans}">
-			<p:column headerText="cig">
-				<h:outputText value="#{ban.cig}" />
-			</p:column>
+    <ui:define name="content">
+        <h1>Lista Bandi</h1>
 
-			<p:column headerText="date">
-				<h:outputText value="#{ban.dtInserimento}" />
-			</p:column>
+		<!-- Tabella bandi utente -->
+		<div>
+			<p:dataTable var="ban" value="#{bandiView.userBans}">
+				<p:column headerText="cig">
+					<h:outputText value="#{ban.cig}" />
+				</p:column>
 
-			<p:column headerText="tipoRichiedente">
-				<h:outputText value="#{ban.tiporichiedente}" />
-			</p:column>
+				<p:column headerText="date">
+					<h:outputText value="#{ban.dtInserimento}" />
+				</p:column>
 
-			<p:column headerText="richiedente">
-				<h:outputText value="#{ban.nmRichiedente}" />
-			</p:column>
-			
-			<p:column headerText="scadenza">
-				<h:outputText value="#{ban.scadenza}" />
-			</p:column>
-			
-			<p:column headerText="tipo">
-				<h:outputText value="#{ban.tipo}" />
-			</p:column>
-			
-			<p:column headerText="url">
-			 	<h:outputLink value = "#{ban.url}" >#{ban.url}</h:outputLink>
-			</p:column>
-			
-			<p:column headerText="oggetto">
-				<h:outputText value="#{ban.oggetto}" />
-			</p:column>
-			
-		</p:dataTable>
-	</div>
-</body>
+				<p:column headerText="tipoRichiedente">
+					<h:outputText value="#{ban.tiporichiedente}" />
+				</p:column>
 
-</html>
+				<p:column headerText="richiedente">
+					<h:outputText value="#{ban.nmRichiedente}" />
+				</p:column>
+
+				<p:column headerText="scadenza">
+					<h:outputText value="#{ban.scadenza}" />
+				</p:column>
+
+				<p:column headerText="tipo">
+					<h:outputText value="#{ban.tipo}" />
+				</p:column>
+
+				<p:column headerText="url">
+					<h:outputLink value="#{ban.url}">#{ban.url}</h:outputLink>
+				</p:column>
+
+				<p:column headerText="oggetto">
+					<h:outputText value="#{ban.oggetto}" />
+				</p:column>
+
+			</p:dataTable>
+		</div>
+	</ui:define>
+</ui:composition>

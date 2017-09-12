@@ -1,77 +1,75 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
 
-<!-- Chiama evento per caricare i dati dei form appena carica la pagina -->
-<f:event listener="#{expregView.init}" type="preRenderView" />
+    <ui:define name="title">
+        Configurazioni
+    </ui:define>
 
-<h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
-	<title>Configurazioni</title>
-</h:head>
-
-<body>
-	<h1>Configurazioni</h1> <br />
+    <ui:define name="content">
+    	<!-- Chiama evento per caricare i dati dei form appena carica la pagina -->
+		<f:event listener="#{expregView.init}" type="preRenderView" />
 	
-	<!-- Espressioni regolari --> <!--  FORM AJAX! -->	
-	<div>
-		<h2>Espressioni da cercare nei bandi</h2>
-		<br />
-		
-		<!-- PLUS -->
-		<h:form>
-			<p:growl id="messages"></p:growl>
-			<h3>Espressione PLUS corrente: </h3>
+        <h1>Configurazioni</h1> <br />
+	
+		<!-- Espressioni regolari --> <!--  FORM AJAX! -->	
+		<div>
+			<h2>Espressioni da cercare nei bandi</h2>
 			<br />
-    		<p:inputTextarea rows="6" cols="16" value="#{expregView.expregPlus}" />
-    		<br />
-    		<p:commandButton value="Modifica" actionListener="#{expregView.updatePlus}"
-				update="messages"></p:commandButton>
-		</h:form>
-		<br />
-		
-		<!-- MINUS -->
-		<h:form>
-			<p:growl id="messages"></p:growl>
-			<h3>Espressione MINUS corrente: </h3>
+			
+			<!-- PLUS -->
+			<h:form>
+				<p:growl id="messages"></p:growl>
+				<h3>Espressione PLUS corrente: </h3>
+				<br />
+    			<p:inputTextarea rows="6" cols="16" value="#{expregView.expregPlus}" />
+    			<br />
+    			<p:commandButton value="Modifica" actionListener="#{expregView.updatePlus}"
+					update="messages"></p:commandButton>
+			</h:form>
 			<br />
-    		<p:inputTextarea rows="6" cols="16" value="#{expregView.expregMinus}" />
-    		<br />
-    		<p:commandButton value="Modifica" actionListener="#{expregView.updateMinus}"
-				update="messages"></p:commandButton>
-		</h:form>
-	</div>
-	
-	
-	<!-- Form email pass -->
-	<h2>Modifica informazioni utente</h2>
-	<div>
-		<h:form>
+			
+			<!-- MINUS -->
+			<h:form>
+				<p:growl id="messages"></p:growl>
+				<h3>Espressione MINUS corrente: </h3>
+				<br />
+    			<p:inputTextarea rows="6" cols="16" value="#{expregView.expregMinus}" />
+    			<br />
+    			<p:commandButton value="Modifica" actionListener="#{expregView.updateMinus}"
+					update="messages"></p:commandButton>
+			</h:form>
+		</div>
+		
+		
+		<!-- Form email pass -->
+		<h2>Modifica informazioni utente</h2>
+		<div>
+			<h:form>
+				<p:growl id="messages"></p:growl>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Email: *"></p:outputLabel>
+					<p:inputText value="#{userView.utente.email}"></p:inputText>
+				</p:panelGrid>
+				<p:commandButton value="Aggiorna Email" actionListener="#{userView.updateMail}"
+					update="messages"></p:commandButton>
+			</h:form>
+			
+			<h:form>
 			<p:growl id="messages"></p:growl>
 			<p:panelGrid columns="2">
-				<p:outputLabel value="Email: *"></p:outputLabel>
-				<p:inputText value="#{userView.utente.email}"></p:inputText>
+				<h:outputLabel for="pwd1" value="Password: *" />
+				<p:password id="pwd1" value="#{userView.utente.password}" match="pwd2" label="Password 1" required="true" />
+				
+				<h:outputLabel for="pwd2" value="Conferma Password: *" />
+				<p:password id="pwd2" value="#{userView.utente.password}" label="Password 2" required="true" />
 			</p:panelGrid>
-			<p:commandButton value="Aggiorna Email" actionListener="#{userView.updateMail}"
+			<p:commandButton value="Aggiorna Password" actionListener="#{userView.updatePassword}"
 				update="messages"></p:commandButton>
 		</h:form>
-		
-		<h:form>
-		<p:growl id="messages"></p:growl>
-		<p:panelGrid columns="2">
-			<h:outputLabel for="pwd1" value="Password: *" />
-			<p:password id="pwd1" value="#{userView.utente.password}" match="pwd2" label="Password 1" required="true" />
-			
-			<h:outputLabel for="pwd2" value="Conferma Password: *" />
-			<p:password id="pwd2" value="#{userView.utente.password}" label="Password 2" required="true" />
-		</p:panelGrid>
-		<p:commandButton value="Aggiorna Password" actionListener="#{userView.updatePassword}"
-			update="messages"></p:commandButton>
-	</h:form>
-	</div>
-	
-</body>
-
-</html>
+		</div>
+    </ui:define>
+</ui:composition>

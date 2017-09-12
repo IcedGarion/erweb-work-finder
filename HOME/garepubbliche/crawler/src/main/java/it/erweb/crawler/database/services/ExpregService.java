@@ -41,6 +41,12 @@ public class ExpregService extends JpaDao<Expreg>
 		boolean ret = false;
 
 		expregs = usr.getExpreg();
+		//magari utente non ha ancora creato nessuna expreg
+		if(expregs == null)
+		{
+			return ret;
+		}
+		
 		expPlus = expregs.getExpplus();
 		expMinus = expregs.getExpminus();
 		banObj = ban.getOggetto();

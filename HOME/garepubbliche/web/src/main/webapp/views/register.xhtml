@@ -1,37 +1,38 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
-	<title>Register Utente</title>
-</h:head>
+    <ui:define name="title">
+        Registra nuovo utente
+    </ui:define>
 
-<body>
+    <ui:define name="content">
+        <h1>Registra nuovo utente</h1>
 
-	<h1>Registra nuovo utente</h1>
-	
-	<!-- Form registrazione -->
-	<h:form>
-		<p:growl id="messages"></p:growl>
-		<p:panelGrid columns="2">
-			<p:outputLabel value="Username: *"></p:outputLabel>
-			<p:inputText value="#{userView.utente.username}"></p:inputText>
+		<!-- Form registrazione -->
+		<h:form>
+			<p:growl id="messages"></p:growl>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Username: *"></p:outputLabel>
+				<p:inputText value="#{userView.utente.username}"></p:inputText>
+
+				<p:outputLabel value="Email: *"></p:outputLabel>
+				<p:inputText value="#{userView.utente.email}"></p:inputText>
+
+				<h:outputLabel for="pwd1" value="Password: *" />
+				<p:password id="pwd1" value="#{userView.utente.password}"
+					match="pwd2" label="Password 1" required="true" />
+
+				<h:outputLabel for="pwd2" value="Conferma Password: *" />
+				<p:password id="pwd2" value="#{userView.utente.password}"
+					label="Password 2" required="true" />
+			</p:panelGrid>
 			
-			<p:outputLabel value="Email: *"></p:outputLabel>
-			<p:inputText value="#{userView.utente.email}"></p:inputText>
-			
-			<h:outputLabel for="pwd1" value="Password: *" />
-			<p:password id="pwd1" value="#{userView.utente.password}" match="pwd2" label="Password 1" required="true" />
-			
-			<h:outputLabel for="pwd2" value="Conferma Password: *" />
-			<p:password id="pwd2" value="#{userView.utente.password}" label="Password 2" required="true" />
-		</p:panelGrid>
-		<p:commandButton value="Register" action="#{userView.register}"
-			update="messages"></p:commandButton>
-	</h:form>
-
-</body>
-</html>
+			<p:commandButton value="Register" action="#{userView.register}"
+				update="messages"></p:commandButton>
+		</h:form>
+	</ui:define>
+</ui:composition>
