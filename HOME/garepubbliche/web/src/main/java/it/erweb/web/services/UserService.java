@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import it.erweb.web.data.Expreg;
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDao;
@@ -60,14 +61,12 @@ public class UserService
 			
 			//setta altri campi...
 			usr.setDtNotifica(new Date());
-			
+
 			//poi crea in db
 			jpaDao.<Utente>create(usr);
 			
 			//infine chiama la loginCheck (con la ex password in chiaro), cosi' salva le cose in session
-			loginCheck(usr.getUsername(), exPassword);
-			
-			return true;
+			return loginCheck(usr.getUsername(), exPassword);
 		}
 		catch(Exception e)
 		{
@@ -145,7 +144,7 @@ public class UserService
 			switch(key)
 			{
 				case "password":
-					old.setPassword(value);
+					old.setPassword(PasswordUtil.computeHash(value));
 					break;
 				case "email":
 					old.setEmail(value);

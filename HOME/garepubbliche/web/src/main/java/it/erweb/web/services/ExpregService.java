@@ -1,6 +1,7 @@
 package it.erweb.web.services;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Expreg;
+import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JpaDao;
 
 @Component
@@ -94,6 +96,9 @@ public class ExpregService implements Serializable
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		Expreg old;
+		List<Expreg> olds;
+		Utente current;
 		long cdUtente;
 		
 		try
@@ -101,9 +106,23 @@ public class ExpregService implements Serializable
 			cdUtente = (long) session.getAttribute("cdUtente");
 			
 			//prende i dati della vecchia expreg
-			Expreg old = jpaDao.<Expreg>read("SELECT e FROM Expreg e WHERE e.utente.cdUtente = " + cdUtente).get(0);
+			olds = jpaDao.<Expreg>read("SELECT e FROM Expreg e WHERE e.utente.cdUtente = " + cdUtente);
+			if(olds.size() > 0)
+			{
+				old = olds.get(0);
+			}
+			else
+			{
+				//se non c'e' ancora nessuna expreg associata la crea
+				old = new Expreg();
+				old.setExpminus("");
+				old.setExpplus("");
+				//cerca utente da associare
+				current = jpaDao.<Utente>read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente).get(0);
+				old.setUtente(current);
+			}
 			
-			//modifica la vecchia expreg coi nuovi dati
+			//modifica la "vecchia" expreg coi nuovi dati
 			if(isPlus)
 			{
 				old.setExpplus(newRegex);

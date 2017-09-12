@@ -142,6 +142,8 @@ public class UserView
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		
 		session.removeAttribute("cdUtente");
+		
+		//utente = new Utente() ???
 			
 		return "/views/login.xhtml";
 	}

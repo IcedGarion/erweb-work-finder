@@ -19,13 +19,28 @@ public class PasswordUtil
 	public static String computeHash(String password)
 	{
 		String ret = password;
-
+		StringBuffer hexString = new StringBuffer();
+		
 		try
 		{
 			byte[] bytesOfpass = password.getBytes(ENCODING);
 			MessageDigest md = MessageDigest.getInstance(HASHING_ALGORITHM);
 			byte[] digest = md.digest(bytesOfpass);
-			ret = new String(digest, ENCODING);
+			
+			//convert the byte to hex format
+	        
+			for (int i = 0; i < digest.length; i++)
+			{
+				String hex = Integer.toHexString(0xff & digest[i]);
+				if(hex.length() == 1)
+				{
+					hexString.append('0');
+				}
+				
+				hexString.append(hex);
+			}
+			
+			ret = hexString.toString();
 		}
 		catch(Exception e)
 		{

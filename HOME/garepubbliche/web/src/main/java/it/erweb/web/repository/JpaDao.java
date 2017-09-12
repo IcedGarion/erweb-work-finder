@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.data.AbstractModel;
-import it.erweb.web.repository.JPAException;
 
 /**
  * Contains general CRUD methods for JPA and db intraction
@@ -29,7 +29,15 @@ public class JpaDao	implements Serializable
 	@Transactional
 	public <T extends AbstractModel> void create(T entity)
 	{	
-		this.entityManager.persist(entity);
+		try
+		{
+			this.entityManager.persist(entity);
+		}
+		catch(PersistenceException e)
+		{
+			//detatched entity: serve merge
+			this.entityManager.merge(entity);
+		}
 	}
 
 	/**
@@ -100,23 +108,4 @@ public class JpaDao	implements Serializable
 		
 		return result;
 	}
-
-	/**
-	 * Searches the database for the specified entity and removes it
-	 * 
-	 * @param entity			the entity to be removed
-	 * @throws JpaException
-	 */
-	@Transactional
-	public <T extends AbstractModel> void delete(T entity) throws JPAException
-	{
-		try
-		{
-			this.entityManager.remove(entity);
-		}
-		catch(Exception e)
-		{
-			throw new JPAException("Error in delete:\n" + e.getMessage());
-		}
-	}	
 }
