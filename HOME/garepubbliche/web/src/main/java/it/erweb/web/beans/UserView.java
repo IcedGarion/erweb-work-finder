@@ -78,7 +78,7 @@ public class UserView
 	 */
 	public String register()
 	{
-		boolean creato;
+		Utente creato;
 		
 		try
 		{	
@@ -86,8 +86,10 @@ public class UserView
 			creato = utenteService.createUtente(utente);
 
 			//se utente e' stato creato, manda alla index
-			if(creato)
+			if(creato != null)
 			{
+				//salva l'utente appena creato come proprieta', cosi' da averne i dati
+				utente = creato;
 				return "/views/index.xhtml";	
 			}
 			
@@ -103,6 +105,7 @@ public class UserView
 			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage("Errore"));
+			
 			return "";
 		}
 	}
@@ -116,10 +119,14 @@ public class UserView
 	public String login() throws JPAException
 	{
 		FacesMessage message = null;
-			
+		Utente loggedIn = null;
+		
+		loggedIn = utenteService.loginCheck(username, password);
 		//se verifica i dati nel db
-		if(utenteService.loginCheck(username, password))
+		if(loggedIn != null)
 		{
+			//salva l'utente appena loggato come proprieta', cosi' da averne i dati
+			utente = loggedIn;
 			return "/views/index.xhtml";
 		}
 		

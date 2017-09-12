@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.erweb.web.data.Expreg;
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDao;
@@ -40,7 +39,7 @@ public class UserService
 	 * @param usr	new user who wants to register
 	 * @return		true if the registration succeded, false if current username already exists in the database
 	 */
-	public boolean createUtente(Utente usr)
+	public Utente createUtente(Utente usr)
 	{
 		String md5, query = "SELECT u FROM Utente u where u.username = '" + usr.getUsername() + "'";
 		String exPassword = usr.getPassword();
@@ -52,7 +51,7 @@ public class UserService
 			duplicati = jpaDao.<Utente>read(query);
 			if(duplicati.size() != 0)
 			{
-				return false;
+				return null;
 			}
 			
 			//calcola md5 e lo setta come password
@@ -72,7 +71,7 @@ public class UserService
 		{
 			e.printStackTrace();
 			
-			return false;
+			return null;
 		}
 	}
 	
@@ -84,18 +83,18 @@ public class UserService
 	 * @return				true if username + password exists in the database, false otherwise
 	 * @throws JPAException
 	 */
-	public boolean loginCheck(String username, String password) throws JPAException
+	public Utente loginCheck(String username, String password) throws JPAException
 	{
 		long cdUtente;
 		String query, md5Pass;
-		List<Long> cdUtenti;
+		Utente loggedIn;
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 
 		//cerca se esiste gia' l'oggetto in session (=> gia' loggato)
 		if(session.getAttribute("cdUtente") != null)
 		{
-			return false;
+			return null;
 		}
 		
 		//nuova log7in
@@ -103,18 +102,19 @@ public class UserService
 		md5Pass = PasswordUtil.computeHash(password);
 		
 		//poi fa la query
-		query = "SELECT u.cdUtente FROM Utente u WHERE u.username = '" + username +  "' AND u.password = '" + md5Pass +  "'";
-		cdUtenti = jpaDao.read(query);
-		if(cdUtenti.size() != 1)
+		query = "SELECT u FROM Utente u WHERE u.username = '" + username +  "' AND u.password = '" + md5Pass +  "'";
+		List<Utente> loggedInList = jpaDao.read(query);
+		if(loggedInList.size() != 1)
 		{
-			return false;
+			return null;
 		}
 		
 		//se trova una corrispondenza nel db, salva cdUtente in session
-		cdUtente = cdUtenti.get(0);
+		loggedIn = loggedInList.get(0);
+		cdUtente = loggedIn.getCdUtente();
 		session.setAttribute("cdUtente", cdUtente);
 
-		return true;
+		return loggedIn;
 	}
 	
 	public void updateMail(String newMail)

@@ -4,6 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<!-- Chiama evento per caricare i dati dei form appena carica la pagina -->
+<f:event listener="#{expregView.init}" type="preRenderView" />
+
 <h:head>
 	<script name="jquery/jquery.js" library="primefaces"></script>
 	<title>Configurazioni</title>

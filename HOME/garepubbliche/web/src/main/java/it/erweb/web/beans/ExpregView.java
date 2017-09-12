@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 
 import it.erweb.web.services.ExpregService;
 
@@ -31,6 +32,12 @@ public class ExpregView implements Serializable
 		expregPlus = expregService.createPlus();
 		expregMinus = expregService.createMinus();
     }
+	
+	//chiamato dalla view a ogni page load
+	public void init(ComponentSystemEvent event)
+	{
+		init();
+	}
 	
 	public void setExpregService(ExpregService expregServ)
 	{
