@@ -3,15 +3,13 @@ package it.erweb.web.services;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Expreg;
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JpaDao;
+import it.erweb.web.util.SessionManager;
 
 @Component
 public class ExpregService implements Serializable
@@ -56,14 +54,12 @@ public class ExpregService implements Serializable
 	{
 		String ret = "<VUOTA>";
 		String type = isPlus? "expplus" : "expminus";
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		long cdUtente;
 		
 		try
 		{
 			//prende cdUtente da session e cerca nel db le espressioni corrisponenti a quell'utente
-			cdUtente = (long) session.getAttribute("cdUtente");
+			cdUtente = (long) SessionManager.getSessionUser();
 			ret = jpaDao.<String>read("SELECT e." + type + " FROM Expreg e WHERE e.utente.cdUtente = " + cdUtente).get(0);
 		}
 		catch(Exception e)
@@ -94,8 +90,6 @@ public class ExpregService implements Serializable
 	
 	private void update(boolean isPlus, String newRegex)
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		Expreg old;
 		List<Expreg> olds;
 		Utente current;
@@ -103,7 +97,7 @@ public class ExpregService implements Serializable
 		
 		try
 		{
-			cdUtente = (long) session.getAttribute("cdUtente");
+			cdUtente = (long) SessionManager.getSessionUser();
 			
 			//prende i dati della vecchia expreg
 			olds = jpaDao.<Expreg>read("SELECT e FROM Expreg e WHERE e.utente.cdUtente = " + cdUtente);

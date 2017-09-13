@@ -6,11 +6,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpSession;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.services.UserService;
+import it.erweb.web.util.SessionManager;
 
 /**
  *  Faces Bean for managing all User's frontend operations: login, logout, create
@@ -144,15 +144,10 @@ public class UserView
 	 * @throws JPAException
 	 */
 	public String logout() throws JPAException
-	{		
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		
-		session.removeAttribute("cdUtente");
-		
-		//utente = new Utente() ???
+	{	
+		SessionManager.removeSessionUser();
 			
-		return "/login.xhtml";
+		return "/views/login.xhtml";
 	}
 	
 	public void updateMail(ActionEvent actionEvent)

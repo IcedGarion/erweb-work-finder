@@ -3,9 +3,6 @@ package it.erweb.web.services;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +10,7 @@ import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDao;
 import it.erweb.web.util.PasswordUtil;
+import it.erweb.web.util.SessionManager;
 
 /**
  *  Backend Service for operations on Utente etities
@@ -88,11 +86,10 @@ public class UserService
 		long cdUtente;
 		String query, md5Pass;
 		Utente loggedIn;
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-
+		Object session = SessionManager.getSessionUser();
+		
 		//cerca se esiste gia' l'oggetto in session (=> gia' loggato)
-		if(session.getAttribute("cdUtente") != null)
+		if(session != null)
 		{
 			return null;
 		}
@@ -109,10 +106,10 @@ public class UserService
 			return null;
 		}
 		
-		//se trova una corrispondenza nel db, salva cdUtente in session
+		//se trova una corrispondenza nel db, salva cdUtente e username in session
 		loggedIn = loggedInList.get(0);
 		cdUtente = loggedIn.getCdUtente();
-		session.setAttribute("cdUtente", cdUtente);
+		SessionManager.setSessionUser(cdUtente, username);	//setta cdUtente e anche username (lo usera' solo il menu nav)
 
 		return loggedIn;
 	}
@@ -129,13 +126,11 @@ public class UserService
 	
 	private void update(String key, String value)
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		long cdUtente;
 		
 		try
 		{
-			cdUtente = (long) session.getAttribute("cdUtente");
+			cdUtente = (long) SessionManager.getSessionUser();
 			
 			//prende i dati del vecchio utente
 			Utente old = jpaDao.<Utente>read("SELECT u FROM Utente u WHERE u.cdUtente = " + cdUtente).get(0);

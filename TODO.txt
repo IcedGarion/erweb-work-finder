@@ -13,11 +13,8 @@ DA FARE:
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
 
--SICUREZZA! doFilter: dovrebbe funzionare ma controlla, e poi comunque e' da modificare il filtro vero e proprio
+-SICUREZZA! doFilter: messaggio nella login se non sei loggato
 
--MENU' NAV: metti anche username loggato
-
-	
 	
 -VALIDAZIONE CAMPI:
 es, login se lasci bianca password viene fuori un errore: come si scrive dentro quello che si vuole?
@@ -28,7 +25,7 @@ es, login se lasci bianca password viene fuori un errore: come si scrive dentro 
 
 ~serialversionUID / classNotFound??
 
-~Se ti logghi, esci e poi registri lascia il form pieno... chiama evento
+...Se ti logghi, esci e poi registri lascia il form pieno... chiama evento
 
 
 

@@ -7,7 +7,7 @@
 	
 	<!-- Welcome File list -->
 	<welcome-file-list>  
-   		<welcome-file>login.xhtml</welcome-file>    
+   		<welcome-file>views/login.xhtml</welcome-file>    
   	</welcome-file-list>  
 	
 	<!-- Servlet and dispatcher Setup -->
@@ -50,14 +50,14 @@
     	<location>/WEB-INF/errorPages/500.html</location>
 	</error-page>
 
-	<!-- Security -->
+	<!-- Security: applica filtro a tutte le views -->
 	<filter>  
     	<filter-name>UserRoleFilter</filter-name>  
     	<filter-class>it.erweb.web.security.UserRoleFilter</filter-class>  
 	</filter>  
 	<filter-mapping>  
 	    <filter-name>UserRoleFilter</filter-name>  
-    	<url-pattern>/views/index.xhtml</url-pattern> 
+    	<url-pattern>/views/*</url-pattern> 
 	</filter-mapping>
 
 </web-app>

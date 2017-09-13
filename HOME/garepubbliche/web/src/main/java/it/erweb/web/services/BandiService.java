@@ -4,15 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.repository.JPAException;
 import it.erweb.web.repository.JpaDao;
+import it.erweb.web.util.SessionManager;
 
 /**
  *  Backend service managing backend operations with Bando entities
@@ -43,13 +41,12 @@ public class BandiService implements Serializable
 		List<Bando> ret = new ArrayList<>();
 		long cdUtente;
 		String query;
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		Object session = SessionManager.getSessionUser();
 		
 		//recupera cdUtente da session (se loggato)
-		if(session.getAttribute("cdUtente") != null)
+		if(session != null)
 		{
-			cdUtente = (long) session.getAttribute("cdUtente");
+			cdUtente = (long) session;
 			//prende tutti i bandi da notificare a quell'utente
 			query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
 					+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";

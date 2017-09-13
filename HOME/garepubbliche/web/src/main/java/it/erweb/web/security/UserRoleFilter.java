@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.erweb.web.util.SessionManager;
+
 public class UserRoleFilter implements Filter
 {    
     @Override
@@ -23,22 +25,27 @@ public class UserRoleFilter implements Filter
         HttpServletRequest request = (HttpServletRequest) req;
         String path = ((HttpServletRequest) request).getRequestURI();
         
-        //se non dovesse funzionare: escludi qua l'url di login, e applica come url-pattern "/" (in web.xml)
-        if (path.startsWith("login.xhtml"))
+        //esclude il controllo da "/login"
+        if(path.matches("^.+?login.xhtml$"))
         {
             next.doFilter(request, response);
         }
-        
-        //definire bene cosa vuol dire avere il ruolo (session != null)
-        if(true)
-        {
-        	System.out.println("ruolo ok");
-            HttpServletResponse r = (HttpServletResponse) response;
-            r.sendRedirect(request.getContextPath() + "/signin.xhtml");
-            return;
+        else
+        {        	
+        	//se c'e' cdUtente in session, utente e' loggato e puo' proseguire
+        	if(SessionManager.getSessionUser(request) != null)
+    		{
+        		next.doFilter(req, response);
+    		}
+    		//altrimenti rimanda alla login
+        	else
+        	{
+        		HttpServletResponse r = (HttpServletResponse) response;
+        		r.sendRedirect(request.getContextPath() + "/views/login.xhtml");
+        	}
         }
-
-        next.doFilter(req, response);
+        
+        return; 
     }
 
     @Override
