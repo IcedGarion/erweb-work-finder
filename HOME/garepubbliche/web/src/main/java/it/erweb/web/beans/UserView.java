@@ -153,6 +153,7 @@ public class UserView
 	
 	/**
 	 * Updates current user's email, reading from the view prefs form and preparing the view "ok" message
+	 * AJAX
 	 * 
 	 * @param actionEvent
 	 */
@@ -165,6 +166,7 @@ public class UserView
 	
 	/**
 	 * Updates current user's Password, reading from the view prefs form and preparing the view "ok" message
+	 * AJAX
 	 * 
 	 * @param actionEvent
 	 */
@@ -178,6 +180,7 @@ public class UserView
 	/**
 	 *  Checks for login error messages, set by Security Filter, and creates custom Faces message to be displayed
 	 *  	on login page
+	 *  EVENT
 	 * 
 	 * @param event
 	 */

@@ -10,14 +10,14 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+-BANDI FILTRO:
+	c'e' ma non viene chiamata la init(ActionListener) dal commandbutton.... DEBUG!
+	Ma poi perche' la getUserBans viene chiamata 5 volte??!?!?!
 	
+	Metti magari anche dropdown menu su bandi
+
+
 -PLUSANTE "fai girare il crawler" di fianco a modifica expregs
-
--BANDI: ci deve essere sia lo storico di tutti i bandi, sia "nuovi bandi" (come capire quali nuovi???)
-	Metti checkbox (con pulsante?) in Bandi 
-	Metti magari dropdown menu su bandi
-
-
 
 
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
@@ -30,7 +30,7 @@ DA FARE:
 -FOOTER non si attacca al fondo
 
 
--JAVADOC
+
 
 ~annotations:
 @Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update

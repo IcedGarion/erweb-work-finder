@@ -3,10 +3,10 @@ package it.erweb.web.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.services.BandiService;
@@ -23,14 +23,27 @@ public class BandiView implements Serializable
 	
 	private List<Bando> userBans;
 	
+	private String filter;
+	
 	/**
-	 *  Creates the list of current logged-in user's Bans that needs to be notified 
+	 *  Creates the list of current logged-in user's Bans that needs to be notified;
+	 *  By default, only the last bans are loaded
 	 */
-	@PostConstruct
     public void init()
 	{
-        userBans = bandiService.createUserBans();
+        userBans = bandiService.createUserBans(filter);
     }
+	
+	/**
+	 *  Re-creates the list of current user's bans, after filter form submit
+	 *  AJAX
+	 * 
+	 * @param actionEvent
+	 */
+	public void init(ActionEvent actionEvent)
+	{
+		init();
+	}
 	
 	public void setBandiService(BandiService banServ)
 	{
@@ -45,6 +58,16 @@ public class BandiView implements Serializable
 	public void setuserBans(List<Bando> bList)
 	{
 		this.userBans = bList;
+	}
+	
+	public void setFilter(String filter)
+	{
+		this.filter = filter;
+	}
+	
+	public String getFilter()
+	{
+		return this.filter;
 	}
 	
 	/**

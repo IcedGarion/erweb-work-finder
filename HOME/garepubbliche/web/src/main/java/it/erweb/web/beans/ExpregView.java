@@ -36,6 +36,7 @@ public class ExpregView implements Serializable
 	
 	/**
 	 * Prepares the expregs, loads current user's preferences: event called on page load
+	 * EVENT
 	 * 
 	 * @param event	Event calling the action
 	 */
@@ -76,6 +77,7 @@ public class ExpregView implements Serializable
 	
 	/**
 	 *  Updates current user's PLUS expreg, reading data from the view form and preparing the view "ok" message
+	 *  AJAX
 	 * 
 	 * @param actionEvent
 	 */
@@ -88,6 +90,7 @@ public class ExpregView implements Serializable
 	
 	/**
 	 * Updates current user's MINUS expreg, reading data from the view form and preparing the view "ok" message
+	 * AJAX
 	 * 
 	 * @param actionEvent
 	 */

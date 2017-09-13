@@ -34,9 +34,10 @@ public class BandiService implements Serializable
 	/**
 	 *  Searches the database and creates a list of Bans that need to be notified to the user
 	 * 
+	 * @param filter			String indicating if the user requested all the bans, or the new ones only
 	 * @return  a list of Bans
 	 */
-	public List<Bando> createUserBans()
+	public List<Bando> createUserBans(String filter)
 	{
 		List<Bando> ret = new ArrayList<>();
 		long cdUtente;
@@ -47,9 +48,19 @@ public class BandiService implements Serializable
 		if(session != null)
 		{
 			cdUtente = (long) session;
-			//prende tutti i bandi da notificare a quell'utente
-			query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
-					+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";
+			
+			//sceglie con un parametro se prendere tutti i bandi (che matchano con le expreg di quell'utente)
+			//oppure se scegliere soltanto gli utlimi arrivati
+			if(filter == null || filter.equals("new"))
+			{
+				query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
+						+ cdUtente + " ORDER BY b.dtInserimento";
+			}
+			else
+			{
+				query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
+						+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";
+			}
 
 			try
 			{

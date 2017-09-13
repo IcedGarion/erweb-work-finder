@@ -27,9 +27,22 @@
 				</c:when>
 
 				<c:otherwise>
-					<!-- TABELLA BANDI PAGINATA -->
+					<!-- Form filtro: tutti i bandi / nuovi bandi -->
 					<h:form>
-						<p:dataTable var="ban" value="#{bandiView.userBans}" rows="7"
+						<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+							<p:outputLabel for="banFilter" value="Filtro:" />
+							<p:selectOneRadio id="banFilter" value="#{bandiView.filter}"
+								required="true" requiredMessage="Seleziona un valore!" >
+								<f:selectItem itemLabel="Tutti i bandi" itemValue="all" />
+								<f:selectItem itemLabel="Nuovi bandi" itemValue="new" />
+							</p:selectOneRadio>
+							<p:commandButton value="Filtra" actionListener="#{bandiView.init}" update=":tableForm:banTable"></p:commandButton>
+						</h:panelGrid>
+					</h:form>
+					<br />
+					<!-- TABELLA BANDI PAGINATA -->
+					<h:form id="tableForm">
+						<p:dataTable var="ban" value="#{bandiView.userBans}" rows="7" id="banTable"
 							paginator="true"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 							rowsPerPageTemplate="10">
