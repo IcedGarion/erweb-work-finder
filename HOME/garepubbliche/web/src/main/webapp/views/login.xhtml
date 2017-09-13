@@ -10,6 +10,8 @@
 </h:head>
 
 <body>
+	<!-- Chiama evento per cercare se ci sono messaggi da mostrare (accessi non autorizzati) -->
+	<f:event listener="#{userView.messageCheck}" type="preRenderView" />
 	
 	<div id="login">
 

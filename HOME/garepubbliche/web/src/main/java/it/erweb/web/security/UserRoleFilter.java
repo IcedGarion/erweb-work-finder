@@ -24,9 +24,11 @@ public class UserRoleFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         String path = ((HttpServletRequest) request).getRequestURI();
-        
-        //esclude il controllo da "/login"
-        if(path.matches("^.+?login.xhtml$") || path.matches("^.+?register.xhtml$"))
+                
+        //esclude dal controllo login, register e "/"
+        if(path.matches("^.+?login.xhtml$")
+        		|| path.matches("^.+?register.xhtml$")
+        		|| path.equals(request.getContextPath() + "/"))
         {
             next.doFilter(request, response);
         }
@@ -40,6 +42,9 @@ public class UserRoleFilter implements Filter
     		//altrimenti rimanda alla login
         	else
         	{	
+        		//imposta messaggio di "errore"
+        		SessionManager.setLoginMessage(request, "Necessaria login per continuare");
+        		
         		HttpServletResponse r = (HttpServletResponse) response;
         		r.sendRedirect(request.getContextPath() + "/views/login.xhtml");
         	}

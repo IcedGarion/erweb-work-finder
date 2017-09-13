@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
@@ -162,5 +163,21 @@ public class UserView
 		utenteService.updatePassword(utente.getPassword());
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Password aggiornata", null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void messageCheck(ComponentSystemEvent event)
+	{
+		//cerca se qualcuno (filter) ha inserito un messaggio in session:
+		//se si, lo rimuove da session e lo aggiunge alla view
+		Object sessionMsg = SessionManager.getLoginMessage();
+		String msg;
+		
+		if(sessionMsg != null)
+		{
+			msg = (String) sessionMsg;
+			SessionManager.removeLoginMessage();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, msg, null);
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 	}
 }

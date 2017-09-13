@@ -33,12 +33,10 @@ es, login se lasci bianca password viene fuori un errore: come si scrive dentro 
 
 
 ~SESSION cdUtente: va bene cosi'???
-	comunque, metti "session.getAttribute("cdUtente")" in una costante e/o in file di configurazione
 
 
 
-
-~CAMBIO ANCHE USERNAME? -> casino
+~CAMBIO ANCHE USERNAME? -> 
 
 
 
