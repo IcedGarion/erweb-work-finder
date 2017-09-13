@@ -26,7 +26,7 @@ public class UserRoleFilter implements Filter
         String path = ((HttpServletRequest) request).getRequestURI();
         
         //esclude il controllo da "/login"
-        if(path.matches("^.+?login.xhtml$"))
+        if(path.matches("^.+?login.xhtml$") || path.matches("^.+?register.xhtml$"))
         {
             next.doFilter(request, response);
         }
@@ -39,7 +39,7 @@ public class UserRoleFilter implements Filter
     		}
     		//altrimenti rimanda alla login
         	else
-        	{
+        	{	
         		HttpServletResponse r = (HttpServletResponse) response;
         		r.sendRedirect(request.getContextPath() + "/views/login.xhtml");
         	}

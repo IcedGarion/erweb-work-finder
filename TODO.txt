@@ -21,6 +21,8 @@ es, login se lasci bianca password viene fuori un errore: come si scrive dentro 
 
 
 
+-JAVADOC
+
 ~se non c'e' nessuna expreg, invitare utente a crearne
 
 ~serialversionUID / classNotFound??

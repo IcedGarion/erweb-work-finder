@@ -14,7 +14,7 @@ li
 	float: left;
 }
 
-li a, li p
+li a, li p, li span
 {
 	display: block;
 	color: white;
