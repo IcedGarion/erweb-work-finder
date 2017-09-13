@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JPAException;
@@ -15,7 +15,7 @@ import it.erweb.web.util.SessionManager;
 /**
  *  Backend Service for operations on Utente etities
  */
-@Component
+@Service
 public class UserService
 {	
 	@Autowired

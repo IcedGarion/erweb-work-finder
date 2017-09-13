@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.data.AbstractModel;
@@ -15,7 +15,7 @@ import it.erweb.web.data.AbstractModel;
 /**
  * Contains general CRUD methods for JPA and db intraction
  */
-@Component
+@Repository
 public class JpaDao	implements Serializable
 {
 	@PersistenceContext

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.data.Expreg;
@@ -12,7 +12,7 @@ import it.erweb.web.data.Utente;
 import it.erweb.web.repository.JpaDao;
 import it.erweb.web.util.SessionManager;
 
-@Component
+@Service
 public class ExpregService implements Serializable
 {
 	@Autowired

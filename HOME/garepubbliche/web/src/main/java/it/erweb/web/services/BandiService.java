@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.repository.JPAException;
@@ -15,7 +15,7 @@ import it.erweb.web.util.SessionManager;
 /**
  *  Backend service managing backend operations with Bando entities
  */
-@Component
+@Service
 public class BandiService implements Serializable
 {
 	@Autowired
