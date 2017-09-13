@@ -48,7 +48,7 @@ public class BandiView implements Serializable
 	}
 	
 	/**
-	 *  Returns to the view the whole list of bans, created in PostConstruct
+	 *  Returns to the view the whole list of current user's bans, created in PostConstruct
 	 * 
 	 * @return	A list of bans
 	 */

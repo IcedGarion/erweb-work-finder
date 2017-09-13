@@ -151,6 +151,11 @@ public class UserView
 		return "/views/login.xhtml";
 	}
 	
+	/**
+	 * Updates current user's email, reading from the view prefs form and preparing the view "ok" message
+	 * 
+	 * @param actionEvent
+	 */
 	public void updateMail(ActionEvent actionEvent)
 	{
 		utenteService.updateMail(utente.getEmail());
@@ -158,6 +163,11 @@ public class UserView
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
+	/**
+	 * Updates current user's Password, reading from the view prefs form and preparing the view "ok" message
+	 * 
+	 * @param actionEvent
+	 */
 	public void updatePassword(ActionEvent actionEvent)
 	{
 		utenteService.updatePassword(utente.getPassword());
@@ -165,6 +175,12 @@ public class UserView
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
+	/**
+	 *  Checks for login error messages, set by Security Filter, and creates custom Faces message to be displayed
+	 *  	on login page
+	 * 
+	 * @param event
+	 */
 	public void messageCheck(ComponentSystemEvent event)
 	{
 		//cerca se qualcuno (filter) ha inserito un messaggio in session:

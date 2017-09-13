@@ -10,31 +10,32 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
-
--ANNOTATIONS:
-magari serve interfaccia per i servizi
-@Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
-
+	
 -PLUSANTE "fai girare il crawler" di fianco a modifica expregs
 
 -BANDI: ci deve essere sia lo storico di tutti i bandi, sia "nuovi bandi" (come capire quali nuovi???)
 	Metti checkbox (con pulsante?) in Bandi 
 	Metti magari dropdown menu su bandi
 
--PAGINARE BANDI, magari anche ordinare... vedi PrimeFaces
-
 
 
 
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
+
+
 	
 -LOGOUT link e' brutto
-
+									=> Bootstrap?
 -FOOTER non si attacca al fondo
 
 
 -JAVADOC
+
+~annotations:
+@Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
+	per' non funziona! magari serve interfaccia per i servizi
+
 
 ~se non c'e' nessuna expreg, invitare utente a crearne
 

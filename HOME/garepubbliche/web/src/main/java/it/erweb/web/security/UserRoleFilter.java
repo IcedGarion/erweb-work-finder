@@ -19,6 +19,10 @@ public class UserRoleFilter implements Filter
     public void init(FilterConfig cfg) throws ServletException
     { }
 
+    /**
+     * Filters the requested page:
+     *     checks for permission (user id stored in session) and redirects to login page if necessary
+     */
     @Override
     public void doFilter(ServletRequest req, ServletResponse response, FilterChain next) throws IOException, ServletException
     {
@@ -26,9 +30,7 @@ public class UserRoleFilter implements Filter
         String path = ((HttpServletRequest) request).getRequestURI();
                 
         //esclude dal controllo login, register e "/"
-        if(path.matches("^.+?login.xhtml$")
-        		|| path.matches("^.+?register.xhtml$")
-        		|| path.equals(request.getContextPath() + "/"))
+        if(path.matches("^.+?login.xhtml$") || path.matches("^.+?register.xhtml$") || path.equals(request.getContextPath() + "/"))
         {
             next.doFilter(request, response);
         }

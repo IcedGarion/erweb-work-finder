@@ -23,9 +23,10 @@ public class ExpregView implements Serializable
 	private String expregPlus;
 	
 	private String expregMinus;
-	
-	private static final long serialVersionUID = 4299482300749221518L;
-	
+		
+	/**
+	 * 	Prepares the expregs, loads current user's preferences
+	 */
 	@PostConstruct
     public void init()
 	{
@@ -33,7 +34,11 @@ public class ExpregView implements Serializable
 		expregMinus = expregService.createMinus();
     }
 	
-	//chiamato dalla view a ogni page load
+	/**
+	 * Prepares the expregs, loads current user's preferences: event called on page load
+	 * 
+	 * @param event	Event calling the action
+	 */
 	public void init(ComponentSystemEvent event)
 	{
 		init();
@@ -69,6 +74,11 @@ public class ExpregView implements Serializable
 		return this.expregMinus;
 	}
 	
+	/**
+	 *  Updates current user's PLUS expreg, reading data from the view form and preparing the view "ok" message
+	 * 
+	 * @param actionEvent
+	 */
 	public void updatePlus(ActionEvent actionEvent)
 	{
 		expregService.updatePlus(expregPlus);
@@ -76,6 +86,11 @@ public class ExpregView implements Serializable
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
+	/**
+	 * Updates current user's MINUS expreg, reading data from the view form and preparing the view "ok" message
+	 * 
+	 * @param actionEvent
+	 */
 	public void updateMinus(ActionEvent actionEvent)
 	{
 		expregService.updateMinus(expregMinus);

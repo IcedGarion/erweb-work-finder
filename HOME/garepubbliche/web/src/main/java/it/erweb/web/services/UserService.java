@@ -114,16 +114,27 @@ public class UserService
 		return loggedIn;
 	}
 	
+	/**
+	 * Updates current user's Email, saving the new one on the database
+	 * 
+	 * @param newMail	the new mail to be updated
+	 */
 	public void updateMail(String newMail)
 	{
 		update("email", newMail);
 	}
 	
+	/**
+	 * Updates current user's Password, saving the new one on the database
+	 * 
+	 * @param newPass	the new password to be updated
+	 */
 	public void updatePassword(String newPass)
 	{
 		update("password", newPass);
 	}
 	
+	//Recaps the prevoius functions in one single method
 	private void update(String key, String value)
 	{
 		long cdUtente;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.data.Expreg;
 import it.erweb.web.data.Utente;
@@ -77,19 +76,29 @@ public class ExpregService implements Serializable
 		return ret;
 	}
 	
+	/**
+	 *  Updates current user's PLUS regex, storing the new one on the database
+	 * 
+	 * @param newRegex    the new regular expression to be stored
+	 */
 	public void updatePlus(String newRegex)
 	{
 		boolean isPlus = true;
 		update(isPlus, newRegex);
 	}
 	
+	/**
+	 *  Updates current user's MINUS regex, storing the new one in the database
+	 * 
+	 * @param newRegex    the new regular expression to be stored
+	 */
 	public void updateMinus(String newRegex)
 	{
 		boolean isPlus = false;
 		update(isPlus, newRegex);
 	}
 	
-	@Transactional
+	//Refactors the regex update functions: all-in-one
 	private void update(boolean isPlus, String newRegex)
 	{
 		Expreg old;
