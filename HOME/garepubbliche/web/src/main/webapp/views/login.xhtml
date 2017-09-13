@@ -9,7 +9,7 @@
 	<title>Login</title>
 </h:head>
 
-<body>
+<h:body>
 	<!-- Chiama evento per cercare se ci sono messaggi da mostrare (accessi non autorizzati) -->
 	<f:event listener="#{userView.messageCheck}" type="preRenderView" />
 	
@@ -22,11 +22,12 @@
 			<p:growl id="messages"></p:growl>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Username:"></p:outputLabel>
-				<p:inputText value="#{userView.username}" required="true"></p:inputText>
+				<p:inputText value="#{userView.username}" label ="Username" required="true"
+					requiredMessage="Inserire Username!"></p:inputText>
 
 				<h:outputLabel for="pwd" value="Password:" />
 				<p:password id="pwd" value="#{userView.password}" label="Password"
-					required="true" />
+					required="true" requiredMessage="Inserire Password!"/>
 			</p:panelGrid>
 			<p:commandButton value="Login" action="#{userView.login}"
 				update="messages"></p:commandButton>
@@ -37,5 +38,5 @@
 		<p:button outcome="/views/register.xhtml" value="Registra" />
 
 	</div>
-</body>
+</h:body>
 </html>

@@ -12,13 +12,8 @@ DA FARE:
 
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
-
--SICUREZZA! doFilter: messaggio nella login se non sei loggato
-
 	
--VALIDAZIONE CAMPI:
-es, login se lasci bianca password viene fuori un errore: come si scrive dentro quello che si vuole?
-
+-Logout link e' brutto
 
 
 -JAVADOC

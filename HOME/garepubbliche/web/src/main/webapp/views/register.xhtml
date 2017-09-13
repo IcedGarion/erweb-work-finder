@@ -1,15 +1,14 @@
-<ui:composition template="/WEB-INF/template.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="title">
-        Registra nuovo utente
-    </ui:define>
+<h:head>
+    <title>Registra nuovo utente</title>
+</h:head>
 
-    <ui:define name="content">
+    <h:body>
         <h1>Registra nuovo utente</h1>
 
 		<!-- Form registrazione -->
@@ -17,22 +16,23 @@
 			<p:growl id="messages"></p:growl>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Username: *"></p:outputLabel>
-				<p:inputText value="#{userView.utente.username}"></p:inputText>
+				<p:inputText value="#{userView.utente.username}" required="true" requiredMessage="Inserire Username!"></p:inputText>
 
 				<p:outputLabel value="Email: *"></p:outputLabel>
-				<p:inputText value="#{userView.utente.email}"></p:inputText>
+				<p:inputText value="#{userView.utente.email}" required="true" requiredMessage="Inserire Email!"></p:inputText>
 
 				<h:outputLabel for="pwd1" value="Password: *" />
 				<p:password id="pwd1" value="#{userView.utente.password}"
-					match="pwd2" label="Password 1" required="true" />
+					match="pwd2" label="Password" required="true" requiredMessage="Inserire Password!"
+					validatorMessage="Le password non corispondono!"/>
 
 				<h:outputLabel for="pwd2" value="Conferma Password: *" />
 				<p:password id="pwd2" value="#{userView.utente.password}"
-					label="Password 2" required="true" />
+					label="ConfermaPassword" required="true" requiredMessage="Confermare Password!"/>
 			</p:panelGrid>
 			
 			<p:commandButton value="Register" action="#{userView.register}"
 				update="messages"></p:commandButton>
 		</h:form>
-	</ui:define>
-</ui:composition>
+	</h:body>
+</html>

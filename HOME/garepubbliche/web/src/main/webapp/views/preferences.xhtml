@@ -59,7 +59,7 @@
 					<p:growl id="messages"></p:growl>
 					<p:panelGrid columns="2">
 						<p:outputLabel value="Email: *"></p:outputLabel>
-						<p:inputText value="#{userView.utente.email}"></p:inputText>
+						<p:inputText value="#{userView.utente.email}" required="true" requiredMessage="Inserire Email!"></p:inputText>
 					</p:panelGrid>
 					<p:commandButton value="Aggiorna Email"
 						actionListener="#{userView.updateMail}" update="messages"></p:commandButton>
@@ -70,14 +70,15 @@
 					<p:panelGrid columns="2">
 						<h:outputLabel for="pwd1" value="Password: *" />
 						<p:password id="pwd1" value="#{userView.utente.password}"
-							match="pwd2" label="Password 1" required="true" />
+							match="pwd2" label="Password" required="true" requiredMessage="Inserire Password!"
+							validatorMessage="Le password non corispondono!"/>
 
 						<h:outputLabel for="pwd2" value="Conferma Password: *" />
 						<p:password id="pwd2" value="#{userView.utente.password}"
-							label="Password 2" required="true" />
+							label="ConfermaPassword" required="true" requiredMessage="Confermare Password!"/>
 					</p:panelGrid>
 					<p:commandButton value="Aggiorna Password"
-						actionListener="#{userView.updatePassword}" update="messages"></p:commandButton>
+						actionListener="#{userView.updatePassword}" update="messages" requiredMessage="Confermare Password!"></p:commandButton>
 				</h:form>
 			</div>
 		</div>
