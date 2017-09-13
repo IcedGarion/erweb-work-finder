@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 
 import it.erweb.web.data.Bando;
 import it.erweb.web.services.BandiService;
@@ -31,6 +32,11 @@ public class BandiView implements Serializable
 	{
         userBans = bandiService.createUserBans();
     }
+	
+	public void init(ComponentSystemEvent event)
+	{
+		init();
+	}
 	
 	public void setBandiService(BandiService banServ)
 	{

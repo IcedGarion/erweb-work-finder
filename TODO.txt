@@ -10,10 +10,28 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+
+-ANNOTATIONS: service, repository e non "component" ovunque!
+magari serve interfaccia per i servizi
+@Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
+
+-PLUSANTE "fai girare il crawler" di fianco a modifica expregs
+
+-BANDI: ci deve essere sia lo storico di tutti i bandi, sia "nuovi bandi" (come capire quali nuovi???)
+	Metti checkbox (con pulsante?) in Bandi 
+	Metti magari dropdown menu su bandi
+
+-PAGINARE BANDI, magari anche ordinare... vedi PrimeFaces
+
+
+
+
 -TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
 	
--Logout link e' brutto
+-LOGOUT link e' brutto
+
+-FOOTER non si attacca al fondo
 
 
 -JAVADOC
@@ -24,14 +42,6 @@ DA FARE:
 
 ...Se ti logghi, esci e poi registri lascia il form pieno... chiama evento
 
-
-
-
-~SESSION cdUtente: va bene cosi'???
-
-
-
-~CAMBIO ANCHE USERNAME? -> 
 
 
 

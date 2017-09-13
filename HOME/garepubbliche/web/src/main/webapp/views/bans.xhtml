@@ -10,40 +10,43 @@
     </ui:define>
 
     <ui:define name="content">
+    	<!-- Chiama evento per caricare i dati della tabella (cambio utente) -->
+		<f:event listener="#{bandiView.init}" type="preRenderView" />
+		
         <h1>Lista Bandi</h1>
 
 		<!-- Tabella bandi utente -->
 		<div>
 			<p:dataTable var="ban" value="#{bandiView.userBans}">
-				<p:column headerText="cig">
+				<p:column headerText="CIG">
 					<h:outputText value="#{ban.cig}" />
 				</p:column>
 
-				<p:column headerText="date">
+				<p:column headerText="Data di inserimento">
 					<h:outputText value="#{ban.dtInserimento}" />
 				</p:column>
 
-				<p:column headerText="tipoRichiedente">
+				<p:column headerText="Tipologia richiedente">
 					<h:outputText value="#{ban.tiporichiedente}" />
 				</p:column>
 
-				<p:column headerText="richiedente">
+				<p:column headerText="Nome richiedente">
 					<h:outputText value="#{ban.nmRichiedente}" />
 				</p:column>
 
-				<p:column headerText="scadenza">
+				<p:column headerText="Scadenza">
 					<h:outputText value="#{ban.scadenza}" />
 				</p:column>
 
-				<p:column headerText="tipo">
+				<p:column headerText="Tipo di bando">
 					<h:outputText value="#{ban.tipo}" />
 				</p:column>
 
-				<p:column headerText="url">
-					<h:outputLink value="#{ban.url}">#{ban.url}</h:outputLink>
+				<p:column headerText="URL">
+					<h:outputLink value="#{ban.url}" target="_blank">#{ban.url}</h:outputLink>
 				</p:column>
 
-				<p:column headerText="oggetto">
+				<p:column headerText="Oggetto del bando">
 					<h:outputText value="#{ban.oggetto}" />
 				</p:column>
 

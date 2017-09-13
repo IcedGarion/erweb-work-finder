@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.erweb.web.data.Expreg;
 import it.erweb.web.data.Utente;
@@ -88,6 +89,7 @@ public class ExpregService implements Serializable
 		update(isPlus, newRegex);
 	}
 	
+	@Transactional
 	private void update(boolean isPlus, String newRegex)
 	{
 		Expreg old;
