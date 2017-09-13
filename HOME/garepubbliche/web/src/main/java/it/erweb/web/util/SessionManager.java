@@ -12,56 +12,47 @@ public class SessionManager
 	
 	public static Object getSessionUser()
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		
-		return session.getAttribute(USER_ID_ATTRIBUTE);
+		return getFacesSession().getAttribute(USER_ID_ATTRIBUTE);
 	}
 	
 	public static Object getSessionUser(HttpServletRequest request)
 	{
-		HttpSession session = (HttpSession) request.getSession(true);
-		
-		return session.getAttribute(USER_ID_ATTRIBUTE);
+		//usato dal filtro (-> no facesContext)		
+		return request.getSession(true).getAttribute(USER_ID_ATTRIBUTE);
 	}
 	
 	public static void removeSessionUser()
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		
-		session.removeAttribute(USER_ID_ATTRIBUTE);
+		getFacesSession().removeAttribute(USER_ID_ATTRIBUTE);
 	}
 
 	public static void setSessionUser(long cdUtente, String username)
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-
+		HttpSession session = getFacesSession();
 		session.setAttribute(USER_ID_ATTRIBUTE, cdUtente);
 		session.setAttribute(USER_NAME_ATTRIBUTE, username);
 	}
 	
 	public static void setLoginMessage(HttpServletRequest request, String message)
 	{
-		HttpSession session = (HttpSession) request.getSession(true);
-
-		session.setAttribute(LOGIN_MESSAGE_ATTRIBUTE, message);
+		//usato dal filtro (-> no facesContext)
+		request.getSession(true).setAttribute(LOGIN_MESSAGE_ATTRIBUTE, message);
 	}
 	
 	public static Object getLoginMessage()
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-
-		return session.getAttribute(LOGIN_MESSAGE_ATTRIBUTE);
+		return getFacesSession().getAttribute(LOGIN_MESSAGE_ATTRIBUTE);
 	}
 	
 	public static void removeLoginMessage()
 	{
+		getFacesSession().removeAttribute(LOGIN_MESSAGE_ATTRIBUTE);
+	}
+	
+	//raccoglie le funzioni e crea la session
+	private static HttpSession getFacesSession()
+	{
 		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		
-		session.removeAttribute(LOGIN_MESSAGE_ATTRIBUTE);
+		return (HttpSession) context.getExternalContext().getSession(true);
 	}
 }
