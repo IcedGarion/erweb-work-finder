@@ -1,5 +1,6 @@
 <ui:composition template="/WEB-INF/template.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -10,13 +11,70 @@
     </ui:define>
 
     <ui:define name="content">
-    	<!-- Chiama evento per caricare i dati della tabella (cambio utente) -->
-		<f:event listener="#{bandiView.init}" type="preRenderView" />
+    
 		
         <h1>Lista Bandi</h1>
 
-		<!-- Tabella bandi utente -->
 		<div>
+			<c:choose>
+
+				<c:when test="#{empty bandiView.userBans}">
+					<br /><h2>Nessun Bando Trovato!</h2><br />
+					<h4>
+						Non ci sono bandi che corrispondono ai parametri inseriti: <br />
+						Prova a cambiare espressioni regolari
+					</h4>
+				</c:when>
+
+				<c:otherwise>
+					<!-- TABELLA BANDI PAGINATA -->
+					<h:form>
+						<p:dataTable var="ban" value="#{bandiView.userBans}" rows="7"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+							rowsPerPageTemplate="10">
+							<p:column headerText="CIG">
+								<h:outputText value="#{ban.cig}" />
+							</p:column>
+
+							<p:column headerText="Data di inserimento">
+								<h:outputText value="#{ban.dtInserimento}" />
+							</p:column>
+
+							<p:column headerText="Tipologia richiedente">
+								<h:outputText value="#{ban.tiporichiedente}" />
+							</p:column>
+
+							<p:column headerText="Nome richiedente">
+								<h:outputText value="#{ban.nmRichiedente}" />
+							</p:column>
+
+							<p:column headerText="Scadenza">
+								<h:outputText value="#{ban.scadenza}" />
+							</p:column>
+
+							<p:column headerText="Tipo di bando">
+								<h:outputText value="#{ban.tipo}" />
+							</p:column>
+
+							<p:column headerText="URL">
+								<h:outputLink value="#{ban.url}" target="_blank">#{ban.url}</h:outputLink>
+							</p:column>
+
+							<p:column headerText="Oggetto del bando">
+								<h:outputText value="#{ban.oggetto}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</c:otherwise>
+			</c:choose>
+
+
+
+
+
+			<!-- Tabella bandi utente 
+		
 			<p:dataTable var="ban" value="#{bandiView.userBans}">
 				<p:column headerText="CIG">
 					<h:outputText value="#{ban.cig}" />
@@ -51,6 +109,7 @@
 				</p:column>
 
 			</p:dataTable>
+			-->
 		</div>
 	</ui:define>
 </ui:composition>

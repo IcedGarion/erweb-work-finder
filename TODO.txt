@@ -11,7 +11,7 @@ DA CHIEDERE:
 DA FARE:
 
 
--ANNOTATIONS: service, repository e non "component" ovunque!
+-ANNOTATIONS:
 magari serve interfaccia per i servizi
 @Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
 
