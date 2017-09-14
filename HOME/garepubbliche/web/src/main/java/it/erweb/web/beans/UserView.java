@@ -199,4 +199,14 @@ public class UserView
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
+	
+	/**
+	 * Removes current user's data from the bean. Called on register page 
+	 * 
+	 * @param event
+	 */
+	public void clean(ComponentSystemEvent event)
+	{
+		utente = new Utente();
+	}
 }

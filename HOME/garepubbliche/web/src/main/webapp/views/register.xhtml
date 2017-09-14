@@ -9,6 +9,9 @@
 </h:head>
 
     <h:body>
+    	<!-- Chiama evento per pulire il form dall'utente precedente -->
+		<f:event listener="#{userView.clean}" type="preRenderView" />
+        
         <h1>Registra nuovo utente</h1>
 
 		<!-- Form registrazione -->

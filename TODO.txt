@@ -10,6 +10,7 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
+~serialversionUID / classNotFound??
 -ANNOTATIONS:	errore java.lang.ClassNotFoundException: it.erweb.web.repository.JpaDao$$EnhancerBySpringCGLIB$$4ddf29a
 @Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
 	per' non funziona! magari serve interfaccia per i servizi
@@ -29,19 +30,6 @@ DA FARE:
 -LOGOUT link e' brutto
 									=> Bootstrap?
 -FOOTER non si attacca al fondo
-
-
-
-
-
-
-~se non c'e' nessuna expreg, invitare utente a crearne
-
-~serialversionUID / classNotFound??
-
-...Se ti logghi, esci e poi registri lascia il form pieno... chiama evento
-
-
 
 
 
