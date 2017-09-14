@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+    	<!-- W3C.CSS -->
+    	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" /> 
+    	
+    	
+    	<h:outputStylesheet library="css" name="StyleSheet.css"  />
+    	<c:set var="root" value="#{request.contextPath}/views" />
+    	<script name="jquery/jquery.js" library="primefaces"></script>
+        <title><ui:insert name="title"></ui:insert></title>
+    </h:head>
+    
+    <h:body>	
+		<!-- Header -->
+		<header class="w3-container w3-teal"><ui:insert name="header"></ui:insert></header>
+		<!-- Content -->
+        <div class="w3-container main"><ui:insert name="content"></ui:insert></div>
+        <!-- Footer -->
+        <footer class="w3-container w3-teal footer"><br />garepubbliche-web  -  <b>erweb 2017</b></footer>
+    </h:body>
+</html>

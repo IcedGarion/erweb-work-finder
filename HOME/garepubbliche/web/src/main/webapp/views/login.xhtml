@@ -1,41 +1,44 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template_nomenu.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<script name="jquery/jquery.js" library="primefaces"></script>
-	<title>Login</title>
-</h:head>
+	 <ui:define name="title">Login</ui:define>
+	 
+	 <ui:define name="header"><h1>Login</h1></ui:define>
+	 
+	 <ui:define name="content">
+		<!-- Chiama evento per cercare se ci sono messaggi da mostrare (accessi non autorizzati) -->
+		<f:event listener="#{userView.messageCheck}" type="preRenderView" />
 
-<h:body>
-	<!-- Chiama evento per cercare se ci sono messaggi da mostrare (accessi non autorizzati) -->
-	<f:event listener="#{userView.messageCheck}" type="preRenderView" />
-	
-	<div id="login">
+		<br /><br />
+		<div class="login">
 
-		<h1>Login Form</h1>
+			<h1>Login Form</h1>
+			<!-- Login Form -->
+			<h:form>
+				<p:growl id="messages"></p:growl>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Username:"></p:outputLabel>
+					<p:inputText value="#{userView.username}" label="Username"
+						required="true" requiredMessage="Inserire Username!"></p:inputText>
 
-		<!-- Login Form -->
-		<h:form>
-			<p:growl id="messages"></p:growl>
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Username:"></p:outputLabel>
-				<p:inputText value="#{userView.username}" label ="Username" required="true"
-					requiredMessage="Inserire Username!"></p:inputText>
+					<h:outputLabel for="pwd" value="Password:" />
+					<p:password id="pwd" value="#{userView.password}" label="Password"
+						required="true" requiredMessage="Inserire Password!" />
+				</p:panelGrid>
+				<p:commandButton value="Login" action="#{userView.login}"
+					update="messages"></p:commandButton>
+			</h:form>
+			<br />
+			<br />
+			<!-- Pulsante registrazione -->
+			<h2>OPPURE</h2>
+			<p:button outcome="/views/register.xhtml" value="Registra" />
 
-				<h:outputLabel for="pwd" value="Password:" />
-				<p:password id="pwd" value="#{userView.password}" label="Password"
-					required="true" requiredMessage="Inserire Password!"/>
-			</p:panelGrid>
-			<p:commandButton value="Login" action="#{userView.login}"
-				update="messages"></p:commandButton>
-		</h:form>
-
-		<!-- Pulsante registrazione -->
-		<h2>OPPURE</h2>
-		<p:button outcome="/views/register.xhtml" value="Registra" />
-
-	</div>
-</h:body>
-</html>
+		</div>
+	</ui:define>
+	 
+</ui:composition>

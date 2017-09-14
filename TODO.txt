@@ -16,10 +16,6 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
-footer, login/register col loro template_empty. link a blu
-
-
-
 ~serialversionUID / classNotFound??
 -ANNOTATIONS:	errore java.lang.ClassNotFoundException: it.erweb.web.repository.JpaDao$$EnhancerBySpringCGLIB$$4ddf29a
 @Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
@@ -32,6 +28,8 @@ footer, login/register col loro template_empty. link a blu
 
 	
 -RITESTARE CRAWLER
+
+
 
 
 

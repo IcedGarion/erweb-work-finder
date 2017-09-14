@@ -39,15 +39,15 @@
 	<!-- Exception Handling -->
 	<error-page>
     	<error-code>404</error-code>
-    	<location>/WEB-INF/errorPages/404.html</location>
+    	<location>/WEB-INF/errorPages/404.jsp</location>
 	</error-page>
 	<error-page>
     <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-    	<location>/WEB-INF/errorPages/404.html</location>
+    	<location>/WEB-INF/errorPages/404.jsp</location>
 	</error-page>
 	<error-page>
     	<error-code>500</error-code>
-    	<location>/WEB-INF/errorPages/500.html</location>
+    	<location>/WEB-INF/errorPages/500.jsp</location>
 	</error-page>
 
 	<!-- Security: applica filtro a tutte le views -->
