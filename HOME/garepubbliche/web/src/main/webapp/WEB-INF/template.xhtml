@@ -7,6 +7,10 @@
     xmlns:p="http://primefaces.org/ui">
     
     <h:head>
+    	<!-- W3C.CSS -->
+    	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" /> 
+    	
+    	
     	<h:outputStylesheet library="css" name="StyleSheet.css"  />
     	<c:set var="root" value="#{request.contextPath}/views" />
     	<script name="jquery/jquery.js" library="primefaces"></script>
@@ -14,23 +18,29 @@
     </h:head>
     
     <h:body>
-        <div id="menu">
-		<ul>
-			<li><a href="#{root}/index.xhtml">Home</a></li>
-			<li><a href="#{root}/preferences.xhtml">Preferenze</a></li>
-			<li><a href="#{root}/bans.xhtml">Bandi</a></li>
-			<li><span>|</span></li>
-			<li><span>@#{username}</span></li>
-			<li>
+    	<!-- MENU' -->
+        <div class="w3-bar w3-black head">	
+			<a href="#{root}/index.xhtml" class="w3-bar-item w3-button w3-hover-teal">Home</a>
+			<a href="#{root}/preferences.xhtml" class="w3-bar-item w3-button w3-hover-teal">Preferenze</a>
+			<a href="#{root}/bans.xhtml" class="w3-bar-item w3-button w3-hover-teal">Bandi</a>
+			<span class="w3-bar-item">|</span>
+			<span class="w3-bar-item">@#{username}</span>
+			<span class="w3-bar-item w3-button w3-hover-teal">
 				<h:form>
 					<p:commandLink id="logout" action="#{userView.logout}" ajax="false">
-	    	    		<h:outputText value="Logout" styleClass="logout"/>
-				    </p:commandLink>
-		    	</h:form>
-    		</li>
-		</ul>
-	</div>
-        <div id="content"><ui:insert name="content"></ui:insert></div>
-        <div id="footer"><br />garepubbliche-web  -  <b>erweb 2017</b></div>
+						<h:outputText value="Logout" styleClass="head" />
+					</p:commandLink>
+				</h:form>
+			</span>
+			
+		</div>
+			
+		<!-- Header -->
+		<header class="w3-container w3-teal"><ui:insert name="header"></ui:insert></header>
+		<!-- Content -->
+        <div class="w3-container"><ui:insert name="content"></ui:insert></div>
+        <!-- Footer -->
+        <div class="clear"></div>
+        <footer class="w3-container w3-teal footer"><br />garepubbliche-web  -  <b>erweb 2017</b></footer>
     </h:body>
 </html>

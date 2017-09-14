@@ -3,12 +3,22 @@ DA CHIEDERE:
 -DATI MAIL? user pass mittente?
 
 
--NOTIFICHE: se invii mail appena gira crawler, non ci sara' mai nessun bando "DA_INVIARE":
-	quindi nella tabella bandi cosa si espone di preciso? bandi di data piu' recente di, esempio, un mese?
+-NOTIFICHE: se invii mail appena gira crawler, non ci sara' mai nessun bando "DA_INVIARE" (perche' se riesce a inviare mail va in "INVIATO"):
+	quindi nella tabella bandi (nuovi) cosa si espone di preciso? bandi di data piu' recente di, esempio, un mese?
 	
 	Comunque basta cambiare una query (BandiService.createUserBans())
+	
+-definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
+
+-File necessari al jar? (crawler) cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
+
+-scheduling crawler?
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
+
+footer, login/register col loro template_empty. link a blu
+
+
 
 ~serialversionUID / classNotFound??
 -ANNOTATIONS:	errore java.lang.ClassNotFoundException: it.erweb.web.repository.JpaDao$$EnhancerBySpringCGLIB$$4ddf29a
@@ -26,12 +36,6 @@ DA FARE:
 
 
 
-	
--LOGOUT link e' brutto
-									=> Bootstrap?
--FOOTER non si attacca al fondo
-
-
 
 
 -TESI:
@@ -45,14 +49,7 @@ DA FARE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ALTRO
 
-
+si puo' sempre migliorare il training: c'e' il branch weka apposta
 Riprova training agente con il db nuovo
 htecnopol iici deve matchare (DB DATO)
-
-DA CHIEDERE
-	definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
-	(e anche NOTIFICA_UTENTE)
-
-
-DA FARE POI
-	-File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
+	

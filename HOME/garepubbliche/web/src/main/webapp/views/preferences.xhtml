@@ -9,13 +9,16 @@
     <ui:define name="title">
         Configurazioni
     </ui:define>
+    
+    <ui:define name="header">
+    	<h1>Configurazioni</h1>
+    </ui:define>
 
     <ui:define name="content">
     	<!-- Chiama evento per caricare i dati dei form appena carica la pagina -->
 		<f:event listener="#{expregView.init}" type="preRenderView" />
-	
-        <h1>Configurazioni</h1> <br />
-	
+		<br />
+		
 		<div id="container">
 			<div id="left">
 				<!-- Espressioni regolari -->

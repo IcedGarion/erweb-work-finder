@@ -1,41 +1,10 @@
 /*MENU*/
-ul
-{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333;
-	height: 45px;
-}
-
-li
-{
-	float: left;
-}
-
-li a, li p, li span
-{
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-}
-
-li a, li p, .logout
+.head
 {
 	font-family: Constantia;
 	font-size: medium;
+	height: 40px;
 }
-
-/* Change the link color to #111 (black) on hover */
-li a:hover
-{
-	background-color: #111;
-}
-
-
 
 /*LOGIN*/
 #login
@@ -69,14 +38,12 @@ li a:hover
 }
 
 /*FOOTER*/
-#footer
+.clear
 {
-    position: fixed;
-    bottom: 0;
-    margin-bottom: 10px;
-    height: 50px;
-    color: whitesmoke;
-    background-color: #333;
-    width: 99%;
-    text-align: center;
+	height: 10px;	
+}
+
+.footer
+{
+   text-align: center;
 }

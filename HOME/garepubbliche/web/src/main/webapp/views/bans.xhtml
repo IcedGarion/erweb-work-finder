@@ -10,12 +10,13 @@
         Lista Bandi
     </ui:define>
 
-    <ui:define name="content">
+	<ui:define name="header">
+    	<h1>Lista Bandi</h1>
+    </ui:define>
     
-		
-        <h1>Lista Bandi</h1>
-
+    <ui:define name="content">
 		<div>
+			<br />
 			<c:choose>
 
 				<c:when test="#{empty bandiView.userBans}">
