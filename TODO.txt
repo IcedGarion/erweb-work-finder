@@ -10,17 +10,18 @@ DA CHIEDERE:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
--BANDI FILTRO:
-	c'e' ma non viene chiamata la init(ActionListener) dal commandbutton.... DEBUG!
-	Ma poi perche' la getUserBans viene chiamata 5 volte??!?!?!
-	
-	Metti magari anche dropdown menu su bandi
+-ANNOTATIONS:	errore java.lang.ClassNotFoundException: it.erweb.web.repository.JpaDao$$EnhancerBySpringCGLIB$$4ddf29a
+@Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
+	per' non funziona! magari serve interfaccia per i servizi
 
 
 -PLUSANTE "fai girare il crawler" di fianco a modifica expregs
+	per ora anche se cambi expregs, te le applica solo ai nuovi bandi che devono usicre
+	anche se rifai girare crawler, per ora non ricalcola tutte le expregs su tutti i bandi! (anche perche' sono tantissimi)
 
+	
+-RITESTARE CRAWLER
 
--TESTARE CRAWLER: tanti utenti con expregs vuote non deve crashare
 
 
 
@@ -32,9 +33,6 @@ DA FARE:
 
 
 
-~annotations:
-@Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
-	per' non funziona! magari serve interfaccia per i servizi
 
 
 ~se non c'e' nessuna expreg, invitare utente a crearne
@@ -70,33 +68,3 @@ DA CHIEDERE
 
 DA FARE POI
 	-File necessari al jar? cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
-
-
-
-
-
-
-
-
-INFO: Connecting to: http://www.gazzettaufficiale.it/atto/contratti/caricaDettaglioAtto/originario;jsessionid=ZRcG7OB7samApQPSTInT3A__.ntc-as4-guri2b?atto.dataPubblicazioneGazzetta=2017-06-26&atto.codiceRedazionale=TX17BFF10843 ...
-org.apache.http.client.ClientProtocolException
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:187)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
-	at it.erweb.crawler.httpClientUtil.HttpGetter.get(HttpGetter.java:30)
-	at it.erweb.crawler.main.Main.main(Main.java:101)
-Caused by: org.apache.http.client.CircularRedirectException: Circular redirect to 'http://www.gazzettaufficiale.it/error'
-	at org.apache.http.impl.client.DefaultRedirectStrategy.getLocationURI(DefaultRedirectStrategy.java:177)
-	at org.apache.http.impl.client.DefaultRedirectStrategy.getRedirect(DefaultRedirectStrategy.java:221)
-	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:122)
-	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
-	... 4 more
-	
-	
-	
-
-	
-
-
-459/1074 NULL CIGs	-->	57% CIG
-204/1074 NULL OBJs	-->	81% OBJ

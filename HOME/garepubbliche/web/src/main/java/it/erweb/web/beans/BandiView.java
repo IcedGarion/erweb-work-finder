@@ -18,7 +18,7 @@ import it.erweb.web.services.BandiService;
 @SessionScoped
 public class BandiView implements Serializable
 {
-	public static final long serialVersionUID = -1009005971932991857L;
+	public static final long serialVersionUID = -926624460350620171L;
 	
 	@ManagedProperty("#{bandiService}")
 	private BandiService bandiService;

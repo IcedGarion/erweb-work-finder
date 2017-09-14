@@ -7,16 +7,32 @@
     xmlns:f="http://java.sun.com/jsf/core">
 
 	<ui:define name="title">
-    	Index
+    	Home
     </ui:define>
 
     <ui:define name="content">
     	<c:set var="root" value="#{request.contextPath}/views" />
     	
-    	<h1>Index</h1>
+    	<h1>Home</h1> <br />
 
 		<div>
-			<h2>Descrizione funzionalita' del sito?</h2>
+			<h3>Gestione garepubbliche - Descrizione:</h3>
+			<p>In queste pagine e' possibile visualizzare tutti i bandi pubblici che rispettano
+			    le espressioni regolari precedentemente definite;<br />
+			    si possono modificare i parametri delle espressioni e i dati dell'utente, oltre a registrare nuovi utenti <br /> <br />
+			    <a href="#{request.contextPath}/views/preferences.xhtml">Preferenze</a>:
+				Modifica le espressioni regolari e i dati utente <br />
+				<a href="#{request.contextPath}/views/bans.xhtml">Bandi</a>:
+				Visualizza i nuovi bandi che rispettano i parametri e lo storico di tutti i bandi che hanno fatto match
+				<br /> <br /> <br />
+			    <b>IMPORTANTE!</b><br /> I bandi vengono analizzati con una certa frequenza giornaliera
+			    	quindi, anche in seguito all'aggiornamento delle espressioni regolari, e' probabile
+			    	che i risultati non vengano aggiornati immediatamente. <br />
+			    	Inoltre, attualmente, l'aggiornamento delle espressioni regolari coinvolge soltanto i nuovi bandi da analizzare:
+			    	lo storico dei bandi non viene analizzato nuovamente a ogni modifica ma rimane sempre lo stesso. 
+			    <br /> <br />
+			    </p>
+			    
 			
 		</div>
     </ui:define>
