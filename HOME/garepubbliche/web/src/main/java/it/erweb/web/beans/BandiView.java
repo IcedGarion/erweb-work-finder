@@ -18,12 +18,14 @@ import it.erweb.web.services.BandiService;
 @SessionScoped
 public class BandiView implements Serializable
 {
+	public static final long serialVersionUID = -1009005971932991857L;
+	
 	@ManagedProperty("#{bandiService}")
 	private BandiService bandiService;
 	
 	private List<Bando> userBans;
 	
-	private String filter;
+	private String filter = "new";
 	
 	/**
 	 *  Creates the list of current logged-in user's Bans that needs to be notified;

@@ -36,7 +36,8 @@
 								<f:selectItem itemLabel="Tutti i bandi" itemValue="all" />
 								<f:selectItem itemLabel="Nuovi bandi" itemValue="new" />
 							</p:selectOneRadio>
-							<p:commandButton value="Filtra" actionListener="#{bandiView.init}" update=":tableForm:banTable"></p:commandButton>
+							<p:commandButton value="Filtra" update=":tableForm:banTable"></p:commandButton>
+							<!-- il bottone non ha action ma aggiorna soltanto la table; poi la table chiama gia' il metodo per aggiornare (getUserBans) -->
 						</h:panelGrid>
 					</h:form>
 					<br />

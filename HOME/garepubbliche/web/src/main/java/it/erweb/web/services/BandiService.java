@@ -54,12 +54,12 @@ public class BandiService implements Serializable
 			if(filter == null || filter.equals("new"))
 			{
 				query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
-						+ cdUtente + " ORDER BY b.dtInserimento";
+						+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";
 			}
 			else
 			{
 				query = "SELECT b FROM Bando b, Notifica n " + "WHERE n.id.cdBando = b.cdBando " + "AND n.id.cdUtente = "
-						+ cdUtente + " AND n.stato = 'DA_INVIARE' ORDER BY b.dtInserimento";
+						+ cdUtente + " ORDER BY b.dtInserimento";
 			}
 
 			try
