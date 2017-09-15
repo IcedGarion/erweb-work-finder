@@ -10,13 +10,10 @@ DA CHIEDERE:
 	
 -definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
 
--File necessari al jar? (crawler) cambio configurazioni per cambio paths (file di confg + arff + persistance prima in src/main/java e poi?)
-
 -scheduling crawler?
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
 
-~serialversionUID / classNotFound??
 -ANNOTATIONS:	errore java.lang.ClassNotFoundException: it.erweb.web.repository.JpaDao$$EnhancerBySpringCGLIB$$4ddf29a
 @Transactional va nei servizi e non nel dao (nei metodi dei servizi che fanno create/update
 	per' non funziona! magari serve interfaccia per i servizi

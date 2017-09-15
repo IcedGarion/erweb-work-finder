@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Server error</title>
+		<title>500 Server error</title>
 	<head>
 	
 	<body>

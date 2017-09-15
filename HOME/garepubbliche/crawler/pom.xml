@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- Progetto parent -->
 	<parent>
 		<groupId>it.erweb</groupId>
 		<artifactId>garepubbliche-parent</artifactId>
@@ -10,11 +11,13 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<!-- info sul jar -->
 	<artifactId>garepubbliche-crawler</artifactId>
 	<packaging>jar</packaging>
 	<name>garepubbliche-crawler</name>
 	<version>1.0.3</version>
 	  
+	 <!-- Setta proprieta' da riusare -->
 	<properties>
     	<maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
@@ -28,6 +31,7 @@
     		<version>4.5.3</version>
 		</dependency>
 		
+		<!-- JSoup html parsing -->
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
     		<groupId>org.jsoup</groupId>
@@ -35,6 +39,7 @@
     		<version>1.8.3</version>
 		</dependency>
 		
+		<!-- Weka -->
 		<!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable -->
 		<dependency>
     		<groupId>nz.ac.waikato.cms.weka</groupId>
@@ -56,7 +61,6 @@
     		<artifactId>javax.mail</artifactId>
     		<version>1.5.6</version>
 		</dependency>
-	
 	</dependencies>
 	
 	<build>
@@ -89,18 +93,26 @@
             			</configuration>
         			</execution>
     			</executions>
-			</plugin>	      		
+			</plugin>			   		
       	</plugins>
       	
       	<resources>  	
         	<resource>
 	            <directory>resources</directory>
-            	<targetPath>resources</targetPath>
+	            <targetPath>../resources</targetPath>
             	<includes>
-            		<include>persistence.xml</include>
             	    <include>crawler.config</include>
             	    <include>BandoTrain.arff</include>
             	    <include>BandoTest.arff</include>
+            	</includes>
+        	</resource>
+        	
+        	<!-- Include persistence.xml nel jar -->
+        	<resource>
+        		<directory>src/main/java/META-INF</directory>
+        		<targetPath>META-INF</targetPath>
+            	<includes>
+            		<include>persistence.xml</include>
             	</includes>
         	</resource>
         </resources>

@@ -1,11 +1,13 @@
 package it.erweb.crawler.database.repository;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import it.erweb.crawler.configurations.PropertiesManager;
 import it.erweb.crawler.database.model.AbstractModel;
 
 /**
@@ -24,9 +26,14 @@ public class JpaDao<T>
 	 */
 	public static void init() throws JpaException
 	{
+		Properties prop = new Properties();
+		
 		try
 		{
-			entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME);
+			prop.setProperty("hibernate.connection.username", PropertiesManager.DATABASE_USERNAME);
+			prop.setProperty("hibernate.connection.password", PropertiesManager.DATABASE_PASSWORD);
+			prop.setProperty("hibernate.connection.url", PropertiesManager.DATABASE_URL);
+			entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME, prop);
 			entityManager = entityManagerFactory.createEntityManager();
 		}
 		catch(Exception e)

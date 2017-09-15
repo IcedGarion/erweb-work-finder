@@ -1,0 +1,5 @@
+@relation weka_mymodel_model
+@attribute text string
+@attribute class {t,f}
+@data
+'appalto per l affidamento del servizio di contrasto all evasione tariffaria nelle linee ove tiemme spa opera - numero di riferimento: -',?

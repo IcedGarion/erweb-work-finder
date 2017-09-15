@@ -58,10 +58,17 @@ public class BandoService extends JpaDao<Bando>
 	 * @param newTesto	the new TESTO property value
 	 * @throws JpaException 
 	 */
-	public static void updateText(Bando ban, String newTesto) throws JpaException
+	public static void updateText(Bando ban, String newTesto)
 	{
-		ban.setTesto(newTesto);
-		update(ban);			
+		//il testo del bando potrebbe essere troppo lungo da salvare: lo salta
+		try
+		{
+			ban.setTesto(newTesto);
+			update(ban);
+		}
+		catch(Exception e)
+		{ }
+				
 	}
 
 	/**
@@ -71,10 +78,16 @@ public class BandoService extends JpaDao<Bando>
 	 * @param newCig	the new value of CIG property
 	 * @throws JpaException 
 	 */
-	public static void updateCig(Bando ban, String newCig) throws JpaException
+	public static void updateCig(Bando ban, String newCig)
 	{
-		ban.setCig(newCig);
-		update(ban);				
+		//cig potrebbe essere sbagliato
+		try
+		{
+			ban.setCig(newCig);
+			update(ban);
+		}
+		catch(Exception e)
+		{ }
 	}
 
 	/**
@@ -84,10 +97,15 @@ public class BandoService extends JpaDao<Bando>
 	 * @param newOggetto	the new value of the OGGETTO Ban's property
 	 * @throws JpaException 
 	 */
-	public static void updateObject(Bando ban, String newOggetto) throws JpaException
+	public static void updateObject(Bando ban, String newOggetto)
 	{
-		ban.setOggetto(newOggetto);
-		update(ban);
+		try
+		{
+			ban.setOggetto(newOggetto);
+			update(ban);
+		}
+		catch(Exception e)
+		{ }
 	}
 
 	/**
@@ -97,10 +115,15 @@ public class BandoService extends JpaDao<Bando>
 	 * @param newStato	the new value of STATO
 	 * @throws JpaException 
 	 */
-	public static void updateState(Bando ban, String newStato) throws JpaException
+	public static void updateState(Bando ban, String newStato)
 	{
-		ban.setStato(newStato);
-		update(ban);			
+		try
+		{
+			ban.setStato(newStato);
+			update(ban);
+		}
+		catch(Exception e)
+		{ }
 	}
 	
 	/**
@@ -110,10 +133,15 @@ public class BandoService extends JpaDao<Bando>
 	 * @param newDate	the new value of DT_INSERIMENTO
 	 * @throws JpaException 
 	 */
-	public static void updateDtInserimento(Bando ban, Date newDate) throws JpaException
+	public static void updateDtInserimento(Bando ban, Date newDate)
 	{
-		ban.setDtInserimento(newDate);
-		update(ban);			
+		try
+		{
+			ban.setDtInserimento(newDate);
+			update(ban);
+		}
+		catch(Exception e)
+		{ }
 	}
 
 	/**

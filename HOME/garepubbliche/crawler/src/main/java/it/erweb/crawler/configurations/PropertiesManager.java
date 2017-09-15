@@ -8,7 +8,7 @@ import java.util.Properties;
  */
 public class PropertiesManager
 {
-	private static final String PROPERTIES_FILE = "src/main/java/resources/crawler.config";
+	private static final String PROPERTIES_FILE = "resources/crawler.config";
 	public static int SYS_HTTP_GET_FREQUENCY;				//intervallo tra una richiesta e l'altra
 	public static String GAZZETTA_HOME_URL;					//home page gazzetta
 	public static String PUBLICATIONS_HOME_URL;				//home page pubblicazioni
@@ -41,6 +41,9 @@ public class PropertiesManager
 	public static String EMAIL_NOTIFICATIONBAN_SUBJECT;		//oggetto della mail
 	public static String EMAIL_NOTIFICATIONBAN_HEAD;		//prime righe della mail
 	public static String EMAIL_NOTIFICATIONBAN_TAIL;		//ultime righe della mail
+	public static String DATABASE_USERNAME;					//username per collegarsi al database
+	public static String DATABASE_PASSWORD;					//password per collegarsi al database
+	public static String DATABASE_URL;						//url del db
 	
 	/**
 	 * Loads all properties contained in the configuration file
@@ -92,5 +95,8 @@ public class PropertiesManager
 		EMAIL_NOTIFICATIONBAN_SUBJECT = prop.getProperty("EMAIL_NOTIFICATIONBAN_SUBJECT");
 		EMAIL_NOTIFICATIONBAN_HEAD = prop.getProperty("EMAIL_NOTIFICATIONBAN_HEAD");
 		EMAIL_NOTIFICATIONBAN_TAIL = prop.getProperty("EMAIL_NOTIFICATIONBAN_TAIL");
+		DATABASE_USERNAME = prop.getProperty("DATABASE_USERNAME");
+		DATABASE_PASSWORD = prop.getProperty("DATABASE_PASSWORD");
+		DATABASE_URL = prop.getProperty("DATABASE_URL");
 	}
 }
