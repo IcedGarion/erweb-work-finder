@@ -37,6 +37,7 @@
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 	</bean>
 
+	<bean id="appcontext" class="it.erweb.web.configurations.Initializer"/>
 
 	<!-- Transaction Manager --> 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

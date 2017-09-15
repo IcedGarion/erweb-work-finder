@@ -1,6 +1,6 @@
 DA CHIEDERE:
 
--DATI MAIL? user pass mittente?
+-DATI MAIL + DATABASE in crawler.config
 
 
 -NOTIFICHE: se invii mail appena gira crawler, non ci sara' mai nessun bando "DA_INVIARE" (perche' se riesce a inviare mail va in "INVIATO"):
@@ -9,7 +9,7 @@ DA CHIEDERE:
 	Comunque basta cambiare una query (BandiService.createUserBans())
 	
 -definire il metodo di NOTIFICA_DEV SE QUALCOSA VA STORTO! (vedi i bookmarks)
-
+	
 -scheduling crawler?
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 DA FARE:
@@ -24,7 +24,7 @@ DA FARE:
 	anche se rifai girare crawler, per ora non ricalcola tutte le expregs su tutti i bandi! (anche perche' sono tantissimi)
 
 	
--RITESTARE CRAWLER
+-Ogni tanto crawler dice che testo o oggetto bando sono troppo grandi: nella pubblicazione 106
 
 
 
