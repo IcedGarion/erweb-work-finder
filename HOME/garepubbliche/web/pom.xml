@@ -16,7 +16,7 @@
 	
 	<properties>
   		<spring.version>4.0.3.RELEASE</spring.version>
-  		<primefaces.version>5.0</primefaces.version>
+  		<primefaces.version>6.0</primefaces.version>
   	</properties>
 	
 	<dependencies>			
