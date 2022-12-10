@@ -15,7 +15,7 @@
 	<name>garepubbliche-web</name>
 	
 	<properties>
-  		<spring.version>4.0.3.RELEASE</spring.version>
+  		<spring.version>6.0.0</spring.version>
   		<primefaces.version>5.0</primefaces.version>
   	</properties>
 	
